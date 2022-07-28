@@ -2,11 +2,24 @@
 /*------------------------ IMPORT -----------------------------*/
 /*=============================================================*/
 const express = require('express');
+const mongoose = require('mongoose');
 
+require('dotenv').config();
 /*=============================================================*/
-/*--------------------- EXPRESS CONFIG ------------------------*/
+/*--------------------- CONFIGURATION -------------------------*/
 /*=============================================================*/
 
+/*=== Connect to MongoDb ===*/
+
+mongoose.connect(`${process.env.MONGODB_CONNECT}`,
+  { useNewUrlParser: true,
+    useUnifiedTopology: true })
+  .then(() => console.log('Connexion à MongoDB réussie !'))
+  .catch(() => console.log('Connexion à MongoDB échouée !'));
+
+
+
+/*=== Express ===*/
 const app = express();
 
 app.use(express.json());
