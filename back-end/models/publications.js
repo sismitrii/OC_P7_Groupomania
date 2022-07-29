@@ -16,9 +16,10 @@ const publicationSchema = mongoose.Schema({
     imageUrl : {type : String},
     like : {Number, default : 0},
     userLiked : {Array, default :[]},
-    comment : {type : Number, default : 0}, // easier trop print number of comment
-    commentList : {Array, default : []},
-    publiId : {type : String, required :true, unique:true}
+    commentList : [
+        {type : mongoose.Schema.Types.ObjectId 
+        , ref : "Comment" }
+    ]
 })
 
 publicationSchema.plugin(uniqueValidator)
