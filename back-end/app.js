@@ -4,6 +4,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
+const User = require('./models/users')
+const Publication = require('./models/publications')
+
 require('dotenv').config();
 /*=============================================================*/
 /*--------------------- CONFIGURATION -------------------------*/
@@ -37,9 +40,31 @@ app.use((req, res, next) => {
     next();
   })
 
-  app.use((req, res, next) => {
-    res.status(200).json({message : "Work"})
+  app.post('/user', (req, res, next)=>{
+    const user = new User({
+      email : req.body.email,
+      password : req.body.password
+    })
+    
+    user.save()
+    .then(() => res.status(201).json({message : "new User"}))
+    .catch(error => res.status(400).json({message : "error", error : error}))
   })
+
+  app.post('/publication', (req, res, next)=>{
+    const publication = new Publication({
+      ...req.body
+    })
+    publication.save()
+    .then((newPublication)=>{
+      User.findOneAndUpdate({_id : req.body.author}, {$push: {publications: newPublication._id}}, { new: true })
+      .then(()=>res.status(201).json({message :"Well Done"}))
+    })
+  })
+
+  
+
+
 
 
   module.exports = app;
