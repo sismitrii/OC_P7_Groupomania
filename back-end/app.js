@@ -5,7 +5,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const authRoutes = require('./routes/auth');
-// const User = require('./models/users')
+const userRoutes = require('./routes/user');
+//const User = require('./models/users')
 // const Publication = require('./models/publications')
 
 require('dotenv').config();
@@ -43,6 +44,7 @@ app.use((req, res, next) => {
 
 
 app.use('/api/auth', authRoutes);
+app.use('/api/user', userRoutes)
 
   // app.post('/user', (req, res, next)=>{
   //   const user = new User({
