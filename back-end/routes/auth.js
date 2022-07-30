@@ -5,6 +5,7 @@ const express = require('express');
 const router = express.Router();
 
 const authCtrl = require('../controllers/auth')
+const auth = require('../middleware/auth')
 
 /*=============================================================*/
 /*------------------------ ROUTES -----------------------------*/
@@ -12,6 +13,7 @@ const authCtrl = require('../controllers/auth')
 
 router.post('/signup', authCtrl.signup)
 router.post('/login', authCtrl.login)
+router.put('/change_password',auth, authCtrl.changePassword)
 
 module.exports = router;
 

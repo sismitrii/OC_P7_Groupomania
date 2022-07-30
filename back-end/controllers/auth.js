@@ -27,12 +27,12 @@ exports.login = (req, res, next)=>{
     User.findOne({email : req.body.email})
         .then((user)=>{
             if (user === null){
-                es.status(401).json({message : "Incorrect email"})
+                res.status(401).json({message : "Incorrect email"})
             } else {
                 bcrypt.compare(req.body.password, user.password)
                 .then((valid)=>{
                     if (!valid){
-                        return res.status(401).json({message : "Password incorrect"}) 
+                        res.status(401).json({message : "Password incorrect"}) 
                     } else {
                         res.status(200).json({
                             userId : user._id,
@@ -44,6 +44,16 @@ exports.login = (req, res, next)=>{
             }
         })
         .catch(error=> res.status(500).json({message : "login does not work", error : error}))
+}
+
+exports.changePassword = (req, res, next)=>{
+    bcrypt.hash(req.body.password, 10)
+    .then((hash)=>{
+        User.findByIdAndUpdate(req.auth.userId, {$set : { password: hash }})
+        .then(()=> res.status(201).json({message : "User updated"}))
+        .catch((error)=>res.status(400).json({error:error}))
+    })
+    .catch((error)=> res.status(500).json({message : "hash not working", error : error}))
 }
 
 
