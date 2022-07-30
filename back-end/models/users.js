@@ -15,19 +15,18 @@ function toLower(mail) {
 const userSchema = mongoose.Schema({
     email : {type : String, required : true, unique :true, lowercase : true }, //  set : toLower, //if no set an email can have 2 acount flo@gmail.com and fLo@gmail.com are the same email but can be registred 1 time each
     password : {type : String, required : true},
-    role : {type : Array, required, default :["ROLE_USER"]},
+    role : {type : Array, default :["ROLE_USER"]},
     userName : {type : String }, // Tout ce qui est devant l'@
     profilImgUrl : {type : String, default : "" }, // mettre une image bidon par default
     department : {type : String, default: "Groupomania"}, 
     birthday : {type : Date }, 
     workNumber : {type : Number },
     mobileNumber : {type : Number },
-    workMail : {type : String}, // email de connexion 
     interests : {type : String},
     biography : {type : String},
     publications : [
-      {type : mongoose.Schema.Types.ObjectId 
-      , ref : "Publication" }
+     {type : mongoose.Schema.Types.ObjectId 
+     , ref : "Publication" }
     ] 
     // to add a publication for this user : 
     /*Publication.create(req.body)

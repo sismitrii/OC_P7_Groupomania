@@ -11,7 +11,7 @@ const uniqueValidator = require ('mongoose-unique-validator')
 
 const publicationSchema = mongoose.Schema({
     author : {type : String, required : true},
-    creationDate : {Date, required : true, default: new Date()},
+    creationDate : {type : Date, required : true, default: new Date()},
     content : {type : String},
     imageUrl : {type : String},
     like : {Number, default : 0},
