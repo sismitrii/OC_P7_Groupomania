@@ -17,7 +17,7 @@ const userSchema = mongoose.Schema({
     password : {type : String, required : true},
     role : {type : Array, default :["ROLE_USER"]},
     userName : {type : String }, // Tout ce qui est devant l'@
-    profilImgUrl : {type : String, default : "" }, // mettre une image bidon par default
+    profilImgUrl : {type : String}, // mettre une image bidon par default
     department : {type : String, default: "Groupomania"}, 
     birthday : {type : Date }, 
     workNumber : {type : Number },

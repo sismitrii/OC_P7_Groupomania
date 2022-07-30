@@ -4,8 +4,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-const User = require('./models/users')
-const Publication = require('./models/publications')
+const authRoutes = require('./routes/auth');
+// const User = require('./models/users')
+// const Publication = require('./models/publications')
 
 require('dotenv').config();
 /*=============================================================*/
@@ -40,38 +41,41 @@ app.use((req, res, next) => {
     next();
   })
 
-  app.post('/user', (req, res, next)=>{
-    const user = new User({
-      email : req.body.email,
-      password : req.body.password
-    })
+
+app.use('/api/auth', authRoutes);
+
+  // app.post('/user', (req, res, next)=>{
+  //   const user = new User({
+  //     email : req.body.email,
+  //     password : req.body.password
+  //   })
     
-    user.save()
-    .then(() => res.status(201).json({message : "new User"}))
-    .catch(error => res.status(400).json({message : "error", error : error}))
-  })
+  //   user.save()
+  //   .then(() => res.status(201).json({message : "new User"}))
+  //   .catch(error => res.status(400).json({message : "error", error : error}))
+  // })
 
-  app.post('/publication', (req, res, next)=>{
-    const publication = new Publication({
-      ...req.body
-    })
-    publication.save()
-    .then((newPublication)=>{
-      User.findOneAndUpdate({_id : req.body.author}, {$push: {publications: newPublication._id}}, { new: true })
-      .then(()=>res.status(201).json({message :"Well Done"}))
-    })
-  })
+  // app.post('/publication', (req, res, next)=>{
+  //   const publication = new Publication({
+  //     ...req.body
+  //   })
+  //   publication.save()
+  //   .then((newPublication)=>{
+  //     User.findOneAndUpdate({_id : req.body.author}, {$push: {publications: newPublication._id}}, { new: true })
+  //     .then(()=>res.status(201).json({message :"Well Done"}))
+  //   })
+  // })
 
-  app.get('/publication/:id', async function(req, res, next){
-    User.findById( req.params.id)
-    .populate("publications")
-    .then((test)=>res.status(200).json({publication: test.publications}))
-  })
+  // app.get('/publication/:id', async function(req, res, next){
+  //   User.findById( req.params.id)
+  //   .populate("publications")
+  //   .then((test)=>res.status(200).json({publication: test.publications}))
+  // })
 
-  app.get('/test/:id/publi/:otherId', (req,res,next)=>{
-    console.log(req.params.id);
-    console.log(req.params.otherId);
-  })
+  // app.get('/test/:id/publi/:otherId', (req,res,next)=>{
+  //   console.log(req.params.id);
+  //   console.log(req.params.otherId);
+  // })
 
 
 
