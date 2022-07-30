@@ -62,7 +62,16 @@ app.use((req, res, next) => {
     })
   })
 
-  
+  app.get('/publication/:id', async function(req, res, next){
+    User.findById( req.params.id)
+    .populate("publications")
+    .then((test)=>res.status(200).json({publication: test.publications}))
+  })
+
+  app.get('/test/:id/publi/:otherId', (req,res,next)=>{
+    console.log(req.params.id);
+    console.log(req.params.otherId);
+  })
 
 
 
