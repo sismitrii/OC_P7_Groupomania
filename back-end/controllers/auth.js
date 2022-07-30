@@ -24,7 +24,26 @@ exports.signup = (req, res, next)=>{
 }
 
 exports.login = (req, res, next)=>{
-    console.log("test");
+    User.findOne({email : req.body.email})
+        .then((user)=>{
+            if (user === null){
+                es.status(401).json({message : "Incorrect email"})
+            } else {
+                bcrypt.compare(req.body.password, user.password)
+                .then((valid)=>{
+                    if (!valid){
+                        return res.status(401).json({message : "Password incorrect"}) 
+                    } else {
+                        res.status(200).json({
+                            userId : user._id,
+                            token : jwt.sign({userId : user._id},'SECRET_PASSWORD',{expiresIn : '8h'})
+                        })
+                    }
+                })
+                .catch((error)=>res.status(500).json({message : "bcrypt compare not working", error : error}))
+            }
+        })
+        .catch(error=> res.status(500).json({message : "login does not work", error : error}))
 }
 
 
