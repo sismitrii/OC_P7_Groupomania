@@ -3,6 +3,7 @@
 /*=============================================================*/
 const express = require('express');
 const mongoose = require('mongoose');
+const path = require('path');
 
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
@@ -42,9 +43,14 @@ app.use((req, res, next) => {
     next();
   })
 
-
+/*app.use('/api/test', (req,res,next)=>{
+  console.log(req);
+  res.status(200).json({test : "ok"})
+})*/
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes)
+
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
   // app.post('/user', (req, res, next)=>{
   //   const user = new User({
