@@ -4,6 +4,7 @@
 const fs = require('fs')
 
 const User = require('../models/users');
+const Publication = require('../models/publications')
 
 
 /*=============================================================*/
@@ -54,12 +55,14 @@ exports.modifyUserData = (req, res,next) => {
     }
 }
 
-
+// to do after creating request to add publications and comment
 exports.deleteUserData = (req, res, next) => {
 
 }
 
-
-exports.getUserPublication = (req, res, next) => {
-
+// To retest after creating request to add publications
+exports.getUserPublications = (req, res, next) => {
+    User.findById(req.params.id)
+    .populate("publications")
+    .then((user)=> res.status(201).json({publications : user.publications}))
 }
