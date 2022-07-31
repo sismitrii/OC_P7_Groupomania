@@ -16,7 +16,7 @@ const userSchema = mongoose.Schema({
     email : {type : String, required : true, unique :true, lowercase : true }, //  set : toLower, //if no set an email can have 2 acount flo@gmail.com and fLo@gmail.com are the same email but can be registred 1 time each
     password : {type : String, required : true},
     role : {type : Array, default :["ROLE_USER"]},
-    userName : {type : String }, // Tout ce qui est devant l'@
+    username : {type : String }, // Tout ce qui est devant l'@
     profilImgUrl : {type : String}, // mettre une image bidon par default
     department : {type : String, default: "Groupomania"}, 
     birthday : {type : Date }, 

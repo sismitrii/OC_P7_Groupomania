@@ -11,7 +11,7 @@ exports.signup = (req, res, next)=>{
             const user = new User({
                 email : req.body.email,
                 password : hash,
-                username : req.body.email.split('@')[0],
+                username : req.body.email.split('@')[0], // don't work
                 profilImgUrl : `${req.protocol}://${req.get('host')}/images/profil_default.jpg`
             });
 
