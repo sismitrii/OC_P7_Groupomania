@@ -14,8 +14,8 @@ const publicationSchema = mongoose.Schema({
     creationDate : {type : Date, required : true, default: new Date()},
     content : {type : String},
     imageUrl : {type : String},
-    like : {Number, default : 0},
-    userLiked : {Array, default :[]},
+    like : {type : Number, default : 0},
+    userLiked : {type : Array, default :[]},
     commentList : [
         {type : mongoose.Schema.Types.ObjectId 
         , ref : "Comment" }

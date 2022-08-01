@@ -1,6 +1,7 @@
 /*=============================================================*/
 /*------------------------ IMPORT -----------------------------*/
 /*=============================================================*/
+const fs = require('fs');
 
 const User = require('../models/users')
 const Publication = require('../models/publications')
@@ -45,13 +46,39 @@ exports.createPublication = (req, res, next) => {
         })
     .catch((error)=> res.status(400).json({mesage : "Error saving publication", error : error}))
 
-    
-
 }
 
-
+// retest with a file and with an admin
 exports.modifyPublication = (req, res, next) => {
+    const newPublication = req.file ? {
+        ...JSON.parse(req.body.publication),
+        imageUrl : `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    } : 
+    {
+        content : req.body.content
+    }
 
+    User.findById(req.auth.userId)
+    .then((user)=>{
+        if (user.role.includes("ROLE_ADMIN") || user.publications.includes(req.params.id)){
+            if (req.file){
+                Publication.findById(req.params.id)
+                .then((publication)=>{
+                    const filename = publication.imageUrl.split('/images/')[1];
+                    fs.unlink(`images/${filename}`,(err) =>{
+                        console.error(`Error deleting image of publication : ${req.params.id}`)
+                    })
+                })
+                .catch((error)=> console.error('Error finding publication de delete picture'))
+            }
+            Publication.findByIdAndUpdate(req.params.id, newPublication)
+            .then(()=> res.status(201).json({message : "Publication updated"}))
+            .catch((error) => res.status(400).json({message : "Error updating Publication", error : error}))
+        } else {
+            res.status(403).json({message : "Unauthorized"})
+        }
+    })
+    .catch((error)=> res.status(400).json({message : "Error finding user", error : error}))
 }
 
 
