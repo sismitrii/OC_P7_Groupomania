@@ -36,12 +36,12 @@ exports.getCommentsOfPublication = (req, res, next)=>{
 
 
 exports.modifyComment = (req, res, next)=>{
-    // Comment.findByIdAndUpdate(req.params.id)
-    // .then()
-
+    Comment.findByIdAndUpdate(req.params.com_id, {$set : {content : req.body.content}})
+    .then(()=> res.status(201).json({message : "comment updated"}))
+    .catch((error) => res.status(400).json({message : "Error updating comment", error : error}))
 }
 
 
 exports.deleteComment = (req, res, next)=>{
-
+    
 }
