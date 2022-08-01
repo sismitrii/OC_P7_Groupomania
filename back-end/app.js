@@ -7,6 +7,7 @@ const path = require('path');
 
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
+const publicationRoutes = require('./routes/publication')
 //const User = require('./models/users')
 // const Publication = require('./models/publications')
 
@@ -48,7 +49,8 @@ app.use((req, res, next) => {
   res.status(200).json({test : "ok"})
 })*/
 app.use('/api/auth', authRoutes);
-app.use('/api/user', userRoutes)
+app.use('/api/user', userRoutes);
+app.use('/api/publication', publicationRoutes);
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
