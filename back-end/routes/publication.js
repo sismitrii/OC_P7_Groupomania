@@ -13,7 +13,7 @@ const multer = require('../middleware/multer-config')
 
 router.get('/', publicationCtrl.getAllPublication)
 router.get('/:id', publicationCtrl.getOnePublication)
-router.post('/', publicationCtrl.createPublication)
+router.post('/',auth, multer, publicationCtrl.createPublication)
 router.put('/:id', publicationCtrl.modifyPublication)
 router.delete('/:id', publicationCtrl.deletePublication)
 router.put(':id/like', publicationCtrl.likePublication)
