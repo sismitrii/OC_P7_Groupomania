@@ -16,6 +16,6 @@ module.exports = (req, res, next) => {
         req.auth = { userId : decodedToken.userId};  
         next();
     } catch(error){
-        res.status(401).json({message : "Erreur d'authentification", error : error});
+        res.status(401).json({message : "Authenficatication Error", error : error});
     }
 }
