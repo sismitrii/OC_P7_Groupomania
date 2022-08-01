@@ -16,7 +16,7 @@ router.get('/:id', publicationCtrl.getOnePublication)
 router.post('/',auth, multer, publicationCtrl.createPublication)
 router.put('/:id', auth, multer, publicationCtrl.modifyPublication)
 router.delete('/:id', publicationCtrl.deletePublication)
-router.put(':id/like', publicationCtrl.likePublication)
+router.put('/:id/like',auth, publicationCtrl.likePublication)
 
 
 module.exports = router;

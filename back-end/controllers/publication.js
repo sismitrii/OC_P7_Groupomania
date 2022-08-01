@@ -18,7 +18,7 @@ exports.getAllPublication = (req, res, next) => {
     .catch((error)=> res.status(400).json({message :"Error find publications", error : error}))
 }
 
-
+// REVERIFIER avec plus de publications et des commentaires
 exports.getOnePublication = (req, res, next) => {
     Publication.findById(req.params.id)
     .then((publication)=> res.status(200).json({publication}))
@@ -88,7 +88,28 @@ exports.deletePublication = (req, res, next) => {
 
 
 exports.likePublication = (req, res, next) => {
-
+    Publication.findById(req.params.id)
+    .then((publication)=>{
+        if (req.body.like > 0){
+            if (!(publication.userLiked.includes(req.auth.userId))){
+                publication.like += 1;
+                publication.userLiked.push(req.auth.userId);
+            } else {
+                return res.status(200).json({message : "User has already liked this publication"})
+            }
+        } else {
+            if (publication.userLiked.includes(req.auth.userId)){
+                publication.like -= 1;
+                publication.userLiked.splice(publication.userLiked.indexOf(req.auth.userId), 1);
+            } else {
+                return res.status(200).json({message : "User haven't liked this publication he can't remove it like"})
+            }
+        }
+        Publication.findByIdAndUpdate(req.params.id, publication)
+        .then(()=>res.status(201).json({message : "publication Like Updated"}))
+        .catch((error)=> res.status(400).json({mesage : "Error Updating Like", error : error}))
+    })
+    .catch((error)=> res.status(400).json({message : "Error finding publication to like", error : error}))
 }
 
 
