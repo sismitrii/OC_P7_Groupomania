@@ -29,15 +29,15 @@ exports.getOnePublication = (req, res, next) => {
 
 // to retest when able to add file to request
 exports.createPublication = (req, res, next) => {
-    const publication = req.file ? new Publication({
+    let publicationContent = req.body.publication ? JSON.parse(req.body.publication).content : req.body.content;
+
+    const publication = new Publication({
         author : req.auth.userId,
-        ...JSON.parse(req.body.publication), // content : JSON.parse(req.body.publication).content
-        imageUrl : `${req.protocol}://${req.get('host')}/images/${req.file.filename}` // a essayer remplacer req.get par app.get('port')
-    }) : 
-    new Publication({
-        author : req.auth.userId,
-        content : req.body.content
+        content : publicationContent
     })
+    if (req.file){
+        publication.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    }
 
     publication.save()
     .then((newPublication)=>{
@@ -52,7 +52,7 @@ exports.createPublication = (req, res, next) => {
 // retest with a file and with an admin
 exports.modifyPublication = (req, res, next) => {
     const newPublication = req.file ? {
-        ...JSON.parse(req.body.publication),
+        content : JSON.parse(req.body.publication).content,
         imageUrl : `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : 
     {
