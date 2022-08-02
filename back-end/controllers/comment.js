@@ -12,6 +12,7 @@ const publications = require('../models/publications')
 /*------------------------ FUNCTIONS --------------------------*/
 /*=============================================================*/
 
+/*=== Create a comment and update commentList in Publication ===*/
 exports.createComment = (req, res, next)=>{
     const comment = new Comment({
         content : req.body.content,
@@ -27,7 +28,7 @@ exports.createComment = (req, res, next)=>{
     .catch((error)=> res.status(400).json({message : "Error saving comment", error : error}))
 }
 
-
+/*=== Get all comments from of a publication ===*/
 exports.getCommentsOfPublication = (req, res, next)=>{
     Publication.findById(req.params.id)
     .populate("commentList")
@@ -35,7 +36,7 @@ exports.getCommentsOfPublication = (req, res, next)=>{
     .catch((error)=> res.status(400).json({message : "Error finding publication"}))
 }
 
-
+/*=== Admin or user loged(token) can modify a comment ===*/
 exports.modifyComment = (req, res, next)=>{
     User.findById(req.auth.userId)
     .then((user)=>{
@@ -58,7 +59,7 @@ exports.modifyComment = (req, res, next)=>{
     .catch((error)=> res.status(400).json({message : "Error find User to check role", error : error}))
 }
 
-
+/*=== Admin or user loged(token) can delete a comment ===*/
 exports.deleteComment = (req, res, next)=>{
     User.findById(req.auth.userId)
     .then((user)=>{

@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/users');
 
+/*=== Crypt the password and create a new user in DB ===*/
 exports.signup = (req, res, next)=>{
     bcrypt.hash(req.body.password, 10 )
         .then(hash=>{
@@ -23,6 +24,7 @@ exports.signup = (req, res, next)=>{
     
 }
 
+/*=== Find the account in the DB and send a userId and a signed token ===*/
 exports.login = (req, res, next)=>{
     User.findOne({email : req.body.email})
         .then((user)=>{
@@ -46,6 +48,8 @@ exports.login = (req, res, next)=>{
         .catch(error=> res.status(500).json({message : "login does not work", error : error}))
 }
 
+/*=== Hash the new password and replace password of the userId loged (token) by the new hashed password ===*/
+/*=== Only a userId from token can change his password ===*/
 exports.changePassword = (req, res, next)=>{
     bcrypt.hash(req.body.password, 10)
     .then((hash)=>{

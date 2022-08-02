@@ -12,6 +12,8 @@ const Comment = require('../models/comments')
 /*------------------------ FUNCTIONS --------------------------*/
 /*=============================================================*/
 
+
+/*=== Get all user data from an user except password even if it's hashed ===*/
 exports.getUserData = (req, res, next) => {
     User.findById(req.params.id)
     .then((user)=>{
@@ -21,7 +23,7 @@ exports.getUserData = (req, res, next) => {
     .catch((error)=> res.status(400).json({message : "User does exist in DB", error : error}))
 }
 
-
+/*=== User loged (token) can modify element from his own profil ===*/
 exports.modifyUserData = (req, res,next) => {
     const newUserData = req.body.user ? {...JSON.parse(req.body.user)} : {...req.body};
 
@@ -56,7 +58,8 @@ exports.modifyUserData = (req, res,next) => {
     }
 }
 
-
+/*=== Admin and User loged can delete a user from DB ===*/
+// Maybe add something to say that the  account have been desactivated
 exports.deleteUserData = (req, res, next) => {
     User.findById(req.auth.userId)
     .then((userRequesting)=>{
@@ -98,6 +101,7 @@ exports.deleteUserData = (req, res, next) => {
     .catch((error)=> res.status(400).json({message : "Error finding User", error : error}))
 }
 
+/*=== Get all Publication from a user ===*/
 exports.getUserPublications = (req, res, next) => {
     User.findById(req.params.id)
     .populate("publications")

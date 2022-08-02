@@ -12,22 +12,21 @@ const Comment = require('../models/comments')
 /*------------------------ FUNCTIONS --------------------------*/
 /*=============================================================*/
 
-// REVERIFIER avec plus de publications et des commentaires
+/*=== Get all publications in the data base ===*/
 exports.getAllPublication = (req, res, next) => {
     Publication.find()
     .then((publications)=> res.status(200).json({publications}))
     .catch((error)=> res.status(400).json({message :"Error find publications", error : error}))
 }
 
-// REVERIFIER avec plus de publications et des commentaires
+/*=== Get a publication with it id in request ===*/
 exports.getOnePublication = (req, res, next) => {
     Publication.findById(req.params.id)
     .then((publication)=> res.status(200).json({publication}))
     .catch((error)=> res.status(400).json({message :"Error find this publication", error : error}))
-
 }
 
-// to retest when able to add file to request
+/*=== Create a publication with or without image and update publications of user that created ===*/
 exports.createPublication = (req, res, next) => {
     let publicationContent = req.body.publication ? JSON.parse(req.body.publication).content : req.body.content;
 
@@ -49,7 +48,7 @@ exports.createPublication = (req, res, next) => {
 
 }
 
-// retest with a file and with an admin
+/*=== Admin and user loged (token) can modify a publication, content, image or content and image ===*/
 exports.modifyPublication = (req, res, next) => {
     const newPublicationContent = req.body.publication ? JSON.parse(req.body.publication).content : req.body.content
 
@@ -84,7 +83,7 @@ exports.modifyPublication = (req, res, next) => {
     .catch((error)=> res.status(400).json({message : "Error finding user", error : error}))
 }
 
-
+/*=== Admin and user loged (token) can delete a publication and remove image if one ===*/
 exports.deletePublication = (req, res, next) => {
     User.findById(req.auth.userId)
     .then((user)=>{
@@ -115,7 +114,7 @@ exports.deletePublication = (req, res, next) => {
     .catch((error)=> res.status(400).json({message : "Error finding user", error : error}))
 }
 
-
+/*=== Like or Remove a like and update userLiked Array ===*/
 exports.likePublication = (req, res, next) => {
     Publication.findById(req.params.id)
     .then((publication)=>{
