@@ -23,11 +23,11 @@ exports.getUserData = (req, res, next) => {
 
 
 exports.modifyUserData = (req, res,next) => {
-    const newUserData = req.file ? 
-    {...JSON.parse(req.body.user),
-    profilImgUrl : `${req.protocol}://${req.get('host')}/images/${req.file.filename}`} 
-    :
-    {...req.body}
+    const newUserData = req.body.user ? {...JSON.parse(req.body.user)} : {...req.body};
+
+    if (req.file){
+        newUserData.profilImgUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    }
     
     if (newUserData.password || newUserData.role){
         delete newUserData.password;
@@ -66,15 +66,27 @@ exports.deleteUserData = (req, res, next) => {
                 userToDelete.publications.forEach(publicationId => {
                     Publication.findById(publicationId)
                     .then((publication)=>{
-                        publication.commentList.forEach((comment)=>{
-                        Comment.findByIdAndDelete(comment)
-                        .then(()=> console.log("Comment deleted"))
-                        .catch((error)=> res.status(400).json({message : "Error Deleting comment", error : error}))
-                    })
+                        if (publication){
+                            publication.commentList.forEach((comment)=>{
+                            Comment.findByIdAndDelete(comment)
+                            .then(()=> console.log("Comment deleted"))
+                            .catch((error)=> res.status(400).json({message : "Error Deleting comment", error : error}))
+                             })
+                            if (publication.imageUrl){
+                                const filename = publication.imageUrl.split('/images/')[1];
+                                fs.unlink(`images/${filename}`,(err) =>{
+                                    console.error(`Error deleting image of publication}`)
+                                })
+                            }
+                        }
                     Publication.findByIdAndDelete(publicationId)
                     .then(()=>console.log("Publication deleted"))
                     .catch((error)=> res.status(400).json({message : "Error deleting publication"}))
                     });
+                })
+                const filename = userToDelete.profilImgUrl.split('/images/')[1];
+                fs.unlink(`images/${filename}`,(err) =>{
+                    console.error(`Error deleting image of publication : ${req.params.id}`)
                 })
                 User.findByIdAndDelete(userToDelete)
                 .then(()=> res.status(200).json({message : "User deleted"}))
@@ -86,7 +98,6 @@ exports.deleteUserData = (req, res, next) => {
     .catch((error)=> res.status(400).json({message : "Error finding User", error : error}))
 }
 
-// To retest after creating request to add publications
 exports.getUserPublications = (req, res, next) => {
     User.findById(req.params.id)
     .populate("publications")
