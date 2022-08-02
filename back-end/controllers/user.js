@@ -5,6 +5,7 @@ const fs = require('fs')
 
 const User = require('../models/users');
 const Publication = require('../models/publications')
+const Comment = require('../models/comments')
 
 
 /*=============================================================*/
@@ -55,9 +56,34 @@ exports.modifyUserData = (req, res,next) => {
     }
 }
 
-// to do after creating request to add publications and comment
-exports.deleteUserData = (req, res, next) => {
 
+exports.deleteUserData = (req, res, next) => {
+    User.findById(req.auth.userId)
+    .then((userRequesting)=>{
+        if ((userRequesting.role.includes("ROLE_ADMIN"))|| (req.params.id === req.auth.userId)){
+            User.findById(req.params.id)
+            .then((userToDelete)=>{
+                userToDelete.publications.forEach(publicationId => {
+                    Publication.findById(publicationId)
+                    .then((publication)=>{
+                        publication.commentList.forEach((comment)=>{
+                        Comment.findByIdAndDelete(comment)
+                        .then(()=> console.log("Comment deleted"))
+                        .catch((error)=> res.status(400).json({message : "Error Deleting comment", error : error}))
+                    })
+                    Publication.findByIdAndDelete(publicationId)
+                    .then(()=>console.log("Publication deleted"))
+                    .catch((error)=> res.status(400).json({message : "Error deleting publication"}))
+                    });
+                })
+                User.findByIdAndDelete(userToDelete)
+                .then(()=> res.status(200).json({message : "User deleted"}))
+                .catch((error)=> res.status(400).json({message : "Error deleting User", error : error}))
+            .catch((error)=> res.status(400).json({message : "Error finding User", error :error}))
+            })
+        }
+    })
+    .catch((error)=> res.status(400).json({message : "Error finding User", error : error}))
 }
 
 // To retest after creating request to add publications

@@ -15,7 +15,7 @@ const multer = require('../middleware/multer-config')
 
 router.get('/:id', userCtrl.getUserData)
 router.put('/:id', auth, multer, userCtrl.modifyUserData)
-router.delete('/:id', userCtrl.deleteUserData)
+router.delete('/:id', auth, userCtrl.deleteUserData)
 router.get('/:id/publications', userCtrl.getUserPublications)
 
 
