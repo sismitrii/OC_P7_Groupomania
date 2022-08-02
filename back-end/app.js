@@ -50,6 +50,12 @@ app.use('/api/publication', publicationRoutes);
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
+// app.put('/admin/:id', (req, res, next)=>{
+//   User.findByIdAndUpdate(req.params.id, {$push : {role : "ROLE_ADMIN"}})
+//   .then(()=> res.status(201).json({message : "New admin in DB"}))
+//   .catch((error)=> res.status(400).json({message :"error admin", error : error}))
+// })
+
   // app.post('/user', (req, res, next)=>{
   //   const user = new User({
   //     email : req.body.email,
