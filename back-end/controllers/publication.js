@@ -51,12 +51,14 @@ exports.createPublication = (req, res, next) => {
 
 // retest with a file and with an admin
 exports.modifyPublication = (req, res, next) => {
-    const newPublication = req.file ? {
-        content : JSON.parse(req.body.publication).content,
-        imageUrl : `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-    } : 
-    {
-        content : req.body.content
+    const newPublicationContent = req.body.publication ? JSON.parse(req.body.publication).content : req.body.content
+
+    const newPublication = {
+        content : newPublicationContent
+    }
+
+    if (req.file){
+        newPublication.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     }
 
     User.findById(req.auth.userId)
@@ -70,7 +72,7 @@ exports.modifyPublication = (req, res, next) => {
                         console.error(`Error deleting image of publication : ${req.params.id}`)
                     })
                 })
-                .catch((error)=> console.error('Error finding publication de delete picture'))
+                .catch((error)=> console.error('Error finding publication'))
             }
             Publication.findByIdAndUpdate(req.params.id, newPublication)
             .then(()=> res.status(201).json({message : "Publication updated"}))
@@ -94,6 +96,12 @@ exports.deletePublication = (req, res, next) => {
                     .then(()=> console.log("deleted"))
                     .catch((error)=> res.status(400).json({message : "Error Deleting comment", error : error}))
                 })
+                if (publication.imageUrl){
+                    const filename = publication.imageUrl.split('/images/')[1];
+                    fs.unlink(`images/${filename}`,(err) =>{
+                        console.error(`Error deleting image of publication : ${req.params.id}`)
+                    })
+                }
                 Publication.findByIdAndDelete(req.params.id)
                 .then(()=>res.status(200).json({message : "Publication and these comment deleted"}))
                 .catch((error)=> res.status(400).json({message : "Error deleting publication"}))
