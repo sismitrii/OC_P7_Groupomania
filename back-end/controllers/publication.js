@@ -5,6 +5,7 @@ const fs = require('fs');
 
 const User = require('../models/users')
 const Publication = require('../models/publications')
+const Comment = require('../models/comments')
 
 
 /*=============================================================*/
@@ -83,7 +84,27 @@ exports.modifyPublication = (req, res, next) => {
 
 
 exports.deletePublication = (req, res, next) => {
-
+    User.findById(req.auth.userId)
+    .then((user)=>{
+        if ((user.role.includes("ROLE_ADMIN") || user.publications.includes(req.params.id))){
+            Publication.findById(req.params.id)
+            .then((publication)=>{
+                publication.commentList.forEach((comment)=>{
+                    Comment.findByIdAndDelete(comment)
+                    .then(()=> console.log("deleted"))
+                    .catch((error)=> res.status(400).json({message : "Error Deleting comment", error : error}))
+                })
+                Publication.findByIdAndDelete(req.params.id)
+                .then(()=>res.status(200).json({message : "Publication and these comment deleted"}))
+                .catch((error)=> res.status(400).json({message : "Error deleting publication"}))
+            })
+            .catch((error)=>res.status(400).json({message : "Error finding publications", error : error}))
+            // 2 options
+                // Faires des Comment.findByIdAndDelete pour chacun des commentaires de publication.commentList
+                // Faire une fonction commune ( sachant qu'il faut retirer tout ce qui est vérif d'identité parceque c'est déjà fait ici)
+        }
+    })
+    .catch((error)=> res.status(400).json({message : "Error finding user", error : error}))
 }
 
 

@@ -16,7 +16,7 @@ router.get('/', publicationCtrl.getAllPublication)
 router.get('/:id', publicationCtrl.getOnePublication)
 router.post('/',auth, multer, publicationCtrl.createPublication)
 router.put('/:id', auth, multer, publicationCtrl.modifyPublication)
-router.delete('/:id', publicationCtrl.deletePublication)
+router.delete('/:id', auth, publicationCtrl.deletePublication)
 router.put('/:id/like',auth, publicationCtrl.likePublication)
 
 router.post('/:id/comment', auth, commentCtrl.createComment)
