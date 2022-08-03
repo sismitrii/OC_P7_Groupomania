@@ -7,6 +7,8 @@ const User = require('../models/users')
 const Publication = require('../models/publications')
 const Comment = require('../models/comments')
 
+const functionCtrl = require('./function')
+
 
 /*=============================================================*/
 /*------------------------ FUNCTIONS --------------------------*/
@@ -66,10 +68,7 @@ exports.modifyPublication = (req, res, next) => {
             if (req.file){
                 Publication.findById(req.params.id)
                 .then((publication)=>{
-                    const filename = publication.imageUrl.split('/images/')[1];
-                    fs.unlink(`images/${filename}`,(err) =>{
-                        console.error(`Error deleting image of publication : ${req.params.id}`)
-                    })
+                    functionCtrl.removeImage(publication)
                 })
                 .catch((error)=> console.error('Error finding publication'))
             }
@@ -95,12 +94,7 @@ exports.deletePublication = (req, res, next) => {
                     .then(()=> console.log("deleted"))
                     .catch((error)=> res.status(400).json({message : "Error Deleting comment", error : error}))
                 })
-                if (publication.imageUrl){
-                    const filename = publication.imageUrl.split('/images/')[1];
-                    fs.unlink(`images/${filename}`,(err) =>{
-                        console.error(`Error deleting image of publication : ${req.params.id}`)
-                    })
-                }
+                functionCtrl.removeImage(publication)
                 Publication.findByIdAndDelete(req.params.id)
                 .then(()=>res.status(200).json({message : "Publication and these comment deleted"}))
                 .catch((error)=> res.status(400).json({message : "Error deleting publication"}))
@@ -140,5 +134,15 @@ exports.likePublication = (req, res, next) => {
     .catch((error)=> res.status(400).json({message : "Error finding publication to like", error : error}))
 }
 
+// exports.removeImage = (object)=>{
+//     if (object.imageUrl){
+//         const filename = object.imageUrl.split('/images/')[1];
+//         fs.unlink(`images/${filename}`,(err) =>{
+//             if (err){
+//                 console.error(`Error deleting image of publication`)
+//             }
+//         })
+//     }
+// }
 
 

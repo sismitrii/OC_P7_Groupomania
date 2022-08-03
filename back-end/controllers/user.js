@@ -7,6 +7,8 @@ const User = require('../models/users');
 const Publication = require('../models/publications')
 const Comment = require('../models/comments')
 
+const functionCtrl = require('./function')
+
 
 /*=============================================================*/
 /*------------------------ FUNCTIONS --------------------------*/
@@ -40,12 +42,7 @@ exports.modifyUserData = (req, res,next) => {
         .then((user)=>{
             if (user){
                 if (req.file && user.profilImgUrl !== `${req.protocol}://${req.get('host')}/images/profil_default.jpg` ){
-                    const filename = user.profilImgUrl.split('/images/')[1];
-                    fs.unlink(`images/${filename}`, (err)=>{
-                        if (err){
-                            console.error(`Error deleting image : ${filename} in back-end/images`)
-                        }
-                    })
+                    functionCtrl.removeImage(user)
                 }
                 User.updateOne({_id: req.params.id}, newUserData)
                 .then(()=> res.status(201).json({message : "User modified"}))
@@ -75,22 +72,15 @@ exports.deleteUserData = (req, res, next) => {
                             .then(()=> console.log("Comment deleted"))
                             .catch((error)=> res.status(400).json({message : "Error Deleting comment", error : error}))
                              })
-                            if (publication.imageUrl){
-                                const filename = publication.imageUrl.split('/images/')[1];
-                                fs.unlink(`images/${filename}`,(err) =>{
-                                    console.error(`Error deleting image of publication}`)
-                                })
-                            }
+                            functionCtrl.removeImage(publication)
                         }
                     Publication.findByIdAndDelete(publicationId)
                     .then(()=>console.log("Publication deleted"))
                     .catch((error)=> res.status(400).json({message : "Error deleting publication"}))
                     });
                 })
-                const filename = userToDelete.profilImgUrl.split('/images/')[1];
-                fs.unlink(`images/${filename}`,(err) =>{
-                    console.error(`Error deleting image of publication : ${req.params.id}`)
-                })
+ 
+                functionCtrl.removeImage(userToDelete)
                 User.findByIdAndDelete(userToDelete)
                 .then(()=> res.status(200).json({message : "User deleted"}))
                 .catch((error)=> res.status(400).json({message : "Error deleting User", error : error}))
