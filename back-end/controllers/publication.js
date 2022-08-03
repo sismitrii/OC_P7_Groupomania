@@ -89,10 +89,8 @@ exports.deletePublication = (req, res, next) => {
         if ((user.role.includes("ROLE_ADMIN") || user.publications.includes(req.params.id))){
             Publication.findById(req.params.id)
             .then((publication)=>{
-                publication.commentList.forEach((comment)=>{
-                    Comment.findByIdAndDelete(comment)
-                    .then(()=> console.log("deleted"))
-                    .catch((error)=> res.status(400).json({message : "Error Deleting comment", error : error}))
+                publication.commentList.forEach((commentId)=>{
+                    functionCtrl.deleteComment(res, commentId)
                 })
                 functionCtrl.removeImage(publication)
                 Publication.findByIdAndDelete(req.params.id)
@@ -100,9 +98,6 @@ exports.deletePublication = (req, res, next) => {
                 .catch((error)=> res.status(400).json({message : "Error deleting publication"}))
             })
             .catch((error)=>res.status(400).json({message : "Error finding publications", error : error}))
-            // 2 options
-                // Faires des Comment.findByIdAndDelete pour chacun des commentaires de publication.commentList
-                // Faire une fonction commune ( sachant qu'il faut retirer tout ce qui est vérif d'identité parceque c'est déjà fait ici)
         }
     })
     .catch((error)=> res.status(400).json({message : "Error finding user", error : error}))

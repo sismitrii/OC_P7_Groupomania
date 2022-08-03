@@ -79,8 +79,9 @@ exports.deleteUserData = (req, res, next) => {
                     .catch((error)=> res.status(400).json({message : "Error deleting publication"}))
                     });
                 })
- 
-                functionCtrl.removeImage(userToDelete)
+                if (userToDelete.profilImgUrl !== `${req.protocol}://${req.get('host')}/images/profil_default.jpg` ){
+                    functionCtrl.removeImage(user)
+                }
                 User.findByIdAndDelete(userToDelete)
                 .then(()=> res.status(200).json({message : "User deleted"}))
                 .catch((error)=> res.status(400).json({message : "Error deleting User", error : error}))
