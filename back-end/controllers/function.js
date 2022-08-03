@@ -2,6 +2,8 @@
 /*------------------------ IMPORT -----------------------------*/
 /*=============================================================*/
 const fs = require('fs');
+const Comment = require('../models/comments')
+const Publication = require('../models/publications')
 
 exports.removeImage = (object)=>{
 
@@ -15,3 +17,16 @@ exports.removeImage = (object)=>{
         })
     }
 }
+
+exports.deleteComment = (res, commentId, publiId) =>{
+    Comment.findByIdAndDelete(commentId)
+    .then(()=>{
+        if (publiId){
+            Publication.findByIdAndUpdate(publiId, {$pull : {commentList : commentId}})
+            .then(()=> res.status(201).json({message :"Comment delete"}))
+            .catch((error)=> res.status(400).json({message : "Error Removing a comment from a Publication", error : error}))
+        }
+    })
+    .catch((error)=> res.status(400).json({message : "Error deleting a comment", error :error}))
+}
+
