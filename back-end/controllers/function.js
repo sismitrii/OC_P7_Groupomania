@@ -4,8 +4,14 @@
 const fs = require('fs');
 const Comment = require('../models/comments')
 const Publication = require('../models/publications')
+const User = require('../models/users')
 
-exports.removeImage = (object)=>{
+
+/*=============================================================*/
+/*------------------------ FUNCTIONS -----------------------------*/
+/*=============================================================*/
+
+function removeImage(object){
 
     if (object.imageUrl || object.profilImgUrl){
         const imageUrl = object.profilImgUrl ? object.profilImgUrl : object.imageUrl
@@ -18,7 +24,7 @@ exports.removeImage = (object)=>{
     }
 }
 
-exports.deleteComment = (res, commentId, publiId) =>{
+function deleteComment(res, commentId, publiId){
     Comment.findByIdAndDelete(commentId)
     .then(()=>{
         if (publiId){
@@ -29,4 +35,28 @@ exports.deleteComment = (res, commentId, publiId) =>{
     })
     .catch((error)=> res.status(400).json({message : "Error deleting a comment", error :error}))
 }
+
+exports.deletePublication = (res, publicationId, userIsToUpdate) =>{
+    Publication.findById(publicationId)
+    .then((publication)=>{
+        publication.commentList.forEach((commentId)=>{
+            deleteComment(res, commentId)
+        })
+        removeImage(publication)
+        Publication.findByIdAndDelete(publicationId)
+        .then((publication)=>{
+            if (userIsToUpdate){
+                User.findByIdAndUpdate(publication.author, {$pull : {publications : publicationId }})
+                .then(()=> res.status(200).json({message : "Publication and these comment deleted"}))
+                .catch((error)=> res.status(400).json({message : "Error updating User", error : error}))  
+            }
+        })
+        .catch((error)=> res.status(400).json({message : "Error deleting publication"}))
+    })
+    .catch((error)=>res.status(400).json({message : "Error finding publications", error : error}))
+}
+
+exports.removeImage = removeImage;
+exports.deleteComment = deleteComment;
+
 

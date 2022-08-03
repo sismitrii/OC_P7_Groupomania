@@ -64,21 +64,10 @@ exports.deleteUserData = (req, res, next) => {
             User.findById(req.params.id)
             .then((userToDelete)=>{
                 userToDelete.publications.forEach(publicationId => {
-                    Publication.findById(publicationId)
-                    .then((publication)=>{
-                        if (publication){
-                            publication.commentList.forEach((commentId)=>{
-                                functionCtrl.deleteComment(res, commentId)
-                             })
-                            functionCtrl.removeImage(publication)
-                        }
-                    Publication.findByIdAndDelete(publicationId)
-                    .then(()=>console.log("Publication deleted"))
-                    .catch((error)=> res.status(400).json({message : "Error deleting publication"}))
-                    });
+                    functionCtrl.deletePublication(res, publicationId, false)
                 })
                 if (userToDelete.profilImgUrl !== `${req.protocol}://${req.get('host')}/images/profil_default.jpg` ){
-                    functionCtrl.removeImage(user)
+                    functionCtrl.removeImage(userToDelete)
                 }
                 User.findByIdAndDelete(userToDelete)
                 .then(()=> res.status(200).json({message : "User deleted"}))

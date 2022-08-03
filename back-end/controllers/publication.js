@@ -43,10 +43,10 @@ exports.createPublication = (req, res, next) => {
     publication.save()
     .then((newPublication)=>{
         User.findByIdAndUpdate(req.auth.userId, {$push : {publications: newPublication._id}})
-        .then(()=>res.status(201).json({mesage : "New publication created"}))
-        .catch((error)=> res.status(400).json({mesage : "Error updating user", error : error}))
+        .then(()=>res.status(201).json({message : "New publication created"}))
+        .catch((error)=> res.status(400).json({message : "Error updating user", error : error}))
         })
-    .catch((error)=> res.status(400).json({mesage : "Error saving publication", error : error}))
+    .catch((error)=> res.status(400).json({message : "Error saving publication", error : error}))
 
 }
 
@@ -87,17 +87,7 @@ exports.deletePublication = (req, res, next) => {
     User.findById(req.auth.userId)
     .then((user)=>{
         if ((user.role.includes("ROLE_ADMIN") || user.publications.includes(req.params.id))){
-            Publication.findById(req.params.id)
-            .then((publication)=>{
-                publication.commentList.forEach((commentId)=>{
-                    functionCtrl.deleteComment(res, commentId)
-                })
-                functionCtrl.removeImage(publication)
-                Publication.findByIdAndDelete(req.params.id)
-                .then(()=>res.status(200).json({message : "Publication and these comment deleted"}))
-                .catch((error)=> res.status(400).json({message : "Error deleting publication"}))
-            })
-            .catch((error)=>res.status(400).json({message : "Error finding publications", error : error}))
+            functionCtrl.deletePublication(res, req.params.id, true)
         }
     })
     .catch((error)=> res.status(400).json({message : "Error finding user", error : error}))
@@ -119,12 +109,12 @@ exports.likePublication = (req, res, next) => {
                 publication.like -= 1;
                 publication.userLiked.splice(publication.userLiked.indexOf(req.auth.userId), 1);
             } else {
-                return res.status(200).json({message : "User haven't liked this publication he can't remove it like"})
+                return res.status(200).json({message : "User haven't liked this publication he can't remove it like", error : error})
             }
         }
         Publication.findByIdAndUpdate(req.params.id, publication)
         .then(()=>res.status(201).json({message : "publication Like Updated"}))
-        .catch((error)=> res.status(400).json({mesage : "Error Updating Like", error : error}))
+        .catch((error)=> res.status(400).json({message : "Error Updating Like", error : error}))
     })
     .catch((error)=> res.status(400).json({message : "Error finding publication to like", error : error}))
 }
