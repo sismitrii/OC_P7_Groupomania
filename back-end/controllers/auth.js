@@ -38,7 +38,7 @@ exports.login = (req, res, next)=>{
                     } else {
                         res.status(200).json({
                             userId : user._id,
-                            token : jwt.sign({userId : user._id},'SECRET_PASSWORD',{expiresIn : '8h'})
+                            token : jwt.sign({userId : user._id},process.env.JWT_PASSWORD,{expiresIn : '8h'})
                         })
                     }
                 })
