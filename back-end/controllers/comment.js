@@ -69,13 +69,6 @@ exports.deleteComment = (req, res, next)=>{
         .then((comment)=>{
             if(comment){
                 if ((comment.author === req.auth.userId) || (user.role.includes("ROLE_ADMIN"))){
-                    // Comment.findByIdAndDelete(req.params.com_id)
-                    // .then(()=>{
-                    //     Publication.findByIdAndUpdate(req.params.id, {$pull : {commentList : req.params.com_id}})
-                    //     .then(()=> res.status(201).json({message :"Comment delete"}))
-                    //     .catch((error)=> res.status(400).json({message : "Error Removing a comment from a Publication", error : error}))
-                    // })
-                    // .catch((error)=> res.status(400).json({message : "Error deleting a comment", error :error}))
                     functionCtrl.deleteComment(res,req.params.com_id, req.params.id)
                 } else {
                     res.status(403).json({message : "Unauthorized"})
