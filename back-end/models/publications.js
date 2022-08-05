@@ -11,7 +11,6 @@ const uniqueValidator = require ('mongoose-unique-validator')
 
 const publicationSchema = mongoose.Schema({
     author : {type : String, required : true},
-    creationDate : {type : Date, required : true, default: new Date()},
     content : {type : String},
     imageUrl : {type : String},
     like : {type : Number, default : 0},
@@ -19,7 +18,9 @@ const publicationSchema = mongoose.Schema({
     commentList : [
         {type : mongoose.Schema.Types.ObjectId 
         , ref : "Comment" }
-    ]
+    ],
+    createdAt : {type : Date, required : true, default: Date.now },
+    updatedAt : {type : Date, required : true, default: Date.now }
 })
 
 publicationSchema.plugin(uniqueValidator)
