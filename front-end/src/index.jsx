@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import "./css/style.css";
+import GlobalStyle from './utils/styles/GlobalStyle';
 
 import './index.css';
 import SignUp from './pages/SignUp';
@@ -11,6 +11,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Router>
+      <GlobalStyle />
       <Routes>
         <Route path="/" element={<SignUp />} />
         <Route path='/connection' element={<Connection />} />
