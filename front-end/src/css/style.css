@@ -1,0 +1,86 @@
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+#auth-bloc {
+  width: 35%;
+  min-width: 300px;
+  margin: auto;
+  border-radius: 50px;
+  background-color: #ffe1e1;
+}
+
+.signup {
+  width: 100%;
+  padding: 20px 35px;
+}
+.signup h1 {
+  text-align: center;
+  color: #FD2D01;
+  font-size: 20px;
+  margin-bottom: 20px;
+  font-family: "Arial";
+}
+.signup form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.signup label {
+  font-size: 14px;
+  margin: 10px;
+}
+.signup input {
+  height: 30px;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  padding-left: 5px;
+}
+.signup input:focus {
+  outline: none;
+  box-shadow: 0 0 0 1px #FD2D01;
+}
+.signup__password-bloc {
+  position: relative;
+  width: 100%;
+}
+.signup__password-bloc__icon {
+  font-size: 12px;
+  position: absolute;
+  right: 6%;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+.signup button {
+  width: 65%;
+  height: 40px;
+  margin: 20px;
+  background-color: #FD2D01;
+  color: white;
+  font-size: 15px;
+  text-align: center;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+}
+.signup p {
+  font-size: 12px;
+  text-align: right;
+  margin-right: 20px;
+}
+.signup p a {
+  color: #FD2D01;
+}
+
+/*# sourceMappingURL=style.css.map */
