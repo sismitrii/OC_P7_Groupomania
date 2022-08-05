@@ -65,21 +65,4 @@ app.use('/api/publication', publicationRoutes);
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
-/*=== Creation of Admin account ===*/
-/*bcrypt.hash(process.env.ADMIN_PASSWORD, 10 )
-.then((hash)=>{
-  const user = new User({
-  email : process.env.ADMIN_EMAIL,
-  password : hash,
-  username : "Admin",
-  role : ["ROLE_USER", "ROLE_ADMIN"]
-})
-
-  user.save()
-  .then(()=> console.log("Admin account created"))
-  .catch((error)=> console.error(error))
-})*/
-
-
-
   module.exports = app;
