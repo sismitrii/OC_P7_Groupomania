@@ -27,7 +27,8 @@ const userSchema = mongoose.Schema({
     publications : [
      {type : mongoose.Schema.Types.ObjectId 
      , ref : "Publication" }
-    ] 
+    ],
+    createdAt : {type : Date, default : Date.now}
     // to add a publication for this user : 
     /*Publication.create(req.body)
     .then(function(dbReview) {
