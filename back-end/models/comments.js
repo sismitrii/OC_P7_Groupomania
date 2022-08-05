@@ -10,8 +10,8 @@ const uniqueValidator = require ('mongoose-unique-validator')
 /*=============================================================*/
 
 const commentSchema = mongoose.Schema({
-    content : {type : String, required : true},
-    author : {type : String , required : true}
+    content: {type: String, required: true},
+    author: {type: String , required: true}
 })
 
 commentSchema.plugin(uniqueValidator)

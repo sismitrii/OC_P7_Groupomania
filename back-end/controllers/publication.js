@@ -18,23 +18,23 @@ const functionCtrl = require('./function')
 exports.getAllPublication = (req, res, next) => {
     Publication.find()
     .then((publications)=> res.status(200).json({publications}))
-    .catch((error)=> res.status(400).json({message :"Error find publications", error : error}))
+    .catch((error)=> res.status(400).json({message:"Error find publications", error}))
 }
 
 /*=== Get a publication with it id in request ===*/
 exports.getOnePublication = (req, res, next) => {
     Publication.findById(req.params.id)
     .then((publication)=> res.status(200).json({publication}))
-    .catch((error)=> res.status(400).json({message :"Error find this publication", error : error}))
+    .catch((error)=> res.status(400).json({message:"Error find this publication", error}))
 }
 
 /*=== Create a publication with or without image and update publications of user that created ===*/
 exports.createPublication = (req, res, next) => {
-    let publicationContent = req.body.publication ? JSON.parse(req.body.publication).content : req.body.content;
+    let publicationContent = req.body.publication ? JSON.parse(req.body.publication).content: req.body.content;
 
     const publication = new Publication({
-        author : req.auth.userId,
-        content : publicationContent
+        author: req.auth.userId,
+        content: publicationContent
     })
     if (req.file){
         publication.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
@@ -42,20 +42,20 @@ exports.createPublication = (req, res, next) => {
 
     publication.save()
     .then((newPublication)=>{
-        User.findByIdAndUpdate(req.auth.userId, {$push : {publications: newPublication._id}})
-        .then(()=>res.status(201).json({message : "New publication created"}))
-        .catch((error)=> res.status(400).json({message : "Error updating user", error : error}))
+        User.findByIdAndUpdate(req.auth.userId, {$push: {publications: newPublication._id}})
+        .then(()=>res.status(201).json({message: "New publication created"}))
+        .catch((error)=> res.status(400).json({message: "Error updating user", error}))
         })
-    .catch((error)=> res.status(400).json({message : "Error saving publication", error : error}))
+    .catch((error)=> res.status(400).json({message: "Error saving publication", error}))
 
 }
 
 /*=== Admin and user loged (token) can modify a publication, content, image or content and image ===*/
 exports.modifyPublication = (req, res, next) => {
-    const newPublicationContent = req.body.publication ? JSON.parse(req.body.publication).content : req.body.content
+    const newPublicationContent = req.body.publication ? JSON.parse(req.body.publication).content: req.body.content
 
     const newPublication = {
-        content : newPublicationContent
+        content: newPublicationContent
     }
 
     if (req.file){
@@ -73,13 +73,13 @@ exports.modifyPublication = (req, res, next) => {
                 .catch((error)=> console.error('Error finding publication'))
             }
             Publication.findByIdAndUpdate(req.params.id, newPublication)
-            .then(()=> res.status(201).json({message : "Publication updated"}))
-            .catch((error) => res.status(400).json({message : "Error updating Publication", error : error}))
+            .then(()=> res.status(201).json({message: "Publication updated"}))
+            .catch((error) => res.status(400).json({message: "Error updating Publication", error}))
         } else {
-            res.status(403).json({message : "Unauthorized"})
+            res.status(403).json({message: "Unauthorized"})
         }
     })
-    .catch((error)=> res.status(400).json({message : "Error finding user", error : error}))
+    .catch((error)=> res.status(400).json({message: "Error finding user", error}))
 }
 
 /*=== Admin and user loged (token) can delete a publication and remove image if one ===*/
@@ -90,7 +90,7 @@ exports.deletePublication = (req, res, next) => {
             functionCtrl.deletePublication(res, req.params.id, true)
         }
     })
-    .catch((error)=> res.status(400).json({message : "Error finding user", error : error}))
+    .catch((error)=> res.status(400).json({message: "Error finding user", error}))
 }
 
 /*=== Like or Remove a like and update userLiked Array ===*/
@@ -102,21 +102,21 @@ exports.likePublication = (req, res, next) => {
                 publication.like += 1;
                 publication.userLiked.push(req.auth.userId);
             } else {
-                return res.status(200).json({message : "User has already liked this publication"})
+                return res.status(200).json({message: "User has already liked this publication"})
             }
         } else {
             if (publication.userLiked.includes(req.auth.userId)){
                 publication.like -= 1;
                 publication.userLiked.splice(publication.userLiked.indexOf(req.auth.userId), 1);
             } else {
-                return res.status(200).json({message : "User haven't liked this publication he can't remove it like", error : error})
+                return res.status(200).json({message: "User haven't liked this publication he can't remove it like", error})
             }
         }
         Publication.findByIdAndUpdate(req.params.id, publication)
-        .then(()=>res.status(201).json({message : "publication Like Updated"}))
-        .catch((error)=> res.status(400).json({message : "Error Updating Like", error : error}))
+        .then(()=>res.status(201).json({message: "publication Like Updated"}))
+        .catch((error)=> res.status(400).json({message: "Error Updating Like", error}))
     })
-    .catch((error)=> res.status(400).json({message : "Error finding publication to like", error : error}))
+    .catch((error)=> res.status(400).json({message: "Error finding publication to like", error}))
 }
 
 

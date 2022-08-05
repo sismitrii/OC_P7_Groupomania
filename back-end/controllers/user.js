@@ -22,12 +22,12 @@ exports.getUserData = (req, res, next) => {
         delete user._doc.password // delete user.password doesn't work 
         res.status(200).json({user})
     })
-    .catch((error)=> res.status(400).json({message : "User does exist in DB", error : error}))
+    .catch((error)=> res.status(400).json({message: "User does exist in DB", error}))
 }
 
 /*=== User loged (token) can modify element from his own profil ===*/
 exports.modifyUserData = (req, res,next) => {
-    const newUserData = req.body.user ? {...JSON.parse(req.body.user)} : {...req.body};
+    const newUserData = req.body.user ? {...JSON.parse(req.body.user)}: {...req.body};
 
     if (req.file){
         newUserData.profilImgUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
@@ -36,7 +36,7 @@ exports.modifyUserData = (req, res,next) => {
     if (newUserData.password || newUserData.role){
         delete newUserData.password;
         delete newUserData.role;
-        res.status(403).json({message :"Unauthorized to modify password or role"})
+        res.status(403).json({message:"Unauthorized to modify password or role"})
     } else {
         User.findById(req.auth.userId)
         .then((user)=>{
@@ -45,13 +45,13 @@ exports.modifyUserData = (req, res,next) => {
                     functionCtrl.removeImage(user)
                 }
                 User.updateOne({_id: req.params.id}, newUserData)
-                .then(()=> res.status(201).json({message : "User modified"}))
-                .catch((error)=> res.status(400).json({message : "Error update user", error : error}))
+                .then(()=> res.status(201).json({message: "User modified"}))
+                .catch((error)=> res.status(400).json({message: "Error update user", error}))
             } else {
-                res.status(401).json({message : "le token of user not valid"})
+                res.status(401).json({message: "le token of user not valid"})
             }
         })
-        .catch((error)=> res.status(400).json({message : "Error finding user", error : error}))
+        .catch((error)=> res.status(400).json({message: "Error finding user", error}))
     }
 }
 
@@ -70,18 +70,18 @@ exports.deleteUserData = (req, res, next) => {
                     functionCtrl.removeImage(userToDelete)
                 }
                 User.findByIdAndDelete(userToDelete)
-                .then(()=> res.status(200).json({message : "User deleted"}))
-                .catch((error)=> res.status(400).json({message : "Error deleting User", error : error}))
-            .catch((error)=> res.status(400).json({message : "Error finding User", error :error}))
+                .then(()=> res.status(200).json({message: "User deleted"}))
+                .catch((error)=> res.status(400).json({message: "Error deleting User", error}))
+            .catch((error)=> res.status(400).json({message: "Error finding User", error:error}))
             })
         }
     })
-    .catch((error)=> res.status(400).json({message : "Error finding User", error : error}))
+    .catch((error)=> res.status(400).json({message: "Error finding User", error}))
 }
 
 /*=== Get all Publication from a user ===*/
 exports.getUserPublications = (req, res, next) => {
     User.findById(req.params.id)
     .populate("publications")
-    .then((user)=> res.status(201).json({publications : user.publications}))
+    .then((user)=> res.status(201).json({publications: user.publications}))
 }

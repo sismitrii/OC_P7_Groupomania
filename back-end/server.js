@@ -54,7 +54,7 @@ app.set('port', port)// to give to express app on which port is it going to run
 const server = http.createServer(app);
 
 const address = server.address();  // adress is the IP adress of the server if it's hosted and null if it's not
-const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
+const bind = typeof address === 'string' ? 'pipe ' + address: 'port ' + port;
 
 server.on('error', errorHandler);
 server.on('listening', () => {
