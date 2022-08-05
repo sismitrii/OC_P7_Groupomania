@@ -6,13 +6,27 @@ const mongoose = require('mongoose');
 const path = require('path');
 const bcrypt = require('bcrypt')
 
+require('dotenv').config();
+
+const Fixtures = require('node-mongodb-fixtures');
+const fixtures = new Fixtures();
+
+fixtures.connect(`${process.env.MONGODB_CONNECT}`,
+{ useNewUrlParser: true,
+useUnifiedTopology: true })
+.then(() => fixtures.unload())
+.then(() => fixtures.load())
+.then(() => fixtures.disconnect())
+.catch((error)=> console.log(error))
+
+
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 const publicationRoutes = require('./routes/publication')
 const User = require('./models/users')
 // const Publication = require('./models/publications')
 
-require('dotenv').config();
+
 /*=============================================================*/
 /*--------------------- CONFIGURATION -------------------------*/
 /*=============================================================*/
@@ -52,7 +66,7 @@ app.use('/api/publication', publicationRoutes);
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 /*=== Creation of Admin account ===*/
-bcrypt.hash(process.env.ADMIN_PASSWORD, 10 )
+/*bcrypt.hash(process.env.ADMIN_PASSWORD, 10 )
 .then((hash)=>{
   const user = new User({
   email : process.env.ADMIN_EMAIL,
@@ -64,7 +78,7 @@ bcrypt.hash(process.env.ADMIN_PASSWORD, 10 )
   user.save()
   .then(()=> console.log("Admin account created"))
   .catch((error)=> console.error(error))
-})
+})*/
 
 
 
