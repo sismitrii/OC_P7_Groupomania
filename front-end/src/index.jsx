@@ -5,7 +5,6 @@ import GlobalStyle from './utils/styles/GlobalStyle';
 
 import './index.css';
 import SignUp from './pages/SignUp';
-import Connection from './pages/Connection';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -14,7 +13,7 @@ root.render(
       <GlobalStyle />
       <Routes>
         <Route path="/" element={<SignUp />} />
-        <Route path='/connection' element={<Connection />} />
+        <Route path='/login' element={<SignUp />} />
       </Routes>
     </Router>
   </React.StrictMode>

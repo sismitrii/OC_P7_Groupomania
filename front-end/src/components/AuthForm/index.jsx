@@ -4,21 +4,30 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import colors from '../../utils/styles/colors'
 
+//@media screen and (max-width:992px)
+//@media screen and (max-width:768px)
+
 const AuthContainer = styled.div`
-    width: 35%;
+    width: 50%;
     min-width: 300px;
-    margin: auto;
+    max-width : 380px;
+    margin: O auto;
     border-radius: 50px;
     background-color: ${colors.secondary};
     padding: 20px 30px;
 `
 
-const AuthTitle = styled.div`
+const AuthTitle = styled.h1`
     text-align: center;
+    font-weight : 500;
     color: ${colors.primary};
     font-size: 20px;
     margin-bottom: 20px;
     font-family: 'Arial';
+
+    @media (min-width : 768px){
+        font-size : 25px;
+    }
 `
 
 const AuthForm = styled.form`
@@ -70,6 +79,9 @@ const EyeIcon = styled(FontAwesomeIcon)`
 const AuthLabel = styled.label`
     font-size: 14px;
     margin: 10px;
+    @media (min-width : 768px){
+        font-size : 18px;
+    }
 `
 
 const AuthInput = styled.input`
@@ -98,6 +110,10 @@ const AuthButton = styled.button`
     border-radius: 10px;
     outline: none;
     cursor: pointer;
+
+    @media (min-width : 768px){
+        font-size : 18px;
+    }
 `
 
 const AuthChangeSentence = styled.p`
@@ -109,11 +125,19 @@ const AuthChangeLink =styled(Link)`
     color: ${colors.primary};
 `
 
+const AuthPasswordLink =styled(Link)`
+    color: ${colors.primary};
+    align-self : flex-end;
+    font-size : 12px;
+    margin-top : 10px
+`
 
-function SignUpForm(){
+
+
+function Auth(props){
     return (
     <AuthContainer>
-        <AuthTitle>Inscrivez-vous</AuthTitle>
+        <AuthTitle>{props.isLogin ? "Connectez-vous" : "Inscrivez-vous"}</AuthTitle>
         <AuthForm>
             <AuthLabel>Mail</AuthLabel>
             <AuthInput name="email" id="signup__email" type="email" />
@@ -122,22 +146,28 @@ function SignUpForm(){
                 <AuthInput name="password" id="signup__password" type="password" />
                 <EyeIcon icon={faEye} />
             </PasswordBloc>
-            <PasswordStrenght>
-                <PasswordStrenghtPart />
-                <PasswordStrenghtPart />
-                <PasswordStrenghtPart />
-                <PasswordStrenghtPart />
-            </PasswordStrenght>
-            <AuthLabel>Confirmez votre mot de passe</AuthLabel>
-            <PasswordBloc>
-                <AuthInput name="confirm_password" id="signup__confirm" type="password" />
-                <EyeIcon icon={faEye} />
-            </PasswordBloc>
+            {props.isLogin ? <AuthPasswordLink to="/">Mot de passe oublié ?</AuthPasswordLink> : 
+            <>
+                <PasswordStrenght>
+                    <PasswordStrenghtPart />
+                    <PasswordStrenghtPart />
+                    <PasswordStrenghtPart />
+                    <PasswordStrenghtPart />
+                </PasswordStrenght>
+                <AuthLabel>Confirmez votre mot de passe</AuthLabel>
+                <PasswordBloc>
+                    <AuthInput name="confirm_password" id="signup__confirm" type="password" />
+                    <EyeIcon icon={faEye} />
+                </PasswordBloc>
 
-            <AuthButton>Je m'inscrit</AuthButton>
+            </>}
+
+            <AuthButton>{props.isLogin ? "Je me connecte" : "Je m'inscrit"}</AuthButton>
         </AuthForm>
-        <AuthChangeSentence>Déjà Inscrit ? <AuthChangeLink to="/connection">Connectez-vous</AuthChangeLink></AuthChangeSentence>
+        {props.isLogin ?  
+        <AuthChangeSentence>Pas encore de compte ? <AuthChangeLink to="/">S'inscrire</AuthChangeLink></AuthChangeSentence>
+        : <AuthChangeSentence>Déjà Inscrit ? <AuthChangeLink to="/login">Connectez-vous</AuthChangeLink></AuthChangeSentence>}
     </AuthContainer>)
 }
 
-export default SignUpForm
+export default Auth

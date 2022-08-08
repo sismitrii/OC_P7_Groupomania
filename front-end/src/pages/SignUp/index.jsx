@@ -1,25 +1,31 @@
 //import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 //import { faCoffee } from '@fortawesome/free-solid-svg-icons'
-import SignUpForm from '../../components/SignUpForm'
+import Auth from '../../components/AuthForm'
 import Logo from '../../assets/icon-left-font.svg';
 import styled from 'styled-components';
+import { useLocation } from "react-router-dom"
 
 const AuthLogo = styled.img`
-    width: 70%;
+    width: 60%;
     min-width: 320px;
+    margin : 30px 0px;
 `
 
 const PageContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    height : 100vh;
+    background-color : #F4F4F4;
 `
 
 function SignUp(){
+    const location = useLocation();
+
     return (
     <PageContainer>
         <AuthLogo src={Logo} alt="Logo de Groupomania"/>
-        <SignUpForm />
+        {location.pathname === "/login" ? <Auth isLogin={true} /> : <Auth />} :
     </PageContainer>)
 
 }
