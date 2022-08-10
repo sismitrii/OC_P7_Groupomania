@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState, useContext } from 'react'
+import { useNavigate } from "react-router-dom";
 import { faEye } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
@@ -246,32 +247,36 @@ async function signUpRequest(e,userData, passwordChecked){
     }
 }
 
-async function loginRequest(e, userData, setDataConnection){
-    e.preventDefault();
-    if (userData.email && userData.password){
-        login(userData)
-        setDataConnection({userId: '62f370f0effa1dc5620e6578', token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiO…I5M30.vf0MMXXoPq19fIo5ILMjMvypRzfE7XYurn2NnQ5uWck'})
-        console.log("mis à jour")
-    }
-}
 
-async function login(userData){
-    // on va faire la requete
-    const dataConnexion = await postData('http://localhost:3000/api/auth/login', userData)
-    if (dataConnexion.message){
-        document.querySelector('.passwordErroMsg').innerText = dataConnexion.message;
-    } else {
-        document.querySelector('.passwordErroMsg').innerText = "";
-    }
-    // enregister UserId et token
-    // redirigé vers la page Home
-}
 
 function Auth(props){
     const [userData, setUserData] = useState({});
     const [strenghtPassword, setStrenght] = useState(-1);
     const [passwordChecked, setPasswordChecked] = useState(false);
-    const {dataConnexion, setDataConnection} = useContext(ConnectionContext)
+    const {setDataConnection} = useContext(ConnectionContext)
+
+    let navigate = useNavigate();
+
+    async function loginRequest(e, userData, setDataConnection){
+        e.preventDefault();
+        if (userData.email && userData.password){
+            login(userData, setDataConnection)
+        }
+    }
+    
+    async function login(userData, setDataConnection){
+    
+        const dataConnexion = await postData('http://localhost:3000/api/auth/login', userData)
+        if (dataConnexion.message){
+            document.querySelector('.passwordErroMsg').innerText = dataConnexion.message;
+        } else {
+            document.querySelector('.passwordErroMsg').innerText = "";
+            setDataConnection(dataConnexion)
+            navigate('/home')
+            
+        }
+        // redirigé vers la page Home
+    }
 
     return (
     <AuthContainer>
