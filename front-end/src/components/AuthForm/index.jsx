@@ -1,8 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useState } from 'react'
 import { faEye } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import colors from '../../utils/styles/colors'
+import zxcvbn from 'zxcvbn';
 
 //@media screen and (max-width:992px)
 //@media screen and (max-width:768px)
@@ -25,8 +27,8 @@ const AuthTitle = styled.h1`
     margin-bottom: 20px;
     font-family: 'Arial';
 
-    @media (min-width : 768px){
-        font-size : 25px;
+    @media (min-width: 768px){
+        font-size: 25px;
     }
 `
 
@@ -38,25 +40,28 @@ const AuthForm = styled.form`
 `
 
 const PasswordStrenghtPart = styled.div`
-    width: 20%;
+    width: 17%;
     height: 8px;
+    background-color : transparent;
 
     &:nth-child(1) {
-        background-color: #F7091B;
+        ${(props) =>  props.strenghtPassword >= 0 && `background-color: #F7091B;` }
     }
     &:nth-child(2) {
-        background-color: #F77F0A;
+        ${(props) =>  props.strenghtPassword >= 1 && `background-color: #F77F0A;` }
     }
     &:nth-child(3) {
-        background-color: #70FB86;
+        ${(props) =>  props.strenghtPassword >= 2 && `background-color: #fbf80e;` }
     }
     &:nth-child(4) {
-        background-color: #07FA2E;
+        ${(props) =>  props.strenghtPassword >= 3 && `background-color: #70FB86;` }
+    }
+    &:nth-child(5) {
+        ${(props) =>  props.strenghtPassword >= 4 && `background-color: #07FA2E;` }
     }
 `
 const PasswordStrenght = styled.div`
     width: 100%;
-    height: 8px;
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
@@ -79,8 +84,8 @@ const EyeIcon = styled(FontAwesomeIcon)`
 const AuthLabel = styled.label`
     font-size: 14px;
     margin: 10px;
-    @media (min-width : 768px){
-        font-size : 18px;
+    @media (min-width: 768px){
+        font-size: 18px;
     }
 `
 
@@ -127,42 +132,130 @@ const AuthChangeLink =styled(Link)`
 
 const AuthPasswordLink =styled(Link)`
     color: ${colors.primary};
-    align-self : flex-end;
-    font-size : 12px;
-    margin-top : 10px
+    align-self: flex-end;
+    font-size: 12px;
+    margin-top: 10px
+`
+const ErrorMsg = styled.p`
+    font-family : sans-serif;
+    font-size: 12px;
+    color: red;
 `
 
+const regexToCheck = {
+    email: /^\w+([.-]*\w+)*@\w+([.-]?\w+)*(\.\w{2,4})+$/
+}
+function checkContent(e, type, userData, setUserData){
+    // on va crée une fonction qui va checker les tout les input que l'on va rentrer
+    // aussi bien pour la page de connexion que pour les infos utilisateur dans le profil
+    // il faudra passer en paramètre de la fonction le type et on aura un objet avec les pairs clé regex
+    const regex = regexToCheck[type];
+    
+    let testRegex = regex.test(e.target.value);
 
+    let errorMsgTag = e.target.nextElementSibling
+    
+    if (testRegex){
+        const newUserData = userData;
+        newUserData[type] = e.target.value;
+        setUserData(newUserData) 
+        errorMsgTag.innerText = "";
+    } else {
+        const newUserData = userData;
+        delete newUserData.type;
+        setUserData(newUserData);
+        if (e.target.value.length > 0){
+            errorMsgTag.innerHTML = "Veuillez rentrez une adresse email correcte. <br/> | Ex: monadresse@groupomania.com";
+        } else {
+            errorMsgTag.innerText = ""; 
+        }
+    }
+}
+
+function showPassword(e){
+    e.stopPropagation();
+    const input = e.currentTarget.previousElementSibling
+    if (input.type === "password"){
+        input.type = "text";
+    } else {
+        input.type = "password";
+    }
+}
+
+function checkStrenghtPassword(e,setStrenght, userData, setUserData){
+    if (e.target.value.length > 0){
+        setStrenght(zxcvbn(e.target.value).score);
+        setUserData(data =>({
+            ...data,
+            password : e.target.value
+        }))
+    } else {
+        const newUserData = userData;
+        delete newUserData.password;
+        setUserData(newUserData);
+        setStrenght(-1);
+    }
+}
+
+function passwordConfirmation(e, userData, setPasswordChecked){
+    document.querySelector('.confirmationErrorMsg').innerText = "";
+    if (e.target.value.length > 0){
+        if (e.target.value === userData.password){
+            setPasswordChecked(true);
+        } else {
+            setPasswordChecked(false);  
+        }
+    }
+}
+
+function signUpRequest(e,userData, passwordChecked){
+    e.preventDefault();
+    const errorMsgTag = document.querySelector('.confirmationErrorMsg')
+    if (!passwordChecked){
+        errorMsgTag.innerText = "Ces mots de passe ne correspondent pas. Veuillez réessayer."
+    } else if((userData.email) && (userData.password)){
+        // requete a faire pour signUp
+    }
+
+}
 
 function Auth(props){
+    const [userData, setUserData] = useState({});
+    const [strenghtPassword, setStrenght] = useState(-1);
+    const [passwordChecked, setPasswordChecked] = useState(false);
+
     return (
     <AuthContainer>
         <AuthTitle>{props.isLogin ? "Connectez-vous" : "Inscrivez-vous"}</AuthTitle>
         <AuthForm>
             <AuthLabel>Mail</AuthLabel>
-            <AuthInput name="email" id="signup__email" type="email" />
+            <AuthInput onChange={(e) => {checkContent(e, "email", userData, setUserData)}} name="email" id="signup__email" type="email" />
+            <ErrorMsg></ErrorMsg>
             <AuthLabel>Mot de passe</AuthLabel>
             <PasswordBloc>
-                <AuthInput name="password" id="signup__password" type="password" />
-                <EyeIcon icon={faEye} />
+                <AuthInput onChange={(e)=> checkStrenghtPassword(e, setStrenght, userData, setUserData)} name="password" id="signup__password" type="password" />
+                <EyeIcon onClick={(e)=> showPassword(e)}icon={faEye} />
             </PasswordBloc>
+            <ErrorMsg></ErrorMsg>
             {props.isLogin ? <AuthPasswordLink to="/">Mot de passe oublié ?</AuthPasswordLink> : 
             <>
                 <PasswordStrenght>
-                    <PasswordStrenghtPart />
-                    <PasswordStrenghtPart />
-                    <PasswordStrenghtPart />
-                    <PasswordStrenghtPart />
+                    <PasswordStrenghtPart strenghtPassword = {strenghtPassword}/>
+                    <PasswordStrenghtPart strenghtPassword = {strenghtPassword}/>
+                    <PasswordStrenghtPart strenghtPassword = {strenghtPassword}/>
+                    <PasswordStrenghtPart strenghtPassword = {strenghtPassword}/>
+                    <PasswordStrenghtPart strenghtPassword = {strenghtPassword}/>
                 </PasswordStrenght>
                 <AuthLabel>Confirmez votre mot de passe</AuthLabel>
                 <PasswordBloc>
-                    <AuthInput name="confirm_password" id="signup__confirm" type="password" />
-                    <EyeIcon icon={faEye} />
+                    <AuthInput onChange={(e)=> passwordConfirmation(e, userData, setPasswordChecked)} name="confirm_password" id="signup__confirm" type="password" />
+                    <EyeIcon onClick={(e)=> showPassword(e)} icon={faEye} />
                 </PasswordBloc>
+                <ErrorMsg className='confirmationErrorMsg'></ErrorMsg>
 
             </>}
 
-            <AuthButton>{props.isLogin ? "Je me connecte" : "Je m'inscrit"}</AuthButton>
+            <AuthButton onClick={(e)=> signUpRequest(e,userData, passwordChecked)}>{props.isLogin ? "Je me connecte" : "Je m'inscrit"}</AuthButton>
         </AuthForm>
         {props.isLogin ?  
         <AuthChangeSentence>Pas encore de compte ? <AuthChangeLink to="/">S'inscrire</AuthChangeLink></AuthChangeSentence>
