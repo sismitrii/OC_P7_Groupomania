@@ -4,7 +4,7 @@ export const ConnectionContext = createContext()
 
 export function ConnectionProvider({children}){
     const init = JSON.parse(localStorage.getItem("dataConnection"))
-    let initState = init ? init : {} ;
+    let initState = init ? init: {} ;
 
     const [dataConnexion, setDataConnection] = useState(initState) 
 

@@ -16,7 +16,13 @@ const HeaderContainer = styled.header`
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    height: 90px;
+    height: 120px;
+    box-shadow : 0 4px 10px -2px #b3b3b3;
+`
+const HeaderLogo = styled.img`
+    width : 60%;
+    min-width : 260px;
+    max-width : 500px;
 `
 
 /*====================================================*/
@@ -27,7 +33,7 @@ const HeaderContainer = styled.header`
 function Header(){
     return (
     <HeaderContainer>
-        <img src={Logo} alt="Logo de Groupomania"/>
+        <HeaderLogo src={Logo} alt="Logo de Groupomania"/>
         {window.matchMedia("(max-width:768px)").matches ?
             <NavBar $forMobile />
        :
