@@ -1,10 +1,12 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { faEye } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import colors from '../../utils/styles/colors'
 import zxcvbn from 'zxcvbn';
+import { ConnectionContext } from '../../utils/context'
+
 
 //@media screen and (max-width:992px)
 //@media screen and (max-width:768px)
@@ -140,6 +142,8 @@ const ErrorMsg = styled.p`
     font-family : sans-serif;
     font-size: 12px;
     color: red;
+
+    ${(props)=> props.$isAuthError ? "text-transform : uppercase; margin-top : 10px" : ""}
 `
 
 const regexToCheck = {
@@ -208,21 +212,66 @@ function passwordConfirmation(e, userData, setPasswordChecked){
     }
 }
 
-function signUpRequest(e,userData, passwordChecked){
+
+async function postData(url, dataToPost){
+    if (!url){return}
+    try {
+        let res = await fetch(url, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(dataToPost)
+        })
+            let answer = await res.json()
+            return answer;
+    } catch(err) {
+        console.log(err);
+    }
+}
+
+async function signUpRequest(e,userData, passwordChecked){
     e.preventDefault();
     const errorMsgTag = document.querySelector('.confirmationErrorMsg')
     if (!passwordChecked){
         errorMsgTag.innerText = "Ces mots de passe ne correspondent pas. Veuillez réessayer."
     } else if((userData.email) && (userData.password)){
-        // requete a faire pour signUp
-    }
+        console.log(await postData('http://localhost:3000/api/auth/signup', userData))
+        //const dataConnexion = await postData('http://localhost:3000/api/auth/login', userData);
+        
 
+        // apres il faut faire une fonstion login et 
+        //recup le userId et le token pour les stocker dans le localStorage
+    }
+}
+
+async function loginRequest(e, userData, setDataConnection){
+    e.preventDefault();
+    if (userData.email && userData.password){
+        login(userData)
+        setDataConnection({userId: '62f370f0effa1dc5620e6578', token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiO…I5M30.vf0MMXXoPq19fIo5ILMjMvypRzfE7XYurn2NnQ5uWck'})
+        console.log("mis à jour")
+    }
+}
+
+async function login(userData){
+    // on va faire la requete
+    const dataConnexion = await postData('http://localhost:3000/api/auth/login', userData)
+    if (dataConnexion.message){
+        document.querySelector('.passwordErroMsg').innerText = dataConnexion.message;
+    } else {
+        document.querySelector('.passwordErroMsg').innerText = "";
+    }
+    // enregister UserId et token
+    // redirigé vers la page Home
 }
 
 function Auth(props){
     const [userData, setUserData] = useState({});
     const [strenghtPassword, setStrenght] = useState(-1);
     const [passwordChecked, setPasswordChecked] = useState(false);
+    const {dataConnexion, setDataConnection} = useContext(ConnectionContext)
 
     return (
     <AuthContainer>
@@ -236,7 +285,7 @@ function Auth(props){
                 <AuthInput onChange={(e)=> checkStrenghtPassword(e, setStrenght, userData, setUserData)} name="password" id="signup__password" type="password" />
                 <EyeIcon onClick={(e)=> showPassword(e)}icon={faEye} />
             </PasswordBloc>
-            <ErrorMsg></ErrorMsg>
+            
             {props.isLogin ? <AuthPasswordLink to="/">Mot de passe oublié ?</AuthPasswordLink> : 
             <>
                 <PasswordStrenght>
@@ -254,8 +303,11 @@ function Auth(props){
                 <ErrorMsg className='confirmationErrorMsg'></ErrorMsg>
 
             </>}
-
-            <AuthButton onClick={(e)=> signUpRequest(e,userData, passwordChecked)}>{props.isLogin ? "Je me connecte" : "Je m'inscrit"}</AuthButton>
+            <ErrorMsg $isAuthError className='passwordErroMsg'></ErrorMsg>
+            {props.isLogin ? 
+            <AuthButton onClick={(e)=> loginRequest(e,userData, setDataConnection)}>Je me connecte</AuthButton>
+            : <AuthButton onClick={(e)=> signUpRequest(e,userData, passwordChecked)}>Je m'inscrit</AuthButton>
+            }
         </AuthForm>
         {props.isLogin ?  
         <AuthChangeSentence>Pas encore de compte ? <AuthChangeLink to="/">S'inscrire</AuthChangeLink></AuthChangeSentence>

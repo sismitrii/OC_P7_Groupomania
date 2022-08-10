@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import GlobalStyle from './utils/styles/GlobalStyle';
+import { ConnectionProvider } from './utils/context';
 
 import './index.css';
 import SignUp from './pages/SignUp';
@@ -10,11 +11,13 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Router>
-      <GlobalStyle />
-      <Routes>
-        <Route path="/" element={<SignUp />} />
-        <Route path='/login' element={<SignUp />} />
-      </Routes>
+      <ConnectionProvider>
+        <GlobalStyle />
+        <Routes>
+          <Route path="/" element={<SignUp />} />
+          <Route path='/login' element={<SignUp />} />
+        </Routes>
+      </ConnectionProvider>
     </Router>
   </React.StrictMode>
 );
