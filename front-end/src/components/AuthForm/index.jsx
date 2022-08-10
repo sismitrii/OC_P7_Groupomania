@@ -1,3 +1,6 @@
+/*====================================================*/
+/* --------------------- Import ----------------------*/
+/*====================================================*/
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState, useContext } from 'react'
 import { useNavigate } from "react-router-dom";
@@ -8,14 +11,16 @@ import colors from '../../utils/styles/colors'
 import zxcvbn from 'zxcvbn';
 import { ConnectionContext } from '../../utils/context'
 
+/*====================================================*/
+/* --------------------- Style -----------------------*/
+/*====================================================*/
 
 //@media screen and (max-width:992px)
 //@media screen and (max-width:768px)
-
 const AuthContainer = styled.div`
     width: 50%;
     min-width: 300px;
-    max-width : 380px;
+    max-width: 380px;
     margin: O auto;
     border-radius: 50px;
     background-color: ${colors.secondary};
@@ -24,7 +29,7 @@ const AuthContainer = styled.div`
 
 const AuthTitle = styled.h1`
     text-align: center;
-    font-weight : 500;
+    font-weight: 500;
     color: ${colors.primary};
     font-size: 20px;
     margin-bottom: 20px;
@@ -45,7 +50,7 @@ const AuthForm = styled.form`
 const PasswordStrenghtPart = styled.div`
     width: 17%;
     height: 8px;
-    background-color : transparent;
+    background-color: transparent;
 
     &:nth-child(1) {
         ${(props) =>  props.strenghtPassword >= 0 && `background-color: #F7091B;` }
@@ -119,8 +124,8 @@ const AuthButton = styled.button`
     outline: none;
     cursor: pointer;
 
-    @media (min-width : 768px){
-        font-size : 18px;
+    @media (min-width: 768px){
+        font-size: 18px;
     }
 `
 
@@ -140,16 +145,20 @@ const AuthPasswordLink =styled(Link)`
     margin-top: 10px
 `
 const ErrorMsg = styled.p`
-    font-family : sans-serif;
+    font-family: sans-serif;
     font-size: 12px;
     color: red;
 
-    ${(props)=> props.$isAuthError ? "text-transform : uppercase; margin-top : 10px" : ""}
+    ${(props)=> props.$isAuthError ? "text-transform: uppercase; margin-top: 10px": ""}
 `
 
+/*====================================================*/
+/* ------------------- Function ----------------------*/
+/*====================================================*/
 const regexToCheck = {
     email: /^\w+([.-]*\w+)*@\w+([.-]?\w+)*(\.\w{2,4})+$/
 }
+
 function checkContent(e, type, userData, setUserData){
     // on va crée une fonction qui va checker les tout les input que l'on va rentrer
     // aussi bien pour la page de connexion que pour les infos utilisateur dans le profil
@@ -192,7 +201,7 @@ function checkStrenghtPassword(e,setStrenght, userData, setUserData){
         setStrenght(zxcvbn(e.target.value).score);
         setUserData(data =>({
             ...data,
-            password : e.target.value
+            password: e.target.value
         }))
     } else {
         const newUserData = userData;
@@ -247,7 +256,9 @@ async function signUpRequest(e,userData, passwordChecked){
     }
 }
 
-
+/*====================================================*/
+/* ------------------- Component ---------------------*/
+/*====================================================*/
 
 function Auth(props){
     const [userData, setUserData] = useState({});
@@ -272,15 +283,13 @@ function Auth(props){
         } else {
             document.querySelector('.passwordErroMsg').innerText = "";
             setDataConnection(dataConnexion)
-            navigate('/home')
-            
+            navigate('/home')     
         }
-        // redirigé vers la page Home
     }
 
     return (
     <AuthContainer>
-        <AuthTitle>{props.isLogin ? "Connectez-vous" : "Inscrivez-vous"}</AuthTitle>
+        <AuthTitle>{props.isLogin ? "Connectez-vous": "Inscrivez-vous"}</AuthTitle>
         <AuthForm>
             <AuthLabel>Mail</AuthLabel>
             <AuthInput onChange={(e) => {checkContent(e, "email", userData, setUserData)}} name="email" id="signup__email" type="email" />
@@ -291,7 +300,7 @@ function Auth(props){
                 <EyeIcon onClick={(e)=> showPassword(e)}icon={faEye} />
             </PasswordBloc>
             
-            {props.isLogin ? <AuthPasswordLink to="/">Mot de passe oublié ?</AuthPasswordLink> : 
+            {props.isLogin ? <AuthPasswordLink to="/">Mot de passe oublié ?</AuthPasswordLink>: 
             <>
                 <PasswordStrenght>
                     <PasswordStrenghtPart strenghtPassword = {strenghtPassword}/>
@@ -311,12 +320,12 @@ function Auth(props){
             <ErrorMsg $isAuthError className='passwordErroMsg'></ErrorMsg>
             {props.isLogin ? 
             <AuthButton onClick={(e)=> loginRequest(e,userData, setDataConnection)}>Je me connecte</AuthButton>
-            : <AuthButton onClick={(e)=> signUpRequest(e,userData, passwordChecked)}>Je m'inscrit</AuthButton>
+           : <AuthButton onClick={(e)=> signUpRequest(e,userData, passwordChecked)}>Je m'inscrit</AuthButton>
             }
         </AuthForm>
         {props.isLogin ?  
         <AuthChangeSentence>Pas encore de compte ? <AuthChangeLink to="/">S'inscrire</AuthChangeLink></AuthChangeSentence>
-        : <AuthChangeSentence>Déjà Inscrit ? <AuthChangeLink to="/login">Connectez-vous</AuthChangeLink></AuthChangeSentence>}
+       : <AuthChangeSentence>Déjà Inscrit ? <AuthChangeLink to="/login">Connectez-vous</AuthChangeLink></AuthChangeSentence>}
     </AuthContainer>)
 }
 
