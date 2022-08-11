@@ -13,8 +13,8 @@ import styled from "styled-components"
 /*====================================================*/
 /* ------------------- Component ---------------------*/
 /*====================================================*/
-function Home(){
-    return (<Header active={"home"}/>)
+function Settings(){
+    return (<Header active={"settings"}/>)
 }
 
-export default Home
+export default Settings

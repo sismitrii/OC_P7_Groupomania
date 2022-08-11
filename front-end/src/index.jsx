@@ -7,6 +7,8 @@ import { ConnectionProvider } from './utils/context';
 import './index.css';
 import SignUp from './pages/SignUp';
 import Home from './pages/Home';
+import Profil from './pages/Profil';
+import Settings from './pages/Settings';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -18,6 +20,8 @@ root.render(
           <Route path="/" element={<SignUp />} />
           <Route path='/login' element={<SignUp />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/profil" element={<Profil />} />
+          <Route path="/settings" element={<Settings />} />
         </Routes>
       </ConnectionProvider>
     </Router>
