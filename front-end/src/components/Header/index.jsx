@@ -22,7 +22,7 @@ const HeaderContainer = styled.header`
 const HeaderLogo = styled.img`
     width : 60%;
     min-width : 260px;
-    max-width : 500px;
+    max-width : 400px;
 `
 
 /*====================================================*/
