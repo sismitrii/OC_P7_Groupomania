@@ -7,8 +7,8 @@ import styled from "styled-components"
 const SearchContainer = styled.div`
     width: 30%;
     display: flex;
-    justify-content : flex-end;
-    border: 1px solid black;
+    justify-content: flex-end;
+    flex: 1;
 `
 
 const SearchIconContainer = styled.div`
@@ -24,9 +24,40 @@ const SearchIconContainer = styled.div`
     cursor: pointer;
 `
 
+const SearchForm = styled.form `
+    position: relative;
+    display : flex;
+    justify-content : flex-end;
+    width: 100%;
+    height: 50px;
+`
+
+const SearchInput = styled.input`
+    width: 100%;
+    height: 100%;
+    border: 1px solid #9A9A9A;
+    border-radius : 25px;
+    padding-left : 20px;
+    font-size : 20px;
+    outline: none;
+`
+
+const SearchButton = styled.button`
+    position: absolute;
+    border : none;
+    outline : none;
+    border-radius : 25px;
+`
+
 
 function Search(){
-    const [isSearching, setIsSearching] = useState(false)
+    const [isSearching, setIsSearching] = useState(false);
+
+    async function handleClick(){
+        await setIsSearching(true);
+        document.getElementById('search-bar').focus()  
+    }
+
     return (
     <>
     {window.matchMedia("(max-width:768px)").matches ? 
@@ -34,12 +65,16 @@ function Search(){
     :
     <SearchContainer>
         {isSearching ? 
-        <form>
-            <input type="text" id="search-bar" name="search-bar"/>
-            <button><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
-        </form>
+        <SearchForm>
+            <SearchInput onBlur={()=> setIsSearching(false)} type="text" id="search-bar" name="search-bar"/>
+            <SearchButton>        
+                <SearchIconContainer>
+                    <FontAwesomeIcon icon={faMagnifyingGlass} />
+                </SearchIconContainer>
+            </SearchButton>
+        </SearchForm>
         :
-        <SearchIconContainer>
+        <SearchIconContainer onClick={()=> handleClick()}>
             <FontAwesomeIcon icon={faMagnifyingGlass} />
         </SearchIconContainer>}
     </SearchContainer> }
