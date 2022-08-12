@@ -3,8 +3,8 @@ import {faBars, faHouse, faGear } from '@fortawesome/free-solid-svg-icons'
 import { faUser } from "@fortawesome/free-regular-svg-icons"
 import styled from "styled-components"
 import colors from "../../utils/styles/colors"
-import { useState } from "react"
-import { Link } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
 import Search from "../Search";
 import LogOut from "../LogOut"
 
@@ -34,7 +34,7 @@ const VerticalMenuElement = styled.li`
     transition: all 250ms ease-in-out;
 
     ${(props)=> 
-       props.isOpen ? "top: 0; opacity: 1; display: block;" : "top : -50px; opacity: 0; display: none;"
+       props.isOpen ? "top: 0; opacity: 1;" : "top : -50px; opacity: 0;"
     }
 
     &:hover {
@@ -56,7 +56,7 @@ const VerticalMenuElement = styled.li`
 
 const AnimatedNavBarContainer = styled.div`
     position: absolute;
-    top: 200px;
+    top: 170px;
     left: 50%;
     transform: translate(-50%)
 `
@@ -96,7 +96,7 @@ const NavBarListElement = styled.li`
     height: 70px;
     z-index: 1;
 
-    &.active a {
+    &.active div {
         .navBar__icon{
             transform: translateY(-36px);
         } 
@@ -118,7 +118,7 @@ const NavBarListElement = styled.li`
     
 
 `
-const NavBarListLink = styled(Link)`
+const NavBarListLink = styled.div`
     position: relative;
     display: flex ;
     justify-content: center;
@@ -186,9 +186,37 @@ const NavBarCircle = styled.div `
 `
 
 
-
 function NavBar(props){
     const [isOpen, setIsOpen] = useState(false)
+
+    const navigate = useNavigate();
+
+    useEffect(()=>{
+        const test = document.getElementById(props.active);
+        if (test){
+            const allLi = document.querySelectorAll('.list');
+            allLi.forEach((li)=>{
+                li.classList.remove('active')
+            })
+        test.classList.add('active')
+        }
+    },[])
+
+
+    //IDEE quand je clique dessus je ne passe pas par un lien je fais le changement d'actif ()
+    //et ensuite je navigate sur l'autre page avec la bonne class déjà inscrite
+    // (non au re-render de la page le translate s'effectuera)
+
+    // IDEE crée un composant App avec le header, la page et le footer comme ça on change pas le header..
+    
+    // IDEE travailler avec un actif et un futur actif et avec des position left(ou right) qui évolue
+    // et des translate qui se calcule avec la différence actif/ futur actif. 
+    // Si tu passe de home à profil d'abord un transform de ((futurActif- Actif)*70) 
+    // puis au re-render left = (futurActif*70) + décalage initial(45px)
+    // futurActif devra être un state initialisé à 0
+    // Au clic la 1ere chose à faire c'est le translate pour ça on doit 
+    // donner la classe active au li( text et icon) et faire faire au cercle un transform
+    // li.active transform = 
 
     function setActive(e){
         const allLi = document.querySelectorAll('.list');
@@ -196,7 +224,13 @@ function NavBar(props){
             li.classList.remove('active')
         })
         e.currentTarget.classList.add('active');
+        const id = e.currentTarget.id
+        
+        setTimeout(()=>{
+            navigate(`/${id}`)
+        },250) 
     }
+
 
     return (
     <nav>
@@ -204,9 +238,9 @@ function NavBar(props){
     <>
     <MenuBars icon={faBars} onClick={()=> setIsOpen(!isOpen)}/>
     <VerticalMenu>
-        <VerticalMenuElement isOpen={isOpen}><Link to="/Home"><FontAwesomeIcon icon={faHouse} />Accueil</Link></VerticalMenuElement>
-        <VerticalMenuElement isOpen={isOpen}><Link to="/Home"><FontAwesomeIcon icon={faUser} />Profil</Link></VerticalMenuElement>
-        <VerticalMenuElement isOpen={isOpen}><Link to="/Home"><FontAwesomeIcon icon={faGear} />Paramètres</Link></VerticalMenuElement>
+        <VerticalMenuElement isOpen={isOpen}><Link to="/home"><FontAwesomeIcon icon={faHouse} />Accueil</Link></VerticalMenuElement>
+        <VerticalMenuElement isOpen={isOpen}><Link to="/home"><FontAwesomeIcon icon={faUser} />Profil</Link></VerticalMenuElement>
+        <VerticalMenuElement isOpen={isOpen}><Link to="/home"><FontAwesomeIcon icon={faGear} />Paramètres</Link></VerticalMenuElement>
         <VerticalMenuElement isOpen={isOpen}><Search /></VerticalMenuElement> 
         <VerticalMenuElement isOpen={isOpen}><LogOut /></VerticalMenuElement>
     </VerticalMenu>
@@ -216,24 +250,24 @@ function NavBar(props){
      <AnimatedNavBarContainer>
         <Container>
             <NavBarList>
-                <NavBarListElement className="list active" onClick={(e)=>{setActive(e)}}>
-                    <NavBarListLink to="/Home">
+                <NavBarListElement id="home" className="list" onClick={(e)=>{setActive(e)}}>
+                    <NavBarListLink>
                         <NavBarIconContainer className="navBar__icon">
                             <FontAwesomeIcon icon={faHouse}/>
                         </NavBarIconContainer>
                         <NavBarText className="navBar__text">Accueil</NavBarText>
                     </NavBarListLink>
                 </NavBarListElement>
-                <NavBarListElement className="list" onClick={(e)=>{setActive(e)}}>
-                    <NavBarListLink to="/Home">
+                <NavBarListElement id="profil" className="list" onClick={(e)=>{setActive(e)}}>
+                    <NavBarListLink>
                         <NavBarIconContainer className="navBar__icon">
                             <FontAwesomeIcon icon={faUser}/>
                         </NavBarIconContainer>
                         <NavBarText className="navBar__text">Profil</NavBarText>
                     </NavBarListLink>
                 </NavBarListElement>
-                <NavBarListElement className="list" onClick={(e)=>{setActive(e)}}>
-                    <NavBarListLink to="/Home">
+                <NavBarListElement id="settings" className="list" onClick={(e)=>{setActive(e)}}>
+                    <NavBarListLink>
                         <NavBarIconContainer className="navBar__icon">
                             <FontAwesomeIcon icon={faGear}/>
                         </NavBarIconContainer>

@@ -30,15 +30,15 @@ const HeaderLogo = styled.img`
 /*====================================================*/
 
 //window.matchMedia("(min-width: 400px)").matches
-function Header(){
+function Header(props){
     return (
     <HeaderContainer>
         <HeaderLogo src={Logo} alt="Logo de Groupomania"/>
         {window.matchMedia("(max-width:768px)").matches ?
-            <NavBar $forMobile />
+            <NavBar $forMobile/>
        :
         <>
-            <NavBar />
+            <NavBar active={props.active}/>
             <Search />
             <LogOut />
         </>
