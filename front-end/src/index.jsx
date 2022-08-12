@@ -19,7 +19,7 @@ root.render(
           <Route path="/" element={<SignUp />} />
           <Route path='/login' element={<SignUp />} />
           <Route path='/forgotPassword' element={<SignUp />} />
-          <Route path='/resetPassword' element={<SignUp />} />
+          <Route path='/resetPassword/:token' element={<SignUp />} />
           <Route path='/login' element={<SignUp />} />
           <Route path="/home" element={<Home />} />
           <Route path="/profil" element={<Profil />} />

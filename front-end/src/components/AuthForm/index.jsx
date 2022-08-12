@@ -10,6 +10,7 @@ import styled from 'styled-components'
 import colors from '../../utils/styles/colors'
 import zxcvbn from 'zxcvbn';
 import { ConnectionContext } from '../../utils/context'
+import { useParams } from 'react-router-dom';
 
 /*====================================================*/
 /* --------------------- Style -----------------------*/
@@ -254,6 +255,8 @@ function Auth(props){
     const [passwordChecked, setPasswordChecked] = useState(false);
     const {setDataConnection} = useContext(ConnectionContext)
 
+    let {token} = useParams();
+
     let navigate = useNavigate();
 
     async function signUpRequest(e){
@@ -281,13 +284,60 @@ function Auth(props){
     
     async function login(){
     
-        const dataConnexion = await postData('http://localhost:3000/api/auth/login', userData)
-        if (dataConnexion.message){
-            document.querySelector('.passwordErroMsg').innerText = dataConnexion.message;
+        const dataConnection = await postData('http://localhost:3000/api/auth/login', userData)
+        if (dataConnection.message){
+            document.querySelector('.passwordErroMsg').innerText = dataConnection.message;
         } else {
             document.querySelector('.passwordErroMsg').innerText = "";
-            setDataConnection(dataConnexion)
+            setDataConnection(dataConnection)
             navigate('/home')     
+        }
+    }
+
+    async function forgotRequest(e){
+        e.preventDefault()
+        if(userData.email){
+            const dataConnection = await postData('http://localhost:3000/api/auth/forgot_password',{email : userData.email});
+            if (dataConnection.message){
+                document.querySelector('.passwordErroMsg').innerText = dataConnection.message;
+                if (dataConnection.message === "email sent"){
+                    setTimeout(()=>{
+                        navigate('/login')
+                    }, 3000)
+                }
+            } else {
+                document.querySelector('.passwordErroMsg').innerText = "";
+            }
+        }
+    }
+
+    async function resetRequest(e){
+        e.preventDefault()
+        const errorMsgTag = document.querySelector('.confirmationErrorMsg')
+ 
+        const dataToPut = {
+            token: token,
+            password: userData.password
+        }
+
+        if (!passwordChecked){
+            errorMsgTag.innerText = "Ces mots de passe ne correspondent pas. Veuillez réessayer."
+        } else if(userData.password){
+            try {
+                let res = await fetch('http://localhost:3000/api/auth/reset_password', {
+                    method: "PUT",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-type': 'application/json'
+                    },
+                    body: JSON.stringify(dataToPut)
+                })
+                    console.log(await res.json())
+                    navigate('/login');
+            } catch(err) {
+                console.log(err);
+            }
+            
         }
     }
 
@@ -306,13 +356,6 @@ function Auth(props){
         default:
             authTitleValue = "Inscrivez-vous";
             break;
-    }
-
-    function forgotRequest(e){
-        console.log("waza");
-    }
-    function resetRequest(e){
-        console.log("waza");
     }
 
     const buttonAuth = [
@@ -361,7 +404,7 @@ function Auth(props){
             }
             
             {props.page === 'login' && 
-                <AuthPasswordLink to="/">Mot de passe oublié ?</AuthPasswordLink>
+                <AuthPasswordLink to="/forgotPassword">Mot de passe oublié ?</AuthPasswordLink>
             }
             
             {(props.page === '' || props.page === 'resetPassword' )&& 
