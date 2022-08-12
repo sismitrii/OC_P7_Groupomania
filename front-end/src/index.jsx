@@ -12,12 +12,14 @@ import Settings from './pages/Settings';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
     <Router>
       <ConnectionProvider>
         <GlobalStyle />
         <Routes>
           <Route path="/" element={<SignUp />} />
+          <Route path='/login' element={<SignUp />} />
+          <Route path='/forgotPassword' element={<SignUp />} />
+          <Route path='/resetPassword' element={<SignUp />} />
           <Route path='/login' element={<SignUp />} />
           <Route path="/home" element={<Home />} />
           <Route path="/profil" element={<Profil />} />
@@ -25,7 +27,6 @@ root.render(
         </Routes>
       </ConnectionProvider>
     </Router>
-  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

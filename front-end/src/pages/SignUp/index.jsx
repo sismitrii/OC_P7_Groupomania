@@ -30,10 +30,12 @@ const PageContainer = styled.div`
 function SignUp(){
     const location = useLocation();
 
+    const authPage = location.pathname.split('/')[1];
+
     return (
     <PageContainer>
         <AuthLogo src={Logo} alt="Logo de Groupomania"/>
-        {location.pathname === "/login" ? <Auth isLogin={true} /> : <Auth />}
+        <Auth page={authPage} />
     </PageContainer>)
 
 }

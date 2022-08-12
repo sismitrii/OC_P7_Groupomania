@@ -112,7 +112,8 @@ const AuthInput = styled.input`
 `
 
 const AuthButton = styled.button`
-    width: 65%;
+    min-width: 65%;
+    padding : 5px 10px;
     height: 40px;
     margin: 20px;
     background-color: ${colors.primary};
@@ -290,20 +291,80 @@ function Auth(props){
         }
     }
 
+    let authTitleValue = "Inscrivez-vous";
+
+    switch (props.page){
+        case 'login':
+            authTitleValue = "Connectez-vous";
+            break;
+        case 'forgotPassword':
+            authTitleValue = "Mot de passe oublié";
+            break;
+        case 'resetPassword':
+            authTitleValue = "Veuillez-rentrez un nouveau mot de passe";
+            break;
+        default:
+            authTitleValue = "Inscrivez-vous";
+            break;
+    }
+
+    function forgotRequest(e){
+        console.log("waza");
+    }
+    function resetRequest(e){
+        console.log("waza");
+    }
+
+    const buttonAuth = [
+        {
+            type : 'login',
+            function : (e)=> loginRequest(e),
+            text : "Je me connecte"
+        },
+        {
+            type : '',
+            function : (e)=> signUpRequest(e),
+            text : "Je m'inscrit"
+        },
+        {
+            type : 'forgotPassword',
+            function : (e)=> forgotRequest(e),
+            text : "Envoyer lien"
+        },
+        {
+            type : 'resetPassword',
+            function : (e)=> resetRequest(e),
+            text : "Réinitialiser mot de passe"
+        }
+    ]
+
+
     return (
     <AuthContainer>
-        <AuthTitle>{props.isLogin ? "Connectez-vous": "Inscrivez-vous"}</AuthTitle>
+        <AuthTitle>{authTitleValue}</AuthTitle>
         <AuthForm>
-            <AuthLabel>Mail</AuthLabel>
-            <AuthInput onChange={(e) => {checkContent(e, "email", userData, setUserData)}} name="email" id="signup__email" type="email" />
-            <ErrorMsg></ErrorMsg>
-            <AuthLabel>Mot de passe</AuthLabel>
-            <PasswordBloc>
-                <AuthInput onChange={(e)=> checkStrenghtPassword(e, setStrenght, userData, setUserData)} name="password" id="signup__password" type="password" />
-                <EyeIcon onClick={(e)=> showPassword(e)}icon={faEye} />
-            </PasswordBloc>
+            { props.page !== 'resetPassword' &&
+            <>
+                <AuthLabel>Mail</AuthLabel>
+                <AuthInput onChange={(e) => {checkContent(e, "email", userData, setUserData)}} name="email" id="signup__email" type="email" />
+                <ErrorMsg></ErrorMsg>
+            </>
+            }
+            {(props.page === 'login' || props.page === '' || props.page === 'resetPassword' ) &&
+            <>
+                <AuthLabel>Mot de passe</AuthLabel>
+                <PasswordBloc>
+                    <AuthInput onChange={(e)=> checkStrenghtPassword(e, setStrenght, userData, setUserData)} name="password" id="signup__password" type="password" />
+                    <EyeIcon onClick={(e)=> showPassword(e)}icon={faEye} />
+                </PasswordBloc>
+            </>
+            }
             
-            {props.isLogin ? <AuthPasswordLink to="/">Mot de passe oublié ?</AuthPasswordLink>: 
+            {props.page === 'login' && 
+                <AuthPasswordLink to="/">Mot de passe oublié ?</AuthPasswordLink>
+            }
+            
+            {(props.page === '' || props.page === 'resetPassword' )&& 
             <>
                 <PasswordStrenght>
                     <PasswordStrenghtPart strenghtPassword = {strenghtPassword}/>
@@ -321,14 +382,18 @@ function Auth(props){
 
             </>}
             <ErrorMsg $isAuthError className='passwordErroMsg'></ErrorMsg>
-            {props.isLogin ? 
-            <AuthButton onClick={(e)=> loginRequest(e)}>Je me connecte</AuthButton>
-           : <AuthButton onClick={(e)=> signUpRequest(e)}>Je m'inscrit</AuthButton>
-            }
+            {buttonAuth.map((obj, index)=>(
+                obj.type === props.page ?
+                <AuthButton key={`${obj.type}-${index}`} onClick={obj.function}>{obj.text}</AuthButton>
+                : ""
+            ))}
         </AuthForm>
-        {props.isLogin ?  
-        <AuthChangeSentence>Pas encore de compte ? <AuthChangeLink to="/">S'inscrire</AuthChangeLink></AuthChangeSentence>
-       : <AuthChangeSentence>Déjà Inscrit ? <AuthChangeLink to="/login">Connectez-vous</AuthChangeLink></AuthChangeSentence>}
+        {props.page === 'login' && 
+            <AuthChangeSentence>Pas encore de compte ? <AuthChangeLink to="/">S'inscrire</AuthChangeLink></AuthChangeSentence>
+        }
+        {props.page === '' && 
+            <AuthChangeSentence>Déjà Inscrit ? <AuthChangeLink to="/login">Connectez-vous</AuthChangeLink></AuthChangeSentence>
+        }
     </AuthContainer>)
 }
 
