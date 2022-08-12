@@ -63,6 +63,7 @@ exports.changePassword = (req, res, next)=>{
 }
 
 
+/*=== Send an email with a link to resetPassword page with the token in parameter ===*/
 exports.forgotPassword = (req,res, next)=>{
     User.findOne({email: req.body.email})
     .then((user)=>{
@@ -110,6 +111,7 @@ exports.forgotPassword = (req,res, next)=>{
     .catch((error)=> res.status(500).json({error}))
 }
 
+/*=== Find the user to reset the password with the token and replace is password in DB ===*/
 exports.resetPassword = (req,res, next)=>{
     bcrypt.hash(req.body.password, 10)
     .then((hash)=>{

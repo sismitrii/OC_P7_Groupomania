@@ -19,7 +19,10 @@ const functionCtrl = require('./function')
 exports.getUserData = (req, res, next) => {
     User.findById(req.params.id)
     .then((user)=>{
-        delete user._doc.password // delete user.password doesn't work 
+        delete user._doc.password;
+        if (user._doc.token){
+            delete user._doc.token;
+        } 
         res.status(200).json({user})
     })
     .catch((error)=> res.status(400).json({message: "User does exist in DB", error}))
