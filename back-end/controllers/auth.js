@@ -55,7 +55,7 @@ exports.login = (req, res, next)=>{
 exports.changePassword = (req, res, next)=>{
     bcrypt.hash(req.body.password, 10)
     .then((hash)=>{
-        User.findByIdAndUpdate(req.auth.userId, {$set: { password: hash }})
+        User.UpdateOne({_id: req.auth.userId}, {$set: { password: hash }})
         .then(()=> res.status(201).json({message: "User updated"}))
         .catch((error)=>res.status(400).json({error}))
     })
@@ -106,10 +106,21 @@ exports.forgotPassword = (req,res, next)=>{
             })
             .catch((err)=> console.log({err}))
         }
-        
-        
-
     })
     .catch((error)=> res.status(500).json({error}))
+}
+
+exports.resetPassword = (req,res, next)=>{
+    bcrypt.hash(req.body.password, 10)
+    .then((hash)=>{
+        User.findOne({token:req.body.token})
+        .then((user)=> {
+            User.findByIdAndUpdate(user._id, {$set : {password: hash}})
+            .then((user)=> res.status(201).json({message: "User updated"}))
+            .catch((error)=>res.status(400).json({error}))
+        })
+        .catch((err)=>console.log(err))
+    })
+    .catch((error)=> res.status(500).json({message: "hash not working",error}))
 }
 

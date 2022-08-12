@@ -15,6 +15,7 @@ router.post('/signup', authCtrl.signup)
 router.post('/login', authCtrl.login)
 router.put('/change_password',auth, authCtrl.changePassword)
 router.post('/forgot_password', authCtrl.forgotPassword)
+router.put('/reset_password', authCtrl.resetPassword)
 
 module.exports = router;
 
