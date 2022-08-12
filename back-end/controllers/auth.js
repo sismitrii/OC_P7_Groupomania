@@ -70,11 +70,11 @@ exports.forgotPassword = (req,res, next)=>{
         if(!user){
             res.status(404).json({message: "Incorrect email"})
         } else {
-            const token = jwt.sign({token : crypto.randomBytes(20).toString('hex')}, process.env.JWT_PASSWORD, {expiresIn: '900s'}); // 15min
+            const randomString = crypto.randomBytes(20).toString('hex')
+            const token = jwt.sign({token : randomString}, process.env.JWT_PASSWORD, {expiresIn: '900s'}); // 15min
 
-            User.updateOne({email: req.body.email}, {token: token})
+            User.updateOne({email: req.body.email}, {token: randomString})
             .then(()=>{
-                console.log('great')
                 const transporter = nodemailer.createTransport({
                     service: 'gmail',
                     auth: {
@@ -115,7 +115,14 @@ exports.forgotPassword = (req,res, next)=>{
 exports.resetPassword = (req,res, next)=>{
     bcrypt.hash(req.body.password, 10)
     .then((hash)=>{
-        User.findOne({token:req.body.token})
+        let decodedToken;
+        try{
+            decodedToken = jwt.verify(req.body.token,process.env.JWT_PASSWORD);
+            console.log(decodedToken.token);
+        }catch(error){
+            res.status(401).json({message: "Authenficatication Error", error});
+        }
+        User.findOne({token: decodedToken.token})
         .then((user)=> {
             User.findByIdAndUpdate(user._id, {$set : {password: hash}})
             .then((user)=> res.status(201).json({message: "User updated"}))
