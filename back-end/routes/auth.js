@@ -14,6 +14,7 @@ const auth = require('../middleware/auth')
 router.post('/signup', authCtrl.signup)
 router.post('/login', authCtrl.login)
 router.put('/change_password',auth, authCtrl.changePassword)
+router.post('/forgot_password', authCtrl.forgotPassword)
 
 module.exports = router;
 

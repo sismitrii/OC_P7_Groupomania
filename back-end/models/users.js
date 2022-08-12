@@ -28,6 +28,7 @@ const userSchema = mongoose.Schema({
      {type: mongoose.Schema.Types.ObjectId 
      , ref: "Publication" }
     ],
+    token: {type: String},
     createdAt: {type: Date, default: Date.now}
     // to add a publication for this user: 
     /*Publication.create(req.body)

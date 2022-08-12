@@ -1,8 +1,10 @@
 /*=============================================================*/
 /*------------------------ IMPORT -----------------------------*/
 /*=============================================================*/
+const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer')
 const User = require('../models/users');
 
 /*=== Crypt the password and create a new user in DB ===*/
@@ -60,4 +62,54 @@ exports.changePassword = (req, res, next)=>{
     .catch((error)=> res.status(500).json({message: "hash not working",error}))
 }
 
+
+exports.forgotPassword = (req,res, next)=>{
+    User.findOne({email: req.body.email})
+    .then((user)=>{
+        if(!user){
+            res.status(404).json({message: "Incorrect email"})
+        } else {
+            const token = jwt.sign({token : crypto.randomBytes(20).toString('hex')}, process.env.JWT_PASSWORD, {expiresIn: '900s'}); // 15min
+
+            User.updateOne({email: req.body.email}, {token: token})
+            .then(()=>{
+                console.log('great')
+                const transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        user: `${process.env.FORGOT_EMAIL}`,
+                        pass: `${process.env.FORGOT_PASSWORD}`
+                    }
+                    });
+            
+                    const mailOptions = {
+                    from: 'groupamania.oc@gmail.com',
+                    to: `${req.body.email}`,
+                    subject: 'Changement mot de passe Groupomania',
+                    text: 'Bonjour,\n\n' +
+                    `Une demande de modification de mot de passe à été effectué pour votre compte Groupomania\n` +
+                    `Veuillez cliquez sur ce lien pour réinitialiser votre mot de passe : \n` +
+                    `http://localhost:3001/resetPassword/${token} \n` +
+                    `Si vous n'etes pas l'auteur de cette demande ce mail veuillez supprimez ce mail`
+                    };
+        
+            
+                    transporter.sendMail(mailOptions, function(error, response){
+                    if (error) {
+                        console.log(error);
+                        res.status(400).json({error})
+                    } else {
+                        console.log('Email sent : ', response);
+                        res.status(200).json({message: 'email sent'})
+                    }
+                    });
+            })
+            .catch((err)=> console.log({err}))
+        }
+        
+        
+
+    })
+    .catch((error)=> res.status(500).json({error}))
+}
 
