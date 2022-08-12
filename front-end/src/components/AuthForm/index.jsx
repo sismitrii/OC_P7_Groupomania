@@ -241,20 +241,7 @@ async function postData(url, dataToPost){
     }
 }
 
-async function signUpRequest(e,userData, passwordChecked){
-    e.preventDefault();
-    const errorMsgTag = document.querySelector('.confirmationErrorMsg')
-    if (!passwordChecked){
-        errorMsgTag.innerText = "Ces mots de passe ne correspondent pas. Veuillez réessayer."
-    } else if((userData.email) && (userData.password)){
-        console.log(await postData('http://localhost:3000/api/auth/signup', userData))
-        //const dataConnexion = await postData('http://localhost:3000/api/auth/login', userData);
-        
 
-        // apres il faut faire une fonstion login et 
-        //recup le userId et le token pour les stocker dans le localStorage
-    }
-}
 
 /*====================================================*/
 /* ------------------- Component ---------------------*/
@@ -268,14 +255,30 @@ function Auth(props){
 
     let navigate = useNavigate();
 
-    async function loginRequest(e, userData, setDataConnection){
+    async function signUpRequest(e){
+        e.preventDefault();
+        const errorMsgTag = document.querySelector('.confirmationErrorMsg')
+        if (!passwordChecked){
+            errorMsgTag.innerText = "Ces mots de passe ne correspondent pas. Veuillez réessayer."
+        } else if((userData.email) && (userData.password)){
+            console.log(await postData('http://localhost:3000/api/auth/signup', userData))
+            //const dataConnexion = await postData('http://localhost:3000/api/auth/login', userData);
+            login();
+            
+            
+            // apres il faut faire une fonstion login et 
+            //recup le userId et le token pour les stocker dans le localStorage
+        }
+    }
+
+    async function loginRequest(e){
         e.preventDefault();
         if (userData.email && userData.password){
-            login(userData, setDataConnection)
+            login()
         }
     }
     
-    async function login(userData, setDataConnection){
+    async function login(){
     
         const dataConnexion = await postData('http://localhost:3000/api/auth/login', userData)
         if (dataConnexion.message){
@@ -319,8 +322,8 @@ function Auth(props){
             </>}
             <ErrorMsg $isAuthError className='passwordErroMsg'></ErrorMsg>
             {props.isLogin ? 
-            <AuthButton onClick={(e)=> loginRequest(e,userData, setDataConnection)}>Je me connecte</AuthButton>
-           : <AuthButton onClick={(e)=> signUpRequest(e,userData, passwordChecked)}>Je m'inscrit</AuthButton>
+            <AuthButton onClick={(e)=> loginRequest(e)}>Je me connecte</AuthButton>
+           : <AuthButton onClick={(e)=> signUpRequest(e)}>Je m'inscrit</AuthButton>
             }
         </AuthForm>
         {props.isLogin ?  
