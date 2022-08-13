@@ -9,6 +9,10 @@ const StyledGlobalStyle = createGlobalStyle`
         margin: 0;
     }
 
+    body {
+        font-family: 'Raleway','Arial', sans-serif;
+    }
+
     a {
         text-decoration: none;
         color : black;
