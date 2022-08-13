@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
 import { useState } from "react"
@@ -25,11 +24,25 @@ const SearchIconContainer = styled.div`
 `
 
 const SearchForm = styled.form `
-    position: relative;
+    position: ${(props)=> props.$isMobile ? "absolute": "relative"};
     display : flex;
     justify-content : flex-end;
-    width: 100%;
+    width: ${(props)=> props.$isMobile ? " 80%" : "100%"};
     height: 50px;
+
+    ${(props)=> props.$isMobile ? 
+        `top: 50px;
+        left: 50%;
+        transform: translate(-50%);`
+    :
+         ""}
+
+    .search__icon {
+        display: inline;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%)
+    }
 `
 
 const SearchInput = styled.input`
@@ -49,19 +62,44 @@ const SearchButton = styled.button`
     border-radius : 25px;
 `
 
+const SearchMobileBloc = styled.div`
+    cursor: pointer;
+    width: 100%;
+    overflow: hidden;
+    height: ${(props)=>(props.$isOpen ) ? "45px": "0px"};
+    padding: ${(props)=>(props.$isOpen) ? "15px": "0px"};
+`
 
-function Search(){
+
+function Search(props){
     const [isSearching, setIsSearching] = useState(false);
 
     async function handleClick(){
         await setIsSearching(true);
+        await props.setIsOpen(false);
         document.getElementById('search-bar').focus()  
     }
+
+
+
 
     return (
     <>
     {window.matchMedia("(max-width:768px)").matches ? 
-    <Link to="/Home"><FontAwesomeIcon icon={faMagnifyingGlass} />Recherchez</Link>
+    <>
+        {isSearching ? 
+            <SearchForm $isMobile>
+                    <SearchInput onBlur={()=> setIsSearching(false)} type="text" id="search-bar" name="search-bar"/>
+                    <SearchButton>        
+                        <SearchIconContainer>
+                            <FontAwesomeIcon className="search__icon" icon={faMagnifyingGlass} />
+                        </SearchIconContainer>
+                    </SearchButton>
+            </SearchForm>
+        :
+            <SearchMobileBloc $isOpen={props.$isOpen} onClick={()=> handleClick()}><FontAwesomeIcon icon={faMagnifyingGlass} />Recherchez</SearchMobileBloc>
+        }
+    </>
     :
     <SearchContainer>
         {isSearching ? 
