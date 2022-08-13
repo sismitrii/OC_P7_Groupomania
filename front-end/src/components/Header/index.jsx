@@ -18,6 +18,7 @@ const HeaderContainer = styled.header`
     width: 100%;
     height: 120px;
     box-shadow : 0 4px 10px -2px #b3b3b3;
+    margin-bottom ${(props)=> props.isMobile ? "20px" : "150px" }
 `
 const HeaderLogo = styled.img`
     width : 60%;
@@ -31,10 +32,12 @@ const HeaderLogo = styled.img`
 
 //window.matchMedia("(min-width: 400px)").matches
 function Header(props){
+    const isMobile = window.matchMedia("(max-width:768px)").matches
+
     return (
-    <HeaderContainer>
+    <HeaderContainer isMobile={isMobile}>
         <HeaderLogo src={Logo} alt="Logo de Groupomania"/>
-        {window.matchMedia("(max-width:768px)").matches ?
+        {isMobile ?
             <NavBar $forMobile/>
        :
         <>
@@ -44,10 +47,7 @@ function Header(props){
         </>
 
         }
-        
     </HeaderContainer>)
 }
-
-// Header avec un affichage différent en fct de la taille 
 
 export default Header
