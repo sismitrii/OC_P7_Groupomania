@@ -36,7 +36,8 @@ function Home(){
         <Header active={"home"}/>
         <Container>
             <HomeTitle>Fil d'actualités</HomeTitle>
-            <PublicationBloc />
+            <PublicationBloc type={"add"}/>
+            <PublicationBloc type={"show"}/>
         </Container>
         
     </>
