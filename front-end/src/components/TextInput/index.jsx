@@ -39,6 +39,7 @@ function TextInput(props){
         await setTextHeight("auto")
         let scrollHeight = e.target.scrollHeight;
         await setTextHeight(scrollHeight+"px");
+        props.set(e.target.value);
     }
 
     return (
@@ -46,9 +47,11 @@ function TextInput(props){
             onKeyUp={(e)=>handleKeyUp(e)}
             textHeight = {textHeight}
             maxLength={500}
-            name={props.input.name} 
+            name={props.input.name}
+            id={props.input.name} 
             aria-label={props.input.placeholder} 
             placeholder={props.input.placeholder}
+            required
          />
     )
 }
