@@ -12,12 +12,15 @@ import colors from "../../utils/styles/colors"
 
 const StyledButton = styled.button`
     padding: ${(props)=> props.isText ? "5px 30px" :"0px" };
+    min-width: 40px;
+    max-height: 40px;
     border: none;
-    border-radius: 8px;
+    border-radius: 5px;
     cursor: pointer;
     outline: none;
     background-color: ${colors.secondary};
     font-size: 16px;
+    margin-left: 10px;
 `
 
 /*====================================================*/
