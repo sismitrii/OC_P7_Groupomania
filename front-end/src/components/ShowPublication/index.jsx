@@ -15,7 +15,7 @@ import PostButton from "../PostButton"
 
 import ProfilImg from "../ProfilImg"
 import colors from "../../utils/styles/colors"
-import { useRef, useState } from "react"
+import { useCallback, useRef, useState } from "react"
 
 
 
@@ -190,54 +190,61 @@ function ShowPublication(){
         setHeartActive(!heartActive);
     }
 
-    function handleFocusComment(){
+    // with useCallBack function handleFocusComment is build only once at first render of page ?
+    const handleFocusComment = useCallback(()=>{
         commentInput.current.focus();
-    }
+    },[commentInput])
 
     return (
-    <PublicationContainer>
-        <TopContainer>
-            <ProfilContainer>
-                <ProfilImg size='medium' src={ProfilPicture} />
-                <ProfilText>
-                    <StyledLink to="/profil">Flo Guerin</StyledLink>
-                    <p>Il y a 3h</p>
-                </ProfilText>
-            </ProfilContainer>
-            {/* Component a faire pour l'icon */}
-            <FontAwesomeIcon icon={faEllipsis} />
-        </TopContainer>
-        <StyledText>L’endurance est l’une des choses les plus difficiles mais ceux qui endurent finissent par gagner</StyledText>
-        <ImgContainer>
-            <StyledImg src={PublicationImg} alt="Image de la publication" />
-        </ImgContainer>
-        <IconContainer>
-            <div className={heartActive ? "active" : "" } onClick={()=> handleLike()}>
-                <StyledIcon className='visible' icon={faHeart} />
-                <StyledIconNotVisible className='not-visible' icon={fasHeart} />
-                <p>3</p>
-            </div>
-            <div onClick={()=> handleFocusComment()}>
-                <StyledIcon className='visible' icon={faComment} />
-                <StyledIconNotVisible className='not-visible' icon={fasComment} />
-                <p>1</p>
-            </div>
-        </IconContainer>
-        <CommentContainer>
-            <CommentForm>
-                <TextInput setRef={commentInput} set={handleChangeText} input={{name: "comment", placeholder: "Commentez cette publication"}}/>
-                <PostButton postMethod={handlePost} content={<FontAwesomeIcon icon={faPaperPlane} />} />
-            </CommentForm>
-            <BottomComment>
-            <ProfilImg size='small' src={ProfilPicture} />
-                <Comment>
-                    <p>Courage pour ce projet mec!</p>
-                    <FontAwesomeIcon icon={faEllipsis} />
-                </Comment>
-            </BottomComment>
-        </CommentContainer>
-        
-    </PublicationContainer>)
+        <PublicationContainer>
+            <TopContainer>
+                <ProfilContainer>
+                    <ProfilImg size='medium' src={ProfilPicture} />
+                    <ProfilText>
+                        <StyledLink to="/profil">Flo Guerin</StyledLink>
+                        <p>Il y a 3h</p>
+                    </ProfilText>
+                </ProfilContainer>
+                {/* Component a faire pour l'icon */}
+                <FontAwesomeIcon icon={faEllipsis} />
+            </TopContainer>
+            <StyledText>L’endurance est l’une des choses les plus difficiles mais ceux qui endurent finissent par gagner</StyledText>
+            <ImgContainer>
+                <StyledImg src={PublicationImg} alt="Image de la publication" />
+            </ImgContainer>
+            <IconContainer>
+                <div className={heartActive ? "active" : "" } onClick={()=> handleLike()}>
+                    <StyledIcon className='visible' icon={faHeart} />
+                    <StyledIconNotVisible className='not-visible' icon={fasHeart} />
+                    <p>3</p>
+                </div>
+                <div onClick={()=> handleFocusComment()}>
+                    <StyledIcon className='visible' icon={faComment} />
+                    <StyledIconNotVisible className='not-visible' icon={fasComment} />
+                    <p>1</p>
+                </div>
+            </IconContainer>
+            <CommentContainer>
+                <CommentForm>
+                    <TextInput setRef={commentInput} set={handleChangeText} input={{name: "comment", placeholder: "Commentez cette publication"}}/>
+                    <PostButton postMethod={handlePost} content={<FontAwesomeIcon icon={faPaperPlane} />} />
+                </CommentForm>
+                <BottomComment>
+                <ProfilImg size='small' src={ProfilPicture} />
+                    <Comment>
+                        <p>Courage pour ce projet mec!</p>
+                        <FontAwesomeIcon icon={faEllipsis} />
+                    </Comment>
+                </BottomComment>
+            </CommentContainer>
+        </PublicationContainer> 
+    )
 }
 
 export default ShowPublication
+
+//Quand tu declenche un event d'un component et que tu n'as besoin qu'il re-render utiliser useCallBack ou useMemo
+// Permet d'enregistrer une fonction et que celle-ci ne soit pas re-built à chaque re-render juste quand celà la concerne
+// En plus si on change un elt dans la function (sans useCallback) qui fait qu'elle re-render et ba on peut avoir une boucle infini
+
+//https://infinitypaul.medium.com/reactjs-useeffect-usecallback-simplified-91e69fb0e7a3
