@@ -44,6 +44,7 @@ function TextInput(props){
 
     return (
         <StyledInput
+            ref={props.setRef ? props.setRef : null}
             onKeyUp={(e)=>handleKeyUp(e)}
             textHeight = {textHeight}
             maxLength={500}
@@ -57,3 +58,4 @@ function TextInput(props){
 }
 
 export default TextInput
+

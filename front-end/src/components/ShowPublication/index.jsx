@@ -3,7 +3,9 @@
 /*====================================================*/
 import { faEllipsis, faPaperPlane } from "@fortawesome/free-solid-svg-icons"
 import { faComment, faHeart } from "@fortawesome/free-regular-svg-icons"
+import { faHeart as fasHeart, faComment as fasComment } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Link } from 'react-router-dom' 
 import styled from "styled-components"
 
 import ProfilPicture from '../../assets/photo_ident.png'
@@ -13,6 +15,7 @@ import PostButton from "../PostButton"
 
 import ProfilImg from "../ProfilImg"
 import colors from "../../utils/styles/colors"
+import { useRef, useState } from "react"
 
 
 
@@ -43,11 +46,6 @@ const ProfilContainer = styled.div`
 const ProfilText = styled.div`
     margin-left: 15px;
 
-    h2 {
-        font-size: 18px;
-        font-weight: 500;
-    }
-
     p{
         margin-top: 8px;
         font-size: 12px;
@@ -73,6 +71,7 @@ const StyledImg = styled.img`
 `
 
 const IconContainer = styled.div`
+    
     display: flex;
     justify-content: space-around;
     width: 80%;
@@ -80,8 +79,26 @@ const IconContainer = styled.div`
     padding: 10px 0px;
 
     div {
+        position: relative;
         display: flex;
         align-items: center;
+        transition: all 250ms ease-in-out;
+
+        &:hover {
+             .not-visible {
+                opacity: 1;
+            }
+            .visible {
+                background-clip: text;
+                color: transparent;
+            }
+        }
+
+        &.active {
+            .not-visible {
+                opacity: 1;
+            }
+        }
 
         p{
             margin-left: 10px;
@@ -92,6 +109,19 @@ const IconContainer = styled.div`
 
 const StyledIcon = styled(FontAwesomeIcon)`
     font-size: 25px;
+    curdor: pointer;
+
+    transition: all 250ms ease-in-out;
+`
+
+const StyledIconNotVisible = styled(FontAwesomeIcon)`
+    position: absolute;
+    font-size: 25px;
+    left: 0px;
+    opacity: 0;
+    color: ${colors.primary};
+    cursor: pointer;
+    transition: all 250ms ease-in-out;
 `
 
 const CommentContainer = styled.div`
@@ -127,11 +157,26 @@ const Comment = styled.div`
     }
 `
 
+const StyledLink = styled(Link)`
+    border-bottom: 1px solid transparent;
+    font-size: 18px;
+    font-weight: 500;
+    
+    transition : 250ms;
+
+    &:hover {
+        border-bottom: 1px solid black;
+    }
+`
+
 /*====================================================*/
 /* ---------------------- Main -----------------------*/
 /*====================================================*/
 
 function ShowPublication(){
+    const [heartActive, setHeartActive] = useState(false)
+
+    const commentInput = useRef(null);
 
     function handleChangeText(value){
         console.log(value)
@@ -141,13 +186,21 @@ function ShowPublication(){
         e.preventDefault();
     }
 
+    function handleLike(){
+        setHeartActive(!heartActive);
+    }
+
+    function handleFocusComment(){
+        commentInput.current.focus();
+    }
+
     return (
     <PublicationContainer>
         <TopContainer>
             <ProfilContainer>
                 <ProfilImg size='medium' src={ProfilPicture} />
                 <ProfilText>
-                    <h2>Flo Guerin</h2>
+                    <StyledLink to="/profil">Flo Guerin</StyledLink>
                     <p>Il y a 3h</p>
                 </ProfilText>
             </ProfilContainer>
@@ -159,18 +212,20 @@ function ShowPublication(){
             <StyledImg src={PublicationImg} alt="Image de la publication" />
         </ImgContainer>
         <IconContainer>
-            <div>
-                <StyledIcon icon={faHeart} />
+            <div className={heartActive ? "active" : "" } onClick={()=> handleLike()}>
+                <StyledIcon className='visible' icon={faHeart} />
+                <StyledIconNotVisible className='not-visible' icon={fasHeart} />
                 <p>3</p>
             </div>
-            <div>
-                <StyledIcon icon={faComment} />
+            <div onClick={()=> handleFocusComment()}>
+                <StyledIcon className='visible' icon={faComment} />
+                <StyledIconNotVisible className='not-visible' icon={fasComment} />
                 <p>1</p>
             </div>
         </IconContainer>
         <CommentContainer>
             <CommentForm>
-                <TextInput set={handleChangeText} input={{name: "comment", placeholder: "Commentez cette publication"}}/>
+                <TextInput setRef={commentInput} set={handleChangeText} input={{name: "comment", placeholder: "Commentez cette publication"}}/>
                 <PostButton postMethod={handlePost} content={<FontAwesomeIcon icon={faPaperPlane} />} />
             </CommentForm>
             <BottomComment>
