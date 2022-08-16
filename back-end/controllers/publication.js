@@ -23,7 +23,9 @@ exports.getAllPublication = (req, res, next) => {
                 dateB = new Date(b.createdAt);
             return dateA - dateB;
         });
-        res.status(200).json({publications})})
+        
+        const publicationToReturn = publications.slice(parseInt(req.params.start), parseInt(req.params.start) + 5)
+        res.status(200).json({publicationToReturn})})
     .catch((error)=> res.status(400).json({message:"Error find publications", error}))
 }
 
