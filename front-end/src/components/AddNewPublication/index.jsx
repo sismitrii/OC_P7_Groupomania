@@ -93,13 +93,19 @@ function AddNewPublication(){
 
             try {
                 const bearer = "Bearer " + dataConnection.token
+                const header = publicationData.image ? {
+                    'Accept': '/',
+                    'Authorization': bearer
+                } :
+                {
+                    'Accept' : 'application/json',
+                    'Content-Type' : 'application/json',
+                    'Authorization': bearer
+                }
                 const dataToPost = publicationData.image ? publicationData.image : JSON.stringify(publicationData)
                 let res = await fetch('http://localhost:3000/api/publication', {
                     method: "POST",
-                    headers: {
-                        'Accept': '/',
-                        'Authorization': bearer
-                    },
+                    headers: header,
                     body: dataToPost
                 })
                     await setPublicationData({})
