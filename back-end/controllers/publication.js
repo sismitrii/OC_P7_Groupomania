@@ -21,7 +21,7 @@ exports.getAllPublication = (req, res, next) => {
         publications.sort((a, b) => {
             let dateA = new Date(a.createdAt),
                 dateB = new Date(b.createdAt);
-            return dateA - dateB;
+            return dateB - dateA;
         });
         
         const publicationToReturn = publications.slice(parseInt(req.params.start), parseInt(req.params.start) + 5)
