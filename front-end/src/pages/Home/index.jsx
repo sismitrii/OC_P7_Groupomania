@@ -1,7 +1,7 @@
 /*====================================================*/
 /* ------------------- Import ---------------------*/
 /*====================================================*/
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useMemo } from "react"
 import styled, {keyframes} from "styled-components"
 
 import Header from "../../components/Header"
@@ -65,22 +65,23 @@ function Home(){
     //const {data, isLoading, error} = useFetch(`http://localhost:3000/api/publication/${startToLoad}`);
     const [publications, setPublications] = useState([])
     const [isLoading, setIsLoading] = useState(false);
-    let offset = 0
-    console.log('render');
+    const [newPubli, setNewPubli] = useState(false);
+    let offset = 0;
 
     const loadMorePublication = useCallback(async() => {
         try {
             setIsLoading(true);
+            console.log("requete")
             const res = await fetch(`http://localhost:3000/api/publication/${offset}`)
             const dataToAdd = await res.json()
             await setPublications((prevPublication) => [...prevPublication, ...dataToAdd.publicationToReturn])
-            offset += 5;
+            offset +=  5;
             // est ce que je ferais pas toute les requetes à la suite ?
             setIsLoading(false);
         } catch (error) {
             console.error(error);
         }
-    },[setPublications])
+    },[setPublications, newPubli])
 
     const handleScroll = (e)=>{
         if ((window.innerHeight + e.target.documentElement.scrollTop + 1 >= e.target.documentElement.scrollHeight) && (isLoading === false)){
@@ -89,10 +90,19 @@ function Home(){
         }
     }
 
+    // useEffect(()=>{
+    //     console.log("plus qu'a faire la requete et );
+    // },[newPubli])
+
     useEffect(()=>{
+        if( newPubli){
+            offset = 0;
+            setPublications([])
+        }
+        //peut-etre offset -5 si newpubli
         loadMorePublication();
         window.addEventListener("scroll", handleScroll)
-    },[])
+    },[newPubli])
 
 
     return (
@@ -100,7 +110,7 @@ function Home(){
         <Header active={"home"}/>
         <Container>
             <HomeTitle>Fil d'actualités</HomeTitle>
-            <PublicationBloc type={"add"}/>
+            <PublicationBloc setNewPubli={setNewPubli} type={"add"}/>
             { publications && publications.map((publication,i)=>(
                 <PublicationBloc key={i} publication={publication} type={"show"}/>
                 ))}

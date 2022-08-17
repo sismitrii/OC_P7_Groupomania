@@ -128,10 +128,12 @@ function AddNewPublication(props){
                     document.getElementById(inputValue[type].name).value = ""; 
                     let answer = await res.json()
                     console.log(answer);
+                    props.setNewPubli(true);
             } catch(err) {
                 console.log(err);
             }
         }
+
     }
 
     const type = props.isComment ? "comment" : "publication";
