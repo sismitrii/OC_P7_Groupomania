@@ -6,8 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Link } from 'react-router-dom' 
 import styled from "styled-components"
 
-import ProfilPicture from '../../assets/photo_ident.png'
-
+import { useEffect, useState } from "react"
+import CommentBloc from "../CommentBloc"
 import ProfilImg from "../ProfilImg"
 import { useCallback, useRef } from "react"
 import useFetch from "../../utils/hooks"
@@ -79,28 +79,7 @@ const CommentContainer = styled.div`
     margin: 10px 0px;
 `
 
-const BottomComment = styled.div`
-    width: 100%;
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
-`
 
-const Comment = styled.div`
-    width: 100%;
-    min-height: 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #FFF;
-    margin-left: 10px;
-    border-radius: 5px;
-    padding: 5px 10px;
-
-    p {
-        width: 95%;
-    }
-`
 
 const StyledLink = styled(Link)`
     border-bottom: 1px solid transparent;
@@ -131,10 +110,24 @@ function ShowPublication(props){
         }
     }, [publication])
     
-    //console.log(props.publication)
+    const [comments, setComments] = useState([])
     
-    const {data, isLoading, error } = useFetch(`http://localhost:3000/api/user/${publication.author}`) 
-    
+    const {data, isLoading, error } = useFetch(`http://localhost:3000/api/user/${publication.author}`)
+
+    const fetchComment = useCallback(async()=>{
+        try {
+            const res = await fetch(`http://localhost:3000/api/publication/${publication._id}/comment`)
+            const answer = await res.json()
+            setComments(answer)
+        } catch (error) {
+        }
+    },[])
+
+    useEffect(()=>{
+        fetchComment();
+    },[])
+
+
     // TO DO requete de l'author
     // requete de l'image de l'utilisateur
     // requete des commentaires
@@ -176,14 +169,17 @@ function ShowPublication(props){
                 <PublicationIcon type={"comment"} publication={publication} handleFocusComment={handleFocusComment}/>
             </IconContainer>
             <CommentContainer>
-                <AddNewPublication isComment publicationId={publication._id}/>
-                <BottomComment>
+                <AddNewPublication isComment setRef={commentInput} publicationId={publication._id}/>
+                {/* <BottomComment>
                 <ProfilImg size='small' src={ProfilPicture} />
                     <Comment>
                         <p>Courage pour ce projet mec!</p>
                         <FontAwesomeIcon icon={faEllipsis} />
                     </Comment>
-                </BottomComment>
+                </BottomComment> */}
+                {comments && comments.comments.map((comment)=>(
+                    <CommentBloc key={comment._id} comment={comment}/>
+                ))}
             </CommentContainer>
         </PublicationContainer> 
         } 

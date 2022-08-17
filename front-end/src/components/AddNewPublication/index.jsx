@@ -4,7 +4,7 @@
 import { useState, useContext } from "react"
 import { ConnectionContext } from "../../utils/context"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCirclePlus } from "@fortawesome/free-solid-svg-icons"
+import { faCirclePlus, faPaperPlane } from "@fortawesome/free-solid-svg-icons"
 import styled from "styled-components"
 
 import TextInput from "../TextInput"
@@ -16,6 +16,7 @@ import PostButton from "../PostButton"
 
 const StyledForm = styled.form`
     width: 100%;
+    ${(props)=> props.isComment ? "display: flex;" : ""}
     padding: 10px 25px;
 `
 
@@ -23,7 +24,7 @@ const BottomBloc = styled.div`
     display: flex;
     flex-direction: ${(props)=> props.direction};
     justify-content: space-between;
-    align-items: center;
+    ${(props)=> props.isPublication ? "align-items: center;" : ""}
 `
 
 const PictureBloc = styled.div`
@@ -62,10 +63,10 @@ const StyledImg = styled.img`
 /* ------------------ Main Function ------------------*/
 /*====================================================*/
 
-function AddNewPublication(){
+function AddNewPublication(props){
     const [image, setImage] = useState(null)
     const [publicationData, setPublicationData] = useState({})
-    const {dataConnection, setDataConnection} = useContext(ConnectionContext);
+    const {dataConnection} = useContext(ConnectionContext);
 
     function handleChangePicture(e){
         if (e.target.files[0]){
@@ -85,8 +86,8 @@ function AddNewPublication(){
 
     async function handlePost(e){
         e.preventDefault();
-        if (publicationData !== {}){
-            if (publicationData.image && publicationData.content){
+        if (publicationData !== {}){ 
+            if (publicationData.image && publicationData.content){ 
                 publicationData.image.append('content', publicationData.content);
                 delete publicationData.content;
             }
@@ -102,15 +103,16 @@ function AddNewPublication(){
                     'Content-Type' : 'application/json',
                     'Authorization': bearer
                 }
+
                 const dataToPost = publicationData.image ? publicationData.image : JSON.stringify(publicationData)
-                let res = await fetch('http://localhost:3000/api/publication', {
+                let res = await fetch(inputValue[type].url, {
                     method: "POST",
                     headers: header,
                     body: dataToPost
                 })
                     await setPublicationData({})
                     await setImage(null)
-                    document.getElementById('share').value = "";
+                    document.getElementById(inputValue[type].name).value = ""; 
                     let answer = await res.json()
                     console.log(answer);
             } catch(err) {
@@ -119,29 +121,47 @@ function AddNewPublication(){
         }
     }
 
+    const type = props.isComment ? "comment" : "publication";
+
+    const inputValue = {
+        publication: {
+            name: "share",
+            placeholder: "Que souhaitez-vous partagez ?",
+            url: `http://localhost:3000/api/publication`
+        },
+        comment: {
+            name:"comment",
+            placeholder: "Commentez cette publication",
+            url: `http://localhost:3000/api/publication/${props.publicationId}/comment`,
+            setRef: props.setRef
+        }
+    }
+
     return (
-        <StyledForm>
-            <TextInput set={handleChangeText} input={{name: "share", placeholder: "Que souhaitez-vous partagez ?"}}/>
-            <BottomBloc direction={image === null ? "row" : "column"}>
+        <StyledForm isComment={props.isComment}>
+            <TextInput set={handleChangeText} input={inputValue[type]}/>
+            <BottomBloc isPublication={props.isPublication} direction={image === null ? "row" : "column"}>
+                {props.isPublication && 
                 <PictureBloc>
-                    {image === null ?
-                    <> 
-                        <StyledLabel htmlFor="addPicture" >
-                            <StyledIcon icon={faCirclePlus} />
-                            <StyledText >Ajouter une photo</StyledText>
-                        </StyledLabel>
-                        <StyledInput 
-                            type="file" 
-                            id="addPicture" 
-                            accept="image/png, image/jpeg, image/jpg" 
-                            onChange={(e)=>handleChangePicture(e)} 
-                        />
-                    </>
-                    :
-                        <StyledImg src={image} alt="Image Publiée" />
-                    }
-                </PictureBloc>
-                <PostButton postMethod={handlePost} content={"Poster"} />
+                {image === null ?
+                <> 
+                    <StyledLabel htmlFor="addPicture" >
+                        <StyledIcon icon={faCirclePlus} />
+                        <StyledText >Ajouter une photo</StyledText>
+                    </StyledLabel>
+                    <StyledInput 
+                        type="file" 
+                        id="addPicture" 
+                        accept="image/png, image/jpeg, image/jpg" 
+                        onChange={(e)=>handleChangePicture(e)} 
+                    />
+                </>
+                :
+                    <StyledImg src={image} alt="Image Publiée" />
+                }
+            </PictureBloc>
+                }
+                <PostButton postMethod={handlePost} type={type} />
             </BottomBloc>
         </StyledForm>
     )
