@@ -67,17 +67,17 @@ function Home(){
     const [isLoading, setIsLoading] = useState(false);
     const [newPubli, setNewPubli] = useState(false);
     let offset = 0;
+    console.log('render');
 
     const loadMorePublication = useCallback(async() => {
         try {
-            setIsLoading(true);
+            //setIsLoading(true);
             console.log("requete")
             const res = await fetch(`http://localhost:3000/api/publication/${offset}`)
             const dataToAdd = await res.json()
             await setPublications((prevPublication) => [...prevPublication, ...dataToAdd.publicationToReturn])
             offset +=  5;
             // est ce que je ferais pas toute les requetes à la suite ?
-            setIsLoading(false);
         } catch (error) {
             console.error(error);
         }
@@ -112,7 +112,7 @@ function Home(){
             <HomeTitle>Fil d'actualités</HomeTitle>
             <PublicationBloc setNewPubli={setNewPubli} type={"add"}/>
             { publications && publications.map((publication,i)=>(
-                <PublicationBloc key={i} publication={publication} type={"show"}/>
+                <PublicationBloc setIsLoading={setIsLoading} last={i === (publications.length -1) ? true : false } key={i} publication={publication} type={"show"}/>
                 ))}
             {isLoading && <Loader></Loader>}
         </Container>

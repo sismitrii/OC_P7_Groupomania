@@ -100,7 +100,7 @@ const StyledLink = styled(Link)`
 function ShowPublication(props){
     const commentInput = useRef(null);
     const publication = props.publication;
-
+    
     const calcDate = useCallback(()=>{
         const timePassed = (Date.now() - (new Date(publication.createdAt).getTime()))/1000/60;
         if (timePassed < 60){
@@ -122,6 +122,12 @@ function ShowPublication(props){
         } catch (error) {
         }
     },[])
+
+    useEffect(()=>{
+        if (props.last){
+            //props.setIsLoading(false);
+        }
+    })
 
     useEffect(()=>{
         fetchComment();
