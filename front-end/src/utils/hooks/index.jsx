@@ -15,7 +15,6 @@ function useFetch(url, startToLoad){
             await setError(false);
             const res = await fetch(url)
             const dataToAdd = await res.json()
-            console.log(dataToAdd)
             await setData(dataToAdd)
             setLoading(false);
         } catch (error) {
