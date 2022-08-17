@@ -50,7 +50,7 @@ const StyledLabel = styled.label`
     display: flex;
     align-items: center;
     cursor: pointer;
-    z-index: 1000;
+    z-index: 1;
 `
 const StyledImg = styled.img`
     width: 280px;
