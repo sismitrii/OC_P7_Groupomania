@@ -1,19 +1,18 @@
 /*====================================================*/
 /* --------------------- Import ----------------------*/
 /*====================================================*/
-import { faEllipsis, faPaperPlane } from "@fortawesome/free-solid-svg-icons"
+import { faEllipsis } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Link } from 'react-router-dom' 
 import styled from "styled-components"
 
 import ProfilPicture from '../../assets/photo_ident.png'
-import TextInput from "../TextInput"
-import PostButton from "../PostButton"
 
 import ProfilImg from "../ProfilImg"
 import { useCallback, useRef } from "react"
 import useFetch from "../../utils/hooks"
 import PublicationIcon from "../PublicationIcon"
+import AddNewPublication from "../AddNewPublication"
 
 
 /*====================================================*/
@@ -78,11 +77,6 @@ const IconContainer = styled.div`
 const CommentContainer = styled.div`
     width: 100%;
     margin: 10px 0px;
-`
-
-const CommentForm = styled.form`
-    width: 100%;
-    display: flex;
 `
 
 const BottomComment = styled.div`
@@ -152,14 +146,6 @@ function ShowPublication(props){
         user = data.user;
     }
 
-    function handleChangeText(value){
-        console.log(value)
-    }
-
-    function handlePost(e){
-        e.preventDefault();
-    }
-
     // with useCallBack function handleFocusComment is build only once at first render of page ?
     const handleFocusComment = useCallback(()=>{
         commentInput.current.focus();
@@ -190,10 +176,7 @@ function ShowPublication(props){
                 <PublicationIcon type={"comment"} publication={publication} handleFocusComment={handleFocusComment}/>
             </IconContainer>
             <CommentContainer>
-                <CommentForm>
-                    <TextInput setRef={commentInput} set={handleChangeText} input={{name: "comment", placeholder: "Commentez cette publication"}}/>
-                    <PostButton postMethod={handlePost} content={<FontAwesomeIcon icon={faPaperPlane} />} />
-                </CommentForm>
+                <AddNewPublication isComment publicationId={publication._id}/>
                 <BottomComment>
                 <ProfilImg size='small' src={ProfilPicture} />
                     <Comment>

@@ -2,6 +2,8 @@
 /* --------------------- Import ----------------------*/
 /*====================================================*/
 
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import styled from "styled-components"
 import colors from "../../utils/styles/colors"
 
@@ -11,7 +13,7 @@ import colors from "../../utils/styles/colors"
 /*====================================================*/
 
 const StyledButton = styled.button`
-    padding: ${(props)=> props.isText ? "5px 30px" :"0px" };
+    padding: ${(props)=> props.type === "publication" ? "5px 30px" :"0px" };
     min-width: 40px;
     max-height: 40px;
     border: none;
@@ -29,14 +31,17 @@ const StyledButton = styled.button`
 
 function PostButton(props){
 
-    
+    const content = {
+        comment: <FontAwesomeIcon icon={faPaperPlane} />,
+        publication: "Poster"
+    }
 
     return(<
         StyledButton 
             onClick={props.postMethod} 
-            isText={typeof(props.content) === "string"}
+            type={props.type}
         >
-            {props.content}
+            {content[props.type]}
         </StyledButton>)
 }
 
