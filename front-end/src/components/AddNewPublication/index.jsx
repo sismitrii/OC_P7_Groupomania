@@ -68,6 +68,20 @@ function AddNewPublication(props){
     const [publicationData, setPublicationData] = useState({})
     const {dataConnection} = useContext(ConnectionContext);
 
+    const inputValue = {
+        publication: {
+            name: "share",
+            placeholder: "Que souhaitez-vous partagez ?",
+            url: `http://localhost:3000/api/publication`
+        },
+        comment: {
+            name:"comment",
+            placeholder: "Commentez cette publication",
+            url: `http://localhost:3000/api/publication/${props.publicationId}/comment`,
+            setRef: props.setRef
+        }
+    }
+
     function handleChangePicture(e){
         if (e.target.files[0]){
             setImage(URL.createObjectURL(e.target.files[0])); 
@@ -91,7 +105,6 @@ function AddNewPublication(props){
                 publicationData.image.append('content', publicationData.content);
                 delete publicationData.content;
             }
-
             try {
                 const bearer = "Bearer " + dataConnection.token
                 const header = publicationData.image ? {
@@ -122,20 +135,6 @@ function AddNewPublication(props){
     }
 
     const type = props.isComment ? "comment" : "publication";
-
-    const inputValue = {
-        publication: {
-            name: "share",
-            placeholder: "Que souhaitez-vous partagez ?",
-            url: `http://localhost:3000/api/publication`
-        },
-        comment: {
-            name:"comment",
-            placeholder: "Commentez cette publication",
-            url: `http://localhost:3000/api/publication/${props.publicationId}/comment`,
-            setRef: props.setRef
-        }
-    }
 
     return (
         <StyledForm isComment={props.isComment}>
