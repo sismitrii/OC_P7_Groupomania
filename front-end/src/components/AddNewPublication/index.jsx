@@ -4,7 +4,7 @@
 import { useState, useContext } from "react"
 import { ConnectionContext } from "../../utils/context"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCirclePlus, faPaperPlane } from "@fortawesome/free-solid-svg-icons"
+import { faCirclePlus} from "@fortawesome/free-solid-svg-icons"
 import styled from "styled-components"
 
 import TextInput from "../TextInput"

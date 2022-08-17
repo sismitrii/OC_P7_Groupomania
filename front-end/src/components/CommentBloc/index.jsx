@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import ProfilPicture from '../../assets/photo_ident.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons'
 import ProfilImg from '../ProfilImg'
