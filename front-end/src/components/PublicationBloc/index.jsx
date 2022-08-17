@@ -31,7 +31,7 @@ function PublicationBloc(props){
             toReturn = <AddNewPublication />
             break;
         case 'show' : 
-            toReturn = <ShowPublication />
+            toReturn = <ShowPublication publication={props.publication}/>
             break
         default:
             <></>

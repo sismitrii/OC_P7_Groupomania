@@ -2,22 +2,18 @@
 /* --------------------- Import ----------------------*/
 /*====================================================*/
 import { faEllipsis, faPaperPlane } from "@fortawesome/free-solid-svg-icons"
-import { faComment, faHeart } from "@fortawesome/free-regular-svg-icons"
-import { faHeart as fasHeart, faComment as fasComment } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Link } from 'react-router-dom' 
 import styled from "styled-components"
 
 import ProfilPicture from '../../assets/photo_ident.png'
-import PublicationImg from "../../assets/Flo_Suki.jpg"
 import TextInput from "../TextInput"
 import PostButton from "../PostButton"
 
 import ProfilImg from "../ProfilImg"
-import colors from "../../utils/styles/colors"
-import { useCallback, useRef, useState } from "react"
-
-
+import { useCallback, useRef } from "react"
+import useFetch from "../../utils/hooks"
+import PublicationIcon from "../PublicationIcon"
 
 
 /*====================================================*/
@@ -77,51 +73,6 @@ const IconContainer = styled.div`
     width: 80%;
     border-bottom : 1px solid black;
     padding: 10px 0px;
-
-    div {
-        position: relative;
-        display: flex;
-        align-items: center;
-        transition: all 250ms ease-in-out;
-
-        &:hover {
-             .not-visible {
-                opacity: 1;
-            }
-            .visible {
-                background-clip: text;
-                color: transparent;
-            }
-        }
-
-        &.active {
-            .not-visible {
-                opacity: 1;
-            }
-        }
-
-        p{
-            margin-left: 10px;
-            color: ${colors.primary};
-        }
-    }
-`
-
-const StyledIcon = styled(FontAwesomeIcon)`
-    font-size: 25px;
-    curdor: pointer;
-
-    transition: all 250ms ease-in-out;
-`
-
-const StyledIconNotVisible = styled(FontAwesomeIcon)`
-    position: absolute;
-    font-size: 25px;
-    left: 0px;
-    opacity: 0;
-    color: ${colors.primary};
-    cursor: pointer;
-    transition: all 250ms ease-in-out;
 `
 
 const CommentContainer = styled.div`
@@ -173,10 +124,33 @@ const StyledLink = styled(Link)`
 /* ---------------------- Main -----------------------*/
 /*====================================================*/
 
-function ShowPublication(){
-    const [heartActive, setHeartActive] = useState(false)
-
+function ShowPublication(props){
     const commentInput = useRef(null);
+    const publication = props.publication;
+
+    const calcDate = useCallback(()=>{
+        const timePassed = (Date.now() - (new Date(publication.createdAt).getTime()))/1000/60;
+        if (timePassed < 60){
+            return `${Math.ceil(timePassed)}min`
+        } else {
+            return `${Math.round(timePassed/60)}h`
+        }
+    }, [publication])
+    
+    //console.log(props.publication)
+    
+    const {data, isLoading, error } = useFetch(`http://localhost:3000/api/user/${publication.author}`) 
+    
+    // TO DO requete de l'author
+    // requete de l'image de l'utilisateur
+    // requete des commentaires
+    // calcul du temps de création
+    
+    //Probablement mieux
+    let user;
+    if (data){
+        user = data.user;
+    }
 
     function handleChangeText(value){
         console.log(value)
@@ -186,43 +160,34 @@ function ShowPublication(){
         e.preventDefault();
     }
 
-    function handleLike(){
-        setHeartActive(!heartActive);
-    }
-
     // with useCallBack function handleFocusComment is build only once at first render of page ?
     const handleFocusComment = useCallback(()=>{
         commentInput.current.focus();
     },[commentInput])
 
-    return (
+    return (<>
+        {user &&
         <PublicationContainer>
             <TopContainer>
                 <ProfilContainer>
-                    <ProfilImg size='medium' src={ProfilPicture} />
+                    <ProfilImg size='medium' src={user.profilImgUrl} />
                     <ProfilText>
-                        <StyledLink to="/profil">Flo Guerin</StyledLink>
-                        <p>Il y a 3h</p>
+                        <StyledLink to="/profil">{user.username}</StyledLink>
+                        <p>Il y a {calcDate()} </p>
                     </ProfilText>
                 </ProfilContainer>
                 {/* Component a faire pour l'icon */}
                 <FontAwesomeIcon icon={faEllipsis} />
             </TopContainer>
-            <StyledText>L’endurance est l’une des choses les plus difficiles mais ceux qui endurent finissent par gagner</StyledText>
+            <StyledText>{publication.content}</StyledText>
+            {publication.imageUrl &&
             <ImgContainer>
-                <StyledImg src={PublicationImg} alt="Image de la publication" />
+                <StyledImg src={publication.imageUrl} alt="Image de la publication" />
             </ImgContainer>
+            }
             <IconContainer>
-                <div className={heartActive ? "active" : "" } onClick={()=> handleLike()}>
-                    <StyledIcon className='visible' icon={faHeart} />
-                    <StyledIconNotVisible className='not-visible' icon={fasHeart} />
-                    <p>3</p>
-                </div>
-                <div onClick={()=> handleFocusComment()}>
-                    <StyledIcon className='visible' icon={faComment} />
-                    <StyledIconNotVisible className='not-visible' icon={fasComment} />
-                    <p>1</p>
-                </div>
+                <PublicationIcon type={"heart"} publication={publication} />
+                <PublicationIcon type={"comment"} publication={publication} handleFocusComment={handleFocusComment}/>
             </IconContainer>
             <CommentContainer>
                 <CommentForm>
@@ -238,6 +203,8 @@ function ShowPublication(){
                 </BottomComment>
             </CommentContainer>
         </PublicationContainer> 
+        } 
+    </>
     )
 }
 
