@@ -4,6 +4,7 @@ import { faEllipsis } from '@fortawesome/free-solid-svg-icons'
 import ProfilImg from '../ProfilImg'
 import { Link } from 'react-router-dom'
 import useFetch from '../../utils/hooks'
+import Deleted from '../../assets/Deleted.jpg'
 
 const BottomComment = styled.div`
     width: 100%;
@@ -51,9 +52,14 @@ function CommentBloc(props){
     <>
         {data.user &&
             <BottomComment>
-            <ProfilImg size='small' src={data.user.profilImgUrl} />
+            <ProfilImg size='small' src={data.user.profilImgUrl ? data.user.profilImgUrl : Deleted } /> 
                 <Comment>
-                    <p><StyledLink to={`/profils/${props.comment.author}`}>{data.user.username} </StyledLink>{props.comment.content}</p>
+                    <p>
+                        {data.user &&
+                            <StyledLink to={`/profils/${props.comment.author}`}>{data.user.username} </StyledLink>
+                        }
+                        {props.comment.content}
+                        </p>
                     <FontAwesomeIcon icon={faEllipsis} />
                 </Comment>
             </BottomComment>
