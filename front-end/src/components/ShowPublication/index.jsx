@@ -13,6 +13,7 @@ import { useCallback, useRef } from "react"
 import useFetch from "../../utils/hooks"
 import PublicationIcon from "../PublicationIcon"
 import AddNewPublication from "../AddNewPublication"
+import UpdateAndDelete from "../UpdateAndDelete"
 
 
 /*====================================================*/
@@ -157,8 +158,7 @@ function ShowPublication(props){
                         <p>Il y a {calcDate()} </p>
                     </ProfilText>
                 </ProfilContainer>
-                {/* Component a faire pour l'icon */}
-                <FontAwesomeIcon icon={faEllipsis} />
+                <UpdateAndDelete id={{publication: publication._id}}/>
             </TopContainer>
             <StyledText>{publication.content}</StyledText>
             {publication.imageUrl &&
