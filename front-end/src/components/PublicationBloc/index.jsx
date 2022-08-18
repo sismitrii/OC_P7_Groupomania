@@ -20,7 +20,7 @@ const Container = styled.section`
 
 
 /*====================================================*/
-/* ------------------ Main Function ------------------*/
+/* ----------------------- Main ----------------------*/
 /*====================================================*/
 function PublicationBloc(props){
 
@@ -30,7 +30,7 @@ function PublicationBloc(props){
         case 'add':
             toReturn = <AddNewPublication setNewPubli={props.setNewPubli} isPublication />
             break;
-        case 'show' : 
+        case 'show': 
             toReturn = <ShowPublication last={props.last} publication={props.publication}/>
             break
         default:

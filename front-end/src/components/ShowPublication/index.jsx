@@ -70,7 +70,7 @@ const IconContainer = styled.div`
     display: flex;
     justify-content: space-around;
     width: 80%;
-    border-bottom : 1px solid black;
+    border-bottom: 1px solid black;
     padding: 10px 0px;
 `
 
@@ -86,7 +86,7 @@ const StyledLink = styled(Link)`
     font-size: 18px;
     font-weight: 500;
     
-    transition : 250ms;
+    transition: 250ms;
 
     &:hover {
         border-bottom: 1px solid black;
@@ -134,11 +134,6 @@ function ShowPublication(props){
         fetchComment();
     },[])
 
-
-    // TO DO requete de l'author
-    // requete de l'image de l'utilisateur
-    // requete des commentaires
-    // calcul du temps de création
     
     //Probablement mieux
     let user;
@@ -177,13 +172,6 @@ function ShowPublication(props){
             </IconContainer>
             <CommentContainer>
                 <AddNewPublication isComment setRef={commentInput} publicationId={publication._id}/>
-                {/* <BottomComment>
-                <ProfilImg size='small' src={ProfilPicture} />
-                    <Comment>
-                        <p>Courage pour ce projet mec!</p>
-                        <FontAwesomeIcon icon={faEllipsis} />
-                    </Comment>
-                </BottomComment> */}
                 {comments && comments.comments.map((comment)=>(
                     <CommentBloc key={comment._id} comment={comment}/>
                 ))}

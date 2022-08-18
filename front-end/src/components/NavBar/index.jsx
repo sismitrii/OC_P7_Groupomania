@@ -37,7 +37,7 @@ const VerticalMenuElement = styled.li`
 
 
   ${(props)=>
-    props.isOpen ? "top: 0; opacity: 1; height: 45px;" : "top : -50px; opacity:1; height: 0px;"}
+    props.isOpen ? "top: 0; opacity: 1; height: 45px;": "top: -50px; opacity:1; height: 0px;"}
 
   &:hover {
     background-color: ${colors.primary};
@@ -145,7 +145,7 @@ const NavBarCircle = styled.div`
   border-radius: 50%;
 
 
-  transform : translate(${(props)=> props.transform}px);
+  transform: translate(${(props)=> props.transform}px);
 
   &::before {
     content: "";

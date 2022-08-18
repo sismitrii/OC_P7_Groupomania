@@ -1,3 +1,7 @@
+/*====================================================*/
+/* --------------------- Import ----------------------*/
+/*====================================================*/
+
 import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons'
@@ -5,6 +9,10 @@ import ProfilImg from '../ProfilImg'
 import { Link } from 'react-router-dom'
 import useFetch from '../../utils/hooks'
 import Deleted from '../../assets/Deleted.jpg'
+
+/*====================================================*/
+/* ---------------------- Style ----------------------*/
+/*====================================================*/
 
 const BottomComment = styled.div`
     width: 100%;
@@ -41,11 +49,13 @@ const StyledLink = styled(Link)`
         text-decoration: underline;
     }
 `
-
+/*====================================================*/
+/* ----------------------- Main ----------------------*/
+/*====================================================*/
 
 function CommentBloc(props){
 
-    const {data, isLoading, error } = useFetch(`http://localhost:3000/api/user/${props.comment.author}`)
+    const {data} = useFetch(`http://localhost:3000/api/user/${props.comment.author}`)
 
 
     return(

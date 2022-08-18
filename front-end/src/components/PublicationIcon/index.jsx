@@ -60,6 +60,7 @@ const StyledIconNotVisible = styled(FontAwesomeIcon)`
 /*====================================================*/
 /* ---------------------- Main -----------------------*/
 /*====================================================*/
+
 function PublicationIcon(props){
     const [heartActive, setHeartActive] = useState(false);
     const {dataConnection} = useContext(ConnectionContext);
@@ -91,9 +92,6 @@ function PublicationIcon(props){
         } catch (error) {
             console.log(error);
         }
-        // a chaque like, modification, commentaire, suppression.. sur une publication 
-        //il faudrait re-render toute la publication 
-        // soit update un state de la publication
     }
 
     return (

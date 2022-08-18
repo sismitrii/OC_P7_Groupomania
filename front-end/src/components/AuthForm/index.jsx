@@ -114,7 +114,7 @@ const AuthInput = styled.input`
 
 const AuthButton = styled.button`
     min-width: 65%;
-    padding : 5px 10px;
+    padding: 5px 10px;
     height: 40px;
     margin: 20px;
     background-color: ${colors.primary};
@@ -136,11 +136,11 @@ const AuthChangeSentence = styled.p`
     text-align: right;
     margin-right: 20px;
 `
-const AuthChangeLink =styled(Link)`
+const AuthChangeLink = styled(Link)`
     color: ${colors.primary};
 `
 
-const AuthPasswordLink =styled(Link)`
+const AuthPasswordLink = styled(Link)`
     color: ${colors.primary};
     align-self: flex-end;
     font-size: 12px;
@@ -162,9 +162,6 @@ const regexToCheck = {
 }
 
 function checkContent(e, type, userData, setUserData){
-    // on va crée une fonction qui va checker les tout les input que l'on va rentrer
-    // aussi bien pour la page de connexion que pour les infos utilisateur dans le profil
-    // il faudra passer en paramètre de la fonction le type et on aura un objet avec les pairs clé regex
     const regex = regexToCheck[type];
     
     let testRegex = regex.test(e.target.value);
@@ -246,7 +243,7 @@ async function postData(url, dataToPost){
 
 
 /*====================================================*/
-/* ------------------- Component ---------------------*/
+/* ---------------------- Main -----------------------*/
 /*====================================================*/
 
 function Auth(props){
@@ -266,12 +263,8 @@ function Auth(props){
             errorMsgTag.innerText = "Ces mots de passe ne correspondent pas. Veuillez réessayer."
         } else if((userData.email) && (userData.password)){
             console.log(await postData('http://localhost:3000/api/auth/signup', userData))
-            //const dataConnexion = await postData('http://localhost:3000/api/auth/login', userData);
             login();
-            
-            
-            // apres il faut faire une fonstion login et 
-            //recup le userId et le token pour les stocker dans le localStorage
+
         }
     }
 
@@ -297,7 +290,7 @@ function Auth(props){
     async function forgotRequest(e){
         e.preventDefault()
         if(userData.email){
-            const dataConnection = await postData('http://localhost:3000/api/auth/forgot_password',{email : userData.email});
+            const dataConnection = await postData('http://localhost:3000/api/auth/forgot_password',{email: userData.email});
             if (dataConnection.message){
                 document.querySelector('.passwordErroMsg').innerText = dataConnection.message;
                 if (dataConnection.message === "email sent"){
@@ -360,24 +353,24 @@ function Auth(props){
 
     const buttonAuth = [
         {
-            type : 'login',
-            function : (e)=> loginRequest(e),
-            text : "Je me connecte"
+            type: 'login',
+            function: (e)=> loginRequest(e),
+            text: "Je me connecte"
         },
         {
-            type : '',
-            function : (e)=> signUpRequest(e),
-            text : "Je m'inscrit"
+            type: '',
+            function: (e)=> signUpRequest(e),
+            text: "Je m'inscrit"
         },
         {
-            type : 'forgotPassword',
-            function : (e)=> forgotRequest(e),
-            text : "Envoyer lien"
+            type: 'forgotPassword',
+            function: (e)=> forgotRequest(e),
+            text: "Envoyer lien"
         },
         {
-            type : 'resetPassword',
-            function : (e)=> resetRequest(e),
-            text : "Réinitialiser mot de passe"
+            type: 'resetPassword',
+            function: (e)=> resetRequest(e),
+            text: "Réinitialiser mot de passe"
         }
     ]
 

@@ -1,19 +1,28 @@
+/*====================================================*/
+/* --------------------- Import ----------------------*/
+/*====================================================*/
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 import colors from "../../utils/styles/colors"
 import { useNavigate } from "react-router-dom";
 
+/*====================================================*/
+/* ---------------------- Style ----------------------*/
+/*====================================================*/
 
 const LogOutContainer = styled.button`
-    padding : 10px 30px;
-    margin : 0 10px;
-    text-align : center;
-    border : none;
-    border-radius : 12px;
-    outline : none;
-    background-color : ${colors.secondary};
-    cursor : pointer;
+    padding: 10px 30px;
+    margin: 0 10px;
+    text-align: center;
+    border: none;
+    border-radius: 12px;
+    outline: none;
+    background-color: ${colors.secondary};
+    cursor: pointer;
 `
+/*====================================================*/
+/* ---------------------- Main -----------------------*/
+/*====================================================*/
 
 function LogOut(){
     const navigate = useNavigate();

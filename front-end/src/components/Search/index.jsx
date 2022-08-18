@@ -1,7 +1,15 @@
+/*====================================================*/
+/* --------------------- Import ----------------------*/
+/*====================================================*/
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
 import { useState } from "react"
 import styled from "styled-components"
+
+/*====================================================*/
+/* ---------------------- Style ----------------------*/
+/*====================================================*/
 
 const SearchContainer = styled.div`
     width: 30%;
@@ -25,8 +33,8 @@ const SearchIconContainer = styled.div`
 
 const SearchForm = styled.form `
     position: ${(props)=> props.$isMobile ? "absolute": "relative"};
-    display : flex;
-    justify-content : flex-end;
+    display: flex;
+    justify-content: flex-end;
     width: ${(props)=> props.$isMobile ? " 80%" : "100%"};
     height: 50px;
 
@@ -49,17 +57,17 @@ const SearchInput = styled.input`
     width: 100%;
     height: 100%;
     border: 1px solid #9A9A9A;
-    border-radius : 25px;
-    padding-left : 20px;
-    font-size : 20px;
+    border-radius: 25px;
+    padding-left: 20px;
+    font-size: 20px;
     outline: none;
 `
 
 const SearchButton = styled.button`
     position: absolute;
-    border : none;
-    outline : none;
-    border-radius : 25px;
+    border: none;
+    outline: none;
+    border-radius: 25px;
 `
 
 const SearchMobileBloc = styled.div`
@@ -69,7 +77,9 @@ const SearchMobileBloc = styled.div`
     height: ${(props)=>(props.$isOpen ) ? "45px": "0px"};
     padding: ${(props)=>(props.$isOpen) ? "15px": "0px"};
 `
-
+/*====================================================*/
+/* ---------------------- Main -----------------------*/
+/*====================================================*/
 
 function Search(props){
     const [isSearching, setIsSearching] = useState(false);
@@ -79,9 +89,6 @@ function Search(props){
         await props.setIsOpen(false);
         document.getElementById('search-bar').focus()  
     }
-
-
-
 
     return (
     <>

@@ -71,7 +71,7 @@ exports.forgotPassword = (req,res, next)=>{
             res.status(404).json({message: "Incorrect email"})
         } else {
             const randomString = crypto.randomBytes(20).toString('hex')
-            const token = jwt.sign({token : randomString}, process.env.JWT_PASSWORD, {expiresIn: '900s'}); // 15min
+            const token = jwt.sign({token: randomString}, process.env.JWT_PASSWORD, {expiresIn: '900s'}); // 15min
 
             User.updateOne({email: req.body.email}, {token: randomString})
             .then(()=>{
@@ -124,7 +124,7 @@ exports.resetPassword = (req,res, next)=>{
         }
         User.findOne({token: decodedToken.token})
         .then((user)=> {
-            User.findByIdAndUpdate(user._id, {$set : {password: hash}})
+            User.findByIdAndUpdate(user._id, {$set: {password: hash}})
             .then((user)=> res.status(201).json({message: "User updated"}))
             .catch((error)=>res.status(400).json({error}))
         })
