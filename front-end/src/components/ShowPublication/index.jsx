@@ -162,7 +162,7 @@ function ShowPublication(props){
                         <p>Il y a {calcDate()} </p>
                     </ProfilText>
                 </ProfilContainer>
-                <UpdateAndDelete setDeleted={props.setPubliDeleted} id={{publication: publication._id}}/>
+                <UpdateAndDelete setDeleted={props.setPubliDeleted} id={{publication: publication}}/>
             </TopContainer>
             <StyledText>{publication.content}</StyledText>
             {publication.imageUrl &&
@@ -175,7 +175,7 @@ function ShowPublication(props){
                 <PublicationIcon type={"comment"} publication={publication} handleFocusComment={handleFocusComment}/>
             </IconContainer>
             <CommentContainer>
-                <AddNewPublication isComment setNewComment={setNewComment} setRef={commentInput} publicationId={publication._id}/>
+                <AddNewPublication type={"comment"} setNewComment={setNewComment} setRef={commentInput} publicationId={publication._id}/>
                 {comments && comments.comments.map((comment)=>(
                     <CommentBloc key={comment._id} publicationId={publication._id} comment={comment}/>
                 ))}

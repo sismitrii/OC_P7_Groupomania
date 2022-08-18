@@ -1,10 +1,10 @@
 /*====================================================*/
 /* --------------------- Import ----------------------*/
 /*====================================================*/
-import { useState, useContext } from "react"
+import { useState, useContext, useEffect } from "react"
 import { ConnectionContext } from "../../utils/context"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCirclePlus} from "@fortawesome/free-solid-svg-icons"
+import { faCirclePlus, faEdit} from "@fortawesome/free-solid-svg-icons"
 import styled from "styled-components"
 
 import TextInput from "../TextInput"
@@ -16,7 +16,7 @@ import PostButton from "../PostButton"
 
 const StyledForm = styled.form`
     width: 100%;
-    ${(props)=> props.isComment ? "display: flex;" : ""}
+    ${(props)=> props.type === "comment" ? "display: flex;" : ""}
     padding: 10px 25px;
 `
 
@@ -24,7 +24,7 @@ const BottomBloc = styled.div`
     display: flex;
     flex-direction: ${(props)=> props.direction};
     justify-content: space-between;
-    ${(props)=> props.isPublication ? "align-items: center;" : ""}
+    ${(props)=> props.type === "comment" ? "" : "align-items: center;"}
 `
 
 const PictureBloc = styled.div`
@@ -43,6 +43,8 @@ const StyledText = styled.p`
 `
 
 const StyledInput = styled.input`
+    width: 100%;
+    height: 100%;
     position: absolute;
     left: 0;
     opacity: 0;
@@ -57,6 +59,15 @@ const StyledImg = styled.img`
     width: 280px;
     border-radius: 10px;
     margin: 10px 0;
+    opacity: 0.6;
+`
+
+const IconEdit = styled(FontAwesomeIcon)`
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 40px;
 `
 
 /*====================================================*/
@@ -68,8 +79,28 @@ function AddNewPublication(props){
     const [publicationData, setPublicationData] = useState({})
     const {dataConnection} = useContext(ConnectionContext);
 
+    const type = props.type;
 
-    const type = props.isComment ? "comment" : "publication";
+    let modificationData = {};
+
+    useEffect(()=>{
+        if(props.imageUrl){
+            const formData = new FormData();
+            formData.append('image', props.imageUrl);
+            modificationData.image = formData;
+        }
+        if(props.value){
+            modificationData.content = props.value
+        }
+        setPublicationData(modificationData);
+    },[props.imageUrl, props.value])
+
+
+    useEffect(()=>{
+        if(props.imageUrl){
+            setImage(props.imageUrl);
+        }
+    },[props.imageUrl])
 
     const inputValue = {
         publication: {
@@ -82,6 +113,12 @@ function AddNewPublication(props){
             placeholder: "Commentez cette publication",
             url: `http://localhost:3000/api/publication/${props.publicationId}/comment`,
             setRef: props.setRef
+        },
+        modification: {
+            name: "modification",
+            placeholder: "Que souhaitez-vous partagez ?",
+            url: `http://localhost:3000/api/publication/${props.publicationId}`,
+            value: props.value
         }
     }
 
@@ -97,8 +134,8 @@ function AddNewPublication(props){
         }
     }
 
-    function handleChangeText(value){
-        setPublicationData({...publicationData, content: value})
+    function handleChangeText(text){
+        setPublicationData({...publicationData, content: text})
     }
 
     async function handlePost(e){
@@ -110,6 +147,7 @@ function AddNewPublication(props){
             }
             try {
                 const bearer = "Bearer " + dataConnection.token
+                const method = type === "modification" ? "PUT" : "POST";
                 const header = publicationData.image ? {
                     'Accept': '/',
                     'Authorization': bearer
@@ -122,12 +160,13 @@ function AddNewPublication(props){
 
                 const dataToPost = publicationData.image ? publicationData.image : JSON.stringify(publicationData)
                 let res = await fetch(inputValue[type].url, {
-                    method: "POST",
+                    method: method,
                     headers: header,
                     body: dataToPost
                 })
                     await setPublicationData({})
                     await setImage(null)
+                    //ça marche pas parceque tout les commentaire ont le meme id evidemment
                     document.getElementById(inputValue[type].name).value = ""; 
                     let answer = await res.json()
                     console.log(answer);
@@ -135,6 +174,8 @@ function AddNewPublication(props){
                         props.setNewPubli(true);
                     } else if (type === "comment"){
                         props.setNewComment(true);
+                    } else if (type === "modification"){
+                        props.setIsOpenModificationBloc(false);
                     }
                     
             } catch(err) {
@@ -145,28 +186,34 @@ function AddNewPublication(props){
     }
 
     return (
-        <StyledForm isComment={props.isComment}>
-            <TextInput set={handleChangeText} input={inputValue[type]}/>
-            <BottomBloc isPublication={props.isPublication} direction={image === null ? "row" : "column"}>
-                {props.isPublication && 
-                <PictureBloc>
-                {image === null ?
-                <> 
-                    <StyledLabel htmlFor="addPicture" >
-                        <StyledIcon icon={faCirclePlus} />
-                        <StyledText >Ajouter une photo</StyledText>
-                    </StyledLabel>
-                    <StyledInput 
-                        type="file" 
-                        id="addPicture" 
-                        accept="image/png, image/jpeg, image/jpg" 
-                        onChange={(e)=>handleChangePicture(e)} 
-                    />
-                </>
-                :
-                    <StyledImg src={image} alt="Image Publiée" />
-                }
-            </PictureBloc>
+        <StyledForm type={type}>
+            <TextInput 
+                set={handleChangeText} 
+                input={inputValue[type]}
+                value={inputValue[type].value}
+            />
+            <BottomBloc type={props.type} direction={image === null ? "row" : "column"}>
+                {(props.type === "publication" || props.type === "modification") && 
+                    
+                    <PictureBloc>
+                        {image === null ? 
+                            <StyledLabel htmlFor={type === "publication" ? "addPicture" : "modificationAddPicture"} >
+                                <StyledIcon icon={faCirclePlus} />
+                                <StyledText >Ajouter une photo</StyledText>
+                            </StyledLabel>
+                        :
+                        <>
+                            <StyledImg src={image} alt="Image Publiée" />
+                            <IconEdit icon={faEdit} />
+                        </>
+                        }
+                        <StyledInput 
+                            type="file" 
+                            id={type === "publication" ? "addPicture" : "modificationAddPicture"} 
+                            accept="image/png, image/jpeg, image/jpg" 
+                            onChange={(e)=>handleChangePicture(e)} 
+                        />
+                    </PictureBloc>
                 }
                 <PostButton postMethod={handlePost} type={type} />
             </BottomBloc>

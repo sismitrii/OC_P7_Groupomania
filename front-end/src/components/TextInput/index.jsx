@@ -1,7 +1,7 @@
 /*====================================================*/
 /* --------------------- Import ----------------------*/
 /*====================================================*/
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components"
 
 /*====================================================*/
@@ -11,7 +11,7 @@ import styled from "styled-components"
 const StyledInput = styled.textarea`
     width: 100%;
     height: ${(props) => props.textHeight};
-    border: none;
+    border: ${(props)=> props.value ? "1px solid black" : "none"};
     outline: none;
     border-radius: 5px;
     resize: none;
@@ -33,24 +33,37 @@ const StyledInput = styled.textarea`
 
 function TextInput(props){
     const [textHeight, setTextHeight] = useState("40px")
+    const [value, setValue] = useState("");
+
+    useEffect(()=>{
+            setValue(props.input.value);
+    },[props.input.value])
+
+    useEffect(()=>{
+        setValue(props.value);
+        console.log(props.value)
+},[props.value])
 
     async function handleKeyUp(e){
+        props.set(e.target.value);
+        await setValue(e.target.value);
         await setTextHeight("auto")
         let scrollHeight = e.target.scrollHeight;
         await setTextHeight(scrollHeight+"px");
-        props.set(e.target.value);
+        
     }
 
     return (
         <StyledInput
             ref={props.input.setRef ? props.input.setRef : null}
-            onKeyUp={(e)=>handleKeyUp(e)}
+            onChange={(e)=>handleKeyUp(e)}
             textHeight = {textHeight}
             maxLength={500}
             name={props.input.name}
             id={props.input.name} 
             aria-label={props.input.placeholder} 
             placeholder={props.input.placeholder}
+            value={value}
             required
          />
     )

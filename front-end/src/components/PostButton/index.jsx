@@ -13,7 +13,7 @@ import colors from "../../utils/styles/colors"
 /*====================================================*/
 
 const StyledButton = styled.button`
-    padding: ${(props)=> props.type === "publication" ? "5px 30px" :"0px" };
+    padding: ${(props)=> props.type === "comment" ? "Opx" :"5px 30px" };
     min-width: 40px;
     max-height: 40px;
     border: none;
@@ -33,7 +33,8 @@ function PostButton(props){
 
     const content = {
         comment: <FontAwesomeIcon icon={faPaperPlane} />,
-        publication: "Poster"
+        publication: "Poster",
+        modification: "Modifier"
     }
 
     return(<
