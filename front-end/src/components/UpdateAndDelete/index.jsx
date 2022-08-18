@@ -1,12 +1,13 @@
 /*====================================================*/
 /* --------------------- Import ----------------------*/
 /*====================================================*/
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { ConnectionContext } from "../../utils/context"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons"
 import styled from "styled-components"
 import colors from "../../utils/styles/colors"
+import ModificationBloc from "../ModificationBloc"
 
 /*====================================================*/
 /* --------------------- Style ----------------------*/
@@ -67,12 +68,24 @@ const UpdateAndDeleteContainer = styled.div`
 /*====================================================*/
 function UpdateAndDelete(props){
     //props.type = "publication ou comment"
+    const [isopenModicationBloc, setIsOpenModificationBloc] = useState(false)
     const {dataConnection} = useContext(ConnectionContext);
 
+    // const isInitialMount = useRef(true);
+
+    // useEffect(() => {
+    //   if (isInitialMount.current) {
+    //      isInitialMount.current = false;
+    //   } else {
+    //     if (isopenModicationBloc === false){
+            
+    //     }
+    //   }
+    // });
+
     async function handleDelete(){
-        //faire une requete pour supprimer la publication ou le commentaire
         try {
-            const requestUrl = `http://localhost:3000/api/publication/${props.id.publication}${props.id.comment ? `/comment/${props.id.comment}` : ""}`
+            const requestUrl = `http://localhost:3000/api/publication/${props.id.publicationId}${props.id.comment ? `/comment/${props.id.comment}` : ""}`
             const bearer = 'Bearer ' + dataConnection.token;
             const res = await fetch(requestUrl,{
                 method: 'DELETE',
@@ -90,14 +103,23 @@ function UpdateAndDelete(props){
         }
     }
 
+    function handleModification(){
+        setIsOpenModificationBloc(true);
+    }
+
     return(
+    <>
+    {isopenModicationBloc && <ModificationBloc setIsOpenModificationBloc={setIsOpenModificationBloc} publication={props.id.publication} />}
     <Container >
+        
         <FontAwesomeIcon icon={faEllipsis} />
         <UpdateAndDeleteContainer>
-            <div>Modifier</div>
+            
+            <div onClick={()=> handleModification()} >Modifier</div>
             <div onClick={()=>handleDelete()}>Supprimer</div>
         </UpdateAndDeleteContainer>
     </Container>
+    </>
     )
 }
 
