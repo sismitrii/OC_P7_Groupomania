@@ -85,6 +85,7 @@ function UpdateAndDelete(props){
             });
             const answer = await res.json();
             console.log(answer);
+            props.setPubliDeleted(true);
         } catch (error) {
             console.error(error)
         }

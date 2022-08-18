@@ -5,12 +5,14 @@ import styled from "styled-components"
 
 import AddNewPublication from "../AddNewPublication"
 import ShowPublication from "../ShowPublication";
+import { useState } from "react";
 
 /*====================================================*/
 /* --------------------- Style ----------------------*/
 /*====================================================*/
 
 const Container = styled.section`
+    ${(props)=>props.publiDeleted ? "display: none;" : ""}
     width: 100%;
     background-color: #EDEDED;
     border-radius: 15px;
@@ -23,6 +25,7 @@ const Container = styled.section`
 /* ----------------------- Main ----------------------*/
 /*====================================================*/
 function PublicationBloc(props){
+    const [publiDeleted, setPubliDeleted] = useState(false);
 
     let toReturn; 
 
@@ -31,14 +34,14 @@ function PublicationBloc(props){
             toReturn = <AddNewPublication setNewPubli={props.setNewPubli} isPublication />
             break;
         case 'show': 
-            toReturn = <ShowPublication last={props.last} publication={props.publication}/>
+            toReturn = <ShowPublication setPubliDeleted={setPubliDeleted} last={props.last} publication={props.publication}/>
             break
         default:
             <></>
     }
 
     return (
-    <Container>
+    <Container publiDeleted={publiDeleted}>
         {toReturn}
     </Container>)
 }

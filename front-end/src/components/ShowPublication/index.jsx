@@ -1,8 +1,6 @@
 /*====================================================*/
 /* --------------------- Import ----------------------*/
 /*====================================================*/
-import { faEllipsis } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Link } from 'react-router-dom' 
 import styled from "styled-components"
 
@@ -101,6 +99,8 @@ const StyledLink = styled(Link)`
 function ShowPublication(props){
     const commentInput = useRef(null);
     const publication = props.publication;
+    const [comments, setComments] = useState([])
+    
     
     const calcDate = useCallback(()=>{
         const timePassed = (Date.now() - (new Date(publication.createdAt).getTime()))/1000/60;
@@ -111,10 +111,8 @@ function ShowPublication(props){
         }
     }, [publication])
     
-    const [comments, setComments] = useState([])
-    
-    const {data } = useFetch(`http://localhost:3000/api/user/${publication.author}`)
 
+    const {data} = useFetch(`http://localhost:3000/api/user/${publication.author}`)
     const fetchComment = useCallback(async()=>{
         try {
             const res = await fetch(`http://localhost:3000/api/publication/${publication._id}/comment`)
@@ -125,11 +123,13 @@ function ShowPublication(props){
         }
     },[setComments, publication])
 
+
     useEffect(()=>{
         if (props.last){
             //props.setIsLoading(false);
         }
     })
+
 
     useEffect(()=>{
         fetchComment();
@@ -149,7 +149,7 @@ function ShowPublication(props){
 
     return (<>
         {user &&
-        <PublicationContainer>
+        <PublicationContainer >
             <TopContainer>
                 <ProfilContainer>
                     <ProfilImg size='medium' src={user.profilImgUrl} />
@@ -158,7 +158,7 @@ function ShowPublication(props){
                         <p>Il y a {calcDate()} </p>
                     </ProfilText>
                 </ProfilContainer>
-                <UpdateAndDelete id={{publication: publication._id}}/>
+                <UpdateAndDelete setPubliDeleted={props.setPubliDeleted} id={{publication: publication._id}}/>
             </TopContainer>
             <StyledText>{publication.content}</StyledText>
             {publication.imageUrl &&
