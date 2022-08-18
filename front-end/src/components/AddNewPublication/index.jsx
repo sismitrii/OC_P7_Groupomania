@@ -68,6 +68,9 @@ function AddNewPublication(props){
     const [publicationData, setPublicationData] = useState({})
     const {dataConnection} = useContext(ConnectionContext);
 
+
+    const type = props.isComment ? "comment" : "publication";
+
     const inputValue = {
         publication: {
             name: "share",
@@ -128,15 +131,18 @@ function AddNewPublication(props){
                     document.getElementById(inputValue[type].name).value = ""; 
                     let answer = await res.json()
                     console.log(answer);
-                    props.setNewPubli(true);
+                    if (type === "publication"){
+                        props.setNewPubli(true);
+                    } else if (type === "comment"){
+                        props.setNewComment(true);
+                    }
+                    
             } catch(err) {
                 console.log(err);
             }
         }
 
     }
-
-    const type = props.isComment ? "comment" : "publication";
 
     return (
         <StyledForm isComment={props.isComment}>

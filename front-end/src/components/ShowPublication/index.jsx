@@ -100,6 +100,7 @@ function ShowPublication(props){
     const commentInput = useRef(null);
     const publication = props.publication;
     const [comments, setComments] = useState([])
+    const [newComment, setNewComment] = useState(false);
     
     
     const calcDate = useCallback(()=>{
@@ -133,7 +134,7 @@ function ShowPublication(props){
 
     useEffect(()=>{
         fetchComment();
-    },[])
+    },[newComment])
 
     
     //Probablement mieux
@@ -171,7 +172,7 @@ function ShowPublication(props){
                 <PublicationIcon type={"comment"} publication={publication} handleFocusComment={handleFocusComment}/>
             </IconContainer>
             <CommentContainer>
-                <AddNewPublication isComment setRef={commentInput} publicationId={publication._id}/>
+                <AddNewPublication isComment setNewComment={setNewComment} setRef={commentInput} publicationId={publication._id}/>
                 {comments && comments.comments.map((comment)=>(
                     <CommentBloc key={comment._id} comment={comment}/>
                 ))}
@@ -181,6 +182,7 @@ function ShowPublication(props){
     </>
     )
 }
+
 
 export default ShowPublication
 
