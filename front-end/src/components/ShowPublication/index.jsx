@@ -112,7 +112,7 @@ function ShowPublication(props){
     
     const [comments, setComments] = useState([])
     
-    const {data, isLoading, error } = useFetch(`http://localhost:3000/api/user/${publication.author}`)
+    const {data } = useFetch(`http://localhost:3000/api/user/${publication.author}`)
 
     const fetchComment = useCallback(async()=>{
         try {
@@ -120,8 +120,9 @@ function ShowPublication(props){
             const answer = await res.json()
             setComments(answer)
         } catch (error) {
+            console.error(error)
         }
-    },[])
+    },[setComments, publication])
 
     useEffect(()=>{
         if (props.last){

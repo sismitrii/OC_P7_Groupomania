@@ -1,7 +1,7 @@
 /*====================================================*/
 /* ------------------- Import ---------------------*/
 /*====================================================*/
-import { useState, useEffect, useCallback, useMemo } from "react"
+import { useState, useEffect, useCallback} from "react"
 import styled, {keyframes} from "styled-components"
 
 import Header from "../../components/Header"
