@@ -98,6 +98,7 @@ function Home(){
         if( newPubli){
             offset = 0;
             setPublications([])
+            setNewPubli(false);
         }
         //peut-etre offset -5 si newpubli
         loadMorePublication();

@@ -3,12 +3,12 @@
 /*====================================================*/
 
 import styled from 'styled-components'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEllipsis } from '@fortawesome/free-solid-svg-icons'
 import ProfilImg from '../ProfilImg'
 import { Link } from 'react-router-dom'
 import useFetch from '../../utils/hooks'
 import Deleted from '../../assets/Deleted.jpg'
+import UpdateAndDelete from '../UpdateAndDelete'
+import { useEffect, useState } from 'react'
 
 /*====================================================*/
 /* ---------------------- Style ----------------------*/
@@ -16,7 +16,7 @@ import Deleted from '../../assets/Deleted.jpg'
 
 const BottomComment = styled.div`
     width: 100%;
-    display: flex;
+    display: ${(props)=> props.commentDeleted ? "none" : "flex"};
     align-items: center;
     margin-top: 10px;
 `
@@ -54,6 +54,11 @@ const StyledLink = styled(Link)`
 /*====================================================*/
 
 function CommentBloc(props){
+    const [commentDeleted, setCommentDeleted] = useState(false);
+
+    useEffect(()=>{
+        // setCommentDeleted(false)
+    },[commentDeleted])
 
     const {data} = useFetch(`http://localhost:3000/api/user/${props.comment.author}`)
 
@@ -61,7 +66,7 @@ function CommentBloc(props){
     return(
     <>
         {data.user &&
-            <BottomComment>
+            <BottomComment commentDeleted={commentDeleted}>
             <ProfilImg size='small' src={data.user.profilImgUrl ? data.user.profilImgUrl : Deleted } /> 
                 <Comment>
                     <p>
@@ -70,7 +75,7 @@ function CommentBloc(props){
                         }
                         {props.comment.content}
                         </p>
-                    <FontAwesomeIcon icon={faEllipsis} />
+                    <UpdateAndDelete setDeleted={setCommentDeleted} id={{publication: props.publicationId, comment: props.comment._id}} />
                 </Comment>
             </BottomComment>
         }

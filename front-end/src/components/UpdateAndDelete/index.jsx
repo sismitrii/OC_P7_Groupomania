@@ -72,7 +72,6 @@ function UpdateAndDelete(props){
     async function handleDelete(){
         //faire une requete pour supprimer la publication ou le commentaire
         try {
-            console.log('try to delete')
             const requestUrl = `http://localhost:3000/api/publication/${props.id.publication}${props.id.comment ? `/comment/${props.id.comment}` : ""}`
             const bearer = 'Bearer ' + dataConnection.token;
             const res = await fetch(requestUrl,{
@@ -85,7 +84,7 @@ function UpdateAndDelete(props){
             });
             const answer = await res.json();
             console.log(answer);
-            props.setPubliDeleted(true);
+            props.setDeleted(true);
         } catch (error) {
             console.error(error)
         }

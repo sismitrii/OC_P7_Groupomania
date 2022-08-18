@@ -101,6 +101,8 @@ function ShowPublication(props){
     const publication = props.publication;
     const [comments, setComments] = useState([])
     const [newComment, setNewComment] = useState(false);
+
+
     
     
     const calcDate = useCallback(()=>{
@@ -134,6 +136,7 @@ function ShowPublication(props){
 
     useEffect(()=>{
         fetchComment();
+        setNewComment(false);
     },[newComment])
 
     
@@ -159,7 +162,7 @@ function ShowPublication(props){
                         <p>Il y a {calcDate()} </p>
                     </ProfilText>
                 </ProfilContainer>
-                <UpdateAndDelete setPubliDeleted={props.setPubliDeleted} id={{publication: publication._id}}/>
+                <UpdateAndDelete setDeleted={props.setPubliDeleted} id={{publication: publication._id}}/>
             </TopContainer>
             <StyledText>{publication.content}</StyledText>
             {publication.imageUrl &&
@@ -174,7 +177,7 @@ function ShowPublication(props){
             <CommentContainer>
                 <AddNewPublication isComment setNewComment={setNewComment} setRef={commentInput} publicationId={publication._id}/>
                 {comments && comments.comments.map((comment)=>(
-                    <CommentBloc key={comment._id} comment={comment}/>
+                    <CommentBloc key={comment._id} publicationId={publication._id} comment={comment}/>
                 ))}
             </CommentContainer>
         </PublicationContainer> 
