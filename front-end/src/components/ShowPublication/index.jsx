@@ -194,7 +194,7 @@ function ShowPublication(props){
             <CommentContainer>
                 <AddNewPublication type={"comment"} setNewComment={setNewComment} setRef={commentInput} publicationId={publication._id}/>
                 {comments && comments.comments.map((comment)=>(
-                    <CommentBloc key={comment._id} publicationId={publication._id} comment={comment}/>
+                    <CommentBloc key={comment._id} publication={publication} comment={comment}/>
                 ))}
             </CommentContainer>
         </PublicationContainer> 

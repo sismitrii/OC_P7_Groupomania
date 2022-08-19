@@ -85,7 +85,7 @@ function UpdateAndDelete(props){
 
     async function handleDelete(){
         try {
-            const requestUrl = `http://localhost:3000/api/publication/${props.id.publicationId}${props.id.comment ? `/comment/${props.id.comment}` : ""}`
+            const requestUrl = `http://localhost:3000/api/publication/${props.id.publication._id}${props.id.comment ? `/comment/${props.id.comment}` : ""}`
             const bearer = 'Bearer ' + dataConnection.token;
             const res = await fetch(requestUrl,{
                 method: 'DELETE',

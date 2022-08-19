@@ -75,7 +75,7 @@ function CommentBloc(props){
                         }
                         {props.comment.content}
                         </p>
-                    <UpdateAndDelete setDeleted={setCommentDeleted} id={{publication: props.publicationId, comment: props.comment._id}} />
+                    <UpdateAndDelete setDeleted={setCommentDeleted} id={{publication: props.publication, comment: props.comment._id}} />
                 </Comment>
             </BottomComment>
         }
