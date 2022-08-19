@@ -131,6 +131,11 @@ function AddNewPublication(props){
         }
     }
 
+    // on renvoit dans tout les cas publication, comment ou modification une value
+    // Pour publication et comment c'est au début un champs vide 
+    // Pour modification c'est au debut la valeur de la publication
+    // et dans tout les cas ensuite c'est la valeur de l'input
+
     function handleChangePicture(e){
         if (e.target.files[0]){
             setImage(URL.createObjectURL(e.target.files[0])); 
@@ -193,6 +198,7 @@ function AddNewPublication(props){
             }
         }
     }
+
     return (
         <StyledForm type={type}>
             <TextInput 

@@ -34,7 +34,6 @@ const StyledInput = styled.textarea`
 function TextInput(props){
     const [textHeight, setTextHeight] = useState("40px")
 
-
     async function handleKeyUp(e){
         props.set(e.target.value);
         await setTextHeight("auto")
