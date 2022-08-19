@@ -9,6 +9,7 @@ import styled from "styled-components"
 
 import TextInput from "../TextInput"
 import PostButton from "../PostButton"
+import fetchGet from "../../utils/function/function"
 
 /*====================================================*/
 /* --------------------- Style ----------------------*/
@@ -83,6 +84,7 @@ function AddNewPublication(props){
 
     let modificationData = {};
 
+    // ONLY FOR MODIFICATION
     useEffect(()=>{
         if(props.imageUrl){
             const formData = new FormData();
@@ -95,7 +97,7 @@ function AddNewPublication(props){
         setPublicationData(modificationData);
     },[props.imageUrl, props.value])
 
-
+    // ONLY FOR MODIFICATION
     useEffect(()=>{
         if(props.imageUrl){
             setImage(props.imageUrl);
@@ -106,18 +108,18 @@ function AddNewPublication(props){
         publication: {
             name: "share",
             placeholder: "Que souhaitez-vous partagez ?",
-            url: `http://localhost:3000/api/publication`
+            url: ""
         },
         comment: {
             name:"comment",
             placeholder: "Commentez cette publication",
-            url: `http://localhost:3000/api/publication/${props.publicationId}/comment`,
+            url: `/${props.publicationId}/comment`,
             setRef: props.setRef
         },
         modification: {
             name: "modification",
             placeholder: "Que souhaitez-vous partagez ?",
-            url: `http://localhost:3000/api/publication/${props.publicationId}`,
+            url: `/${props.publicationId}`,
             value: props.value
         }
     }
@@ -159,30 +161,29 @@ function AddNewPublication(props){
                 }
 
                 const dataToPost = publicationData.image ? publicationData.image : JSON.stringify(publicationData)
-                let res = await fetch(inputValue[type].url, {
+                let res = await fetch(`http://localhost:3000/api/publication${inputValue[type].url}`, {
                     method: method,
                     headers: header,
                     body: dataToPost
                 })
+                    // Pourquoi remettre à zéro
                     await setPublicationData({})
                     await setImage(null)
-                    //ça marche pas parceque tout les commentaire ont le meme id evidemment
-                    document.getElementById(inputValue[type].name).value = ""; 
+
                     let answer = await res.json()
                     console.log(answer);
                     if (type === "publication"){
-                        props.setNewPubli(true);
+                        const newPubli = await fetchGet(`http://localhost:3000/api/publication/one/${answer.id}`)
+                        props.setPublications((prev)=> [newPubli.publication, ...prev])
                     } else if (type === "comment"){
                         props.setNewComment(true);
                     } else if (type === "modification"){
                         props.setIsOpenModificationBloc(false);
-                    }
-                    
+                    }    
             } catch(err) {
                 console.log(err);
             }
         }
-
     }
 
     return (

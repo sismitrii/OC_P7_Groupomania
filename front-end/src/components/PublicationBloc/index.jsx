@@ -26,15 +26,14 @@ const Container = styled.section`
 /*====================================================*/
 function PublicationBloc(props){
     const [publiDeleted, setPubliDeleted] = useState(false);
-
     let toReturn; 
 
     switch (props.type){
         case 'add':
-            toReturn = <AddNewPublication setNewPubli={props.setNewPubli} type={"publication"} />
+            toReturn = <AddNewPublication setPublications={props.setPublications} type={"publication"} />
             break;
         case 'show': 
-            toReturn = <ShowPublication setIsLoading={props.setIsLoading} setPubliDeleted={setPubliDeleted} last={props.last} publication={props.publication}/>
+            toReturn = <ShowPublication setPubliDeleted={setPubliDeleted} publication={props.publication}/>
             break
         default:
             <></>

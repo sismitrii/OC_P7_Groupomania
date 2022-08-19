@@ -1,12 +1,14 @@
 /*====================================================*/
 /* ------------------- Import ---------------------*/
 /*====================================================*/
-import { useState, useEffect, useCallback} from "react"
+import { useState} from "react"
 import styled, {keyframes} from "styled-components"
 
 import Header from "../../components/Header"
 import PublicationBloc from "../../components/PublicationBloc"
 import colors from "../../utils/styles/colors"
+
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 
 /*====================================================*/
@@ -21,6 +23,11 @@ const Container = styled.main`
     margin: auto;
     max-width: 700px;
     min-width: 320px;
+
+    .infinite-scroll-component__outerdiv {
+        width: 100%;
+        text-align: center;
+    }
 `
 
 const HomeTitle = styled.h1`
@@ -61,63 +68,58 @@ height: 80px;
 /* ------------------- Component ---------------------*/
 /*====================================================*/
 function Home(){
-    //const [startToLoad, setStartToLoad] = useState(0);
-    //const {data, isLoading, error} = useFetch(`http://localhost:3000/api/publication/${startToLoad}`);
     const [publications, setPublications] = useState([])
-    const [isLoading, setIsLoading] = useState(false);
-    const [newPubli, setNewPubli] = useState(false);
-    let offset = 0;
-    console.log('render');
+    const [hasMore, setHasMore] = useState(true);
+    const [offset, setOffset] = useState(0);
+    //console.log('render');
+    console.log(publications);
 
-    const loadMorePublication = useCallback(async() => {
-        if (!isLoading){
+    const loadMorePublication = async() => {
+        const result = await fetch(`http://localhost:3000/api/publication/length`)
+        const totalLength = await result.json();
+
+        if(publications.length >= totalLength.publicationLength){
+            setHasMore(false)
+        }
         try {
-            // setIsLoading(true);
-            console.log("requete")
-            const res = await fetch(`http://localhost:3000/api/publication/${offset}`)
+            //console.log("requete")
+            const res = await fetch(`http://localhost:3000/api/publication/all/${offset}`)
             const dataToAdd = await res.json()
             await setPublications((prevPublication) => [...prevPublication, ...dataToAdd.publicationToReturn])
-            offset +=  5;
+            setOffset(offset + 5);
         } catch (error) {
             console.error(error);
         }
     }
-    },[setPublications, newPubli])
-
-    const handleScroll = (e)=>{
-        if ((window.innerHeight + e.target.documentElement.scrollTop + 1 >= e.target.documentElement.scrollHeight) && (isLoading === false)){
-            loadMorePublication();
-            console.log("loaded");
-        }
-    }
-
-    useEffect(()=>{
-        if( newPubli){
-            offset = 0;
-            setPublications([])
-            setNewPubli(false);
-        }
+    if (!publications[0]){
+        console.log(publications);
         loadMorePublication();
-        window.addEventListener("scroll", handleScroll)
-    },[newPubli])
-
+    }
 
     return (
     <>
         <Header active={"home"}/>
         <Container>
             <HomeTitle>Fil d'actualités</HomeTitle>
-            <PublicationBloc setNewPubli={setNewPubli} type={"add"}/>
-            {/* {isLoading ? 
-            <Loader></Loader>
-            :
-            <> */}
-            { publications && publications.map((publication,i)=>(
-                <PublicationBloc setIsLoading={setIsLoading} last={i === (publications.length -1) ? true : false } key={i} publication={publication} type={"show"}/>
-            ))}
-            {/* </>
-            } */}
-            {isLoading && <Loader></Loader>}
+            <PublicationBloc 
+                setPublications={setPublications}
+                type={"add"}
+            />
+            <InfiniteScroll 
+                dataLength={publications.length} 
+                next={loadMorePublication}
+                hasMore={hasMore}
+                loader={<Loader />}
+                endMessage={<h3>Il n'y a plus d'autre publication</h3>}
+            >
+                { publications && publications.map((publication,i)=>(
+                    <PublicationBloc 
+                        key={i} 
+                        publication={publication} 
+                        type={"show"}
+                    />
+                ))}
+            </InfiniteScroll>
         </Container>
         
     </>

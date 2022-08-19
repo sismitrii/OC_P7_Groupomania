@@ -49,6 +49,7 @@ const ProfilText = styled.div`
 
 const StyledText = styled.p`
     width: 90%;
+    text-align: left;
     margin: 20px auto;
 `
 
@@ -103,15 +104,6 @@ function ShowPublication(props){
     const [comments, setComments] = useState([])
     const [newComment, setNewComment] = useState(false);
     const {dataConnection} = useContext(ConnectionContext)
-    //const [modified, setModified] = useState(false)
-    //const [publicationModified, setPublicationModified] = useState({})
-
-    useEffect(()=>{
-
-        if (props.last){
-            props.setIsLoading(false);
-        }
-    })
 
     // const fetchOnePublication = useCallback(async()=>{
     //     try {
@@ -128,6 +120,7 @@ function ShowPublication(props){
         try {
             const res = await fetch(`http://localhost:3000/api/publication/${publication._id}/comment`)
             const answer = await res.json()
+            console.log("answer commentaire ",answer);
             setComments(answer)
         } catch (error) {
             console.error(error)

@@ -31,6 +31,7 @@ const Comment = styled.div`
     margin-left: 10px;
     border-radius: 5px;
     padding: 5px 10px;
+    text-align: left;
 
     p {
         width: 95%;
