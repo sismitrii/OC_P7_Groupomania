@@ -6,9 +6,8 @@ import { faHeart as fasHeart, faComment as fasComment } from "@fortawesome/free-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import styled from "styled-components"
 import { useEffect, useState, useContext } from "react"
-import { ConnectionContext } from "../../utils/context"
-
-import colors from "../../utils/styles/colors"
+import { ConnectionContext } from "../utils/context"
+import colors from "../utils/styles/colors"
 
 /*====================================================*/
 /* --------------------- Style -----------------------*/

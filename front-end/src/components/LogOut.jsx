@@ -1,10 +1,9 @@
 /*====================================================*/
 /* --------------------- Import ----------------------*/
 /*====================================================*/
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
-import colors from "../../utils/styles/colors"
-import { useNavigate } from "react-router-dom";
+import colors from "../utils/styles/colors"
 
 /*====================================================*/
 /* ---------------------- Style ----------------------*/

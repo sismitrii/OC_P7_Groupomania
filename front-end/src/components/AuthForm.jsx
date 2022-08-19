@@ -3,14 +3,13 @@
 /*====================================================*/
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState, useContext } from 'react'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { faEye } from '@fortawesome/free-solid-svg-icons'
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import colors from '../../utils/styles/colors'
+import colors from '../utils/styles/colors';
 import zxcvbn from 'zxcvbn';
-import { ConnectionContext } from '../../utils/context'
-import { useParams } from 'react-router-dom';
+import { ConnectionContext } from '../utils/context';
+
 
 /*====================================================*/
 /* --------------------- Style -----------------------*/

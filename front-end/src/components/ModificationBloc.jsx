@@ -3,8 +3,8 @@
 /*====================================================*/
 
 import styled from "styled-components"
-import colors from "../../utils/styles/colors"
-import AddNewPublication from "../AddNewPublication"
+import colors from "../utils/styles/colors"
+import AddNewPublication from "./AddNewPublication"
 
 /*====================================================*/
 /* ---------------------- Style ----------------------*/

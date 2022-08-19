@@ -1,12 +1,12 @@
 /*====================================================*/
 /* --------------------- Import ----------------------*/
 /*====================================================*/
-import Logo from '../../assets/icon-left-font.svg';
+import Logo from '../assets/icon-left-font.svg';
 import styled from 'styled-components';
 
-import NavBar from '../NavBar';
-import Search from '../Search';
-import LogOut from '../LogOut';
+import NavBar from './NavBar';
+import Search from './Search';
+import LogOut from './LogOut';
 
 /*====================================================*/
 /* --------------------- Style -----------------------*/

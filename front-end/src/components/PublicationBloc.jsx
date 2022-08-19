@@ -2,9 +2,8 @@
 /* --------------------- Import ----------------------*/
 /*====================================================*/
 import styled from "styled-components"
-
-import AddNewPublication from "../AddNewPublication"
-import ShowPublication from "../ShowPublication";
+import AddNewPublication from "./AddNewPublication"
+import ShowPublication from "./ShowPublication";
 import { useState } from "react";
 
 /*====================================================*/

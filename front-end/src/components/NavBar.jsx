@@ -1,12 +1,20 @@
+/*====================================================*/
+/* --------------------- Import ----------------------*/
+/*====================================================*/
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faHouse, faGear } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import styled from "styled-components";
-import colors from "../../utils/styles/colors";
+import colors from "../utils/styles/colors";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Search from "../Search";
-import LogOut from "../LogOut";
+import Search from "./Search";
+import LogOut from "./LogOut";
+
+/*====================================================*/
+/* --------------------- Style -----------------------*/
+/*====================================================*/
 
 const MenuBars = styled(FontAwesomeIcon)`
   color: ${colors.primary};
@@ -184,6 +192,10 @@ const NavBarCircle = styled.div`
 //   &:nth-child(3).active ~ .navBar__Circle {
 //     transform: translateX(140px);
 //   }
+
+/*====================================================*/
+/* ---------------------- Main -----------------------*/
+/*====================================================*/
 
 function NavBar(props) {
   const [activeMenu, setActiveMenu] = useState(["home",0, 0]);

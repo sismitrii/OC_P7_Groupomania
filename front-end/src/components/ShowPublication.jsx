@@ -4,15 +4,14 @@
 import { Link } from 'react-router-dom' 
 import styled from "styled-components"
 
-import { useContext, useEffect, useState } from "react"
-import { ConnectionContext } from '../../utils/context'
-import CommentBloc from "../CommentBloc"
-import ProfilImg from "../ProfilImg"
-import { useCallback, useRef } from "react"
-import useFetch from "../../utils/hooks"
-import PublicationIcon from "../PublicationIcon"
-import AddNewPublication from "../AddNewPublication"
-import UpdateAndDelete from "../UpdateAndDelete"
+import { useContext, useEffect, useState, useCallback, useRef } from "react"
+import { ConnectionContext } from '../utils/context'
+import CommentBloc from "./CommentBloc"
+import ProfilImg from "./ProfilImg"
+import useFetch from "../utils/hooks"
+import PublicationIcon from "./PublicationIcon"
+import AddNewPublication from "./AddNewPublication"
+import UpdateAndDelete from "./UpdateAndDelete"
 
 
 /*====================================================*/

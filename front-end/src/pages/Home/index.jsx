@@ -76,7 +76,7 @@ function Home(){
     //console.log('render');
 
     const loadMorePublication = async() => {
-        const totalLength = fetchGet(`http://localhost:3000/api/publication/length`)
+        const totalLength = await fetchGet(`http://localhost:3000/api/publication/length`)
 
         if(publications.length >= totalLength.publicationLength){
             setHasMore(false)
@@ -110,7 +110,7 @@ function Home(){
                 next={loadMorePublication}
                 hasMore={hasMore}
                 loader={<Loader />}
-                endMessage={<h3>Il n'y a plus d'autre publication</h3>}
+                endMessage={<h3>Il n'y a plus d'autres publications</h3>}
             >
                 { publications && publications.map((publication,i)=>(
                     <PublicationBloc 

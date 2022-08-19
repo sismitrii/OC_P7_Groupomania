@@ -3,11 +3,11 @@
 /*====================================================*/
 
 import styled from 'styled-components'
-import ProfilImg from '../ProfilImg'
+import ProfilImg from './ProfilImg'
 import { Link } from 'react-router-dom'
-import useFetch from '../../utils/hooks'
-import Deleted from '../../assets/Deleted.jpg'
-import UpdateAndDelete from '../UpdateAndDelete'
+import useFetch from '../utils/hooks'
+import Deleted from '../assets/Deleted.jpg'
+import UpdateAndDelete from './UpdateAndDelete'
 import { useState } from 'react'
 
 /*====================================================*/

@@ -2,12 +2,12 @@
 /* --------------------- Import ----------------------*/
 /*====================================================*/
 import { useContext, useState } from "react"
-import { ConnectionContext } from "../../utils/context"
+import { ConnectionContext } from "../utils/context"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons"
 import styled from "styled-components"
-import colors from "../../utils/styles/colors"
-import ModificationBloc from "../ModificationBloc"
+import colors from "../utils/styles/colors"
+import ModificationBloc from "./ModificationBloc"
 
 /*====================================================*/
 /* --------------------- Style ----------------------*/

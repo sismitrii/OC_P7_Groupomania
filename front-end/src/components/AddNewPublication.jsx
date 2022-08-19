@@ -2,14 +2,14 @@
 /* --------------------- Import ----------------------*/
 /*====================================================*/
 import { useState, useContext, useEffect } from "react"
-import { ConnectionContext} from "../../utils/context"
+import { ConnectionContext} from "../utils/context"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCirclePlus, faEdit} from "@fortawesome/free-solid-svg-icons"
 import styled from "styled-components"
 
-import TextInput from "../TextInput"
-import PostButton from "../PostButton"
-import fetchGet from "../../utils/function/function"
+import TextInput from "./TextInput"
+import PostButton from "./PostButton"
+import fetchGet from "../utils/function/function"
 
 /*====================================================*/
 /* --------------------- Style ----------------------*/
@@ -181,6 +181,7 @@ function AddNewPublication(props){
                 })
                     let answer = await res.json()
                     console.log(answer);
+
                     if (type === "publication"){
                         const newPubli = await fetchGet(`http://localhost:3000/api/publication/one/${answer.id}`)
                         props.setPublications((prev)=> [newPubli.publication, ...prev])
@@ -189,7 +190,8 @@ function AddNewPublication(props){
                     } else if (type === "modification"){
                         props.setIsOpenModificationBloc(false);
                     }
-                    setValue("");  
+                    setValue(""); 
+                    await setImage(null); 
             } catch(err) {
                 console.log(err);
             }
