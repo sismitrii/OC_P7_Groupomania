@@ -4,7 +4,8 @@
 import { Link } from 'react-router-dom' 
 import styled from "styled-components"
 
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
+import { ConnectionContext } from '../../utils/context'
 import CommentBloc from "../CommentBloc"
 import ProfilImg from "../ProfilImg"
 import { useCallback, useRef } from "react"
@@ -98,23 +99,30 @@ const StyledLink = styled(Link)`
 
 function ShowPublication(props){
     const commentInput = useRef(null);
-    const publication = props.publication;
+    let publication = props.publication;
     const [comments, setComments] = useState([])
     const [newComment, setNewComment] = useState(false);
+    const {dataConnection} = useContext(ConnectionContext)
+    //const [modified, setModified] = useState(false)
+    //const [publicationModified, setPublicationModified] = useState({})
 
+    useEffect(()=>{
 
-    
-    
-    const calcDate = useCallback(()=>{
-        const timePassed = (Date.now() - (new Date(publication.createdAt).getTime()))/1000/60;
-        if (timePassed < 60){
-            return `${Math.ceil(timePassed)}min`
-        } else {
-            return `${Math.round(timePassed/60)}h`
-        }
-    }, [publication])
-    
+        // if (props.last){
+        //     props.setIsLoading(false);
+        // }
+    })
 
+    // const fetchOnePublication = useCallback(async()=>{
+    //     try {
+    //         const res = await fetch(`http://localhost:3000/api/publication/one/${publication._id}`)
+    //         const answer = await res.json()
+    //         setPublicationModified(answer.publication)
+    //     } catch (error) {
+    //         console.error(error)
+    //     }
+    // },[setComments, publication, setPublicationModified, modified])
+    
     const {data} = useFetch(`http://localhost:3000/api/user/${publication.author}`)
     const fetchComment = useCallback(async()=>{
         try {
@@ -127,12 +135,20 @@ function ShowPublication(props){
     },[setComments, publication])
 
 
-    useEffect(()=>{
-        if (props.last){
-            //props.setIsLoading(false);
+    const calcDate = useCallback(()=>{
+        const timePassed = (Date.now() - (new Date(publication.createdAt).getTime()))/1000/60;
+        if (timePassed < 60){
+            return `${Math.ceil(timePassed)}min`
+        } else {
+            return `${Math.round(timePassed/60)}h`
         }
-    })
+    }, [publication])
 
+
+    // useEffect(()=>{
+    //     fetchOnePublication()
+    //     setModified(false);
+    // },[modified])
 
     useEffect(()=>{
         fetchComment();
@@ -162,7 +178,8 @@ function ShowPublication(props){
                         <p>Il y a {calcDate()} </p>
                     </ProfilText>
                 </ProfilContainer>
-                <UpdateAndDelete setDeleted={props.setPubliDeleted} id={{publication: publication}}/>
+                {/* user._id === dataConnection.userId*/}
+                { user._id === dataConnection.userId && <UpdateAndDelete setDeleted={props.setPubliDeleted} id={{publication: publication}}/>}
             </TopContainer>
             <StyledText>{publication.content}</StyledText>
             {publication.imageUrl &&
