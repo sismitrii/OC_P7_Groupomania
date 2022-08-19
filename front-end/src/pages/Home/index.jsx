@@ -69,6 +69,7 @@ height: 80px;
 /*====================================================*/
 function Home(){
     const [publications, setPublications] = useState([])
+
     const [hasMore, setHasMore] = useState(true);
     const [offset, setOffset] = useState(0);
     //console.log('render');
