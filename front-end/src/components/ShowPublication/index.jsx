@@ -102,7 +102,6 @@ function ShowPublication(props){
     const commentInput = useRef(null);
     let publication = props.publication;
     const [comments, setComments] = useState([])
-    const [newComment, setNewComment] = useState(false);
     const {dataConnection} = useContext(ConnectionContext)
 
     // const fetchOnePublication = useCallback(async()=>{
@@ -120,13 +119,15 @@ function ShowPublication(props){
         try {
             const res = await fetch(`http://localhost:3000/api/publication/${publication._id}/comment`)
             const answer = await res.json()
-            console.log("answer commentaire ",answer);
-            setComments(answer)
+            setComments(answer.comments)
         } catch (error) {
             console.error(error)
         }
-    },[setComments, publication])
+    },[ publication])
 
+useEffect(()=>{
+    fetchComment();
+},[])
 
     const calcDate = useCallback(()=>{
         const timePassed = (Date.now() - (new Date(publication.createdAt).getTime()))/1000/60;
@@ -143,13 +144,7 @@ function ShowPublication(props){
     //     setModified(false);
     // },[modified])
 
-    useEffect(()=>{
-        fetchComment();
-        setNewComment(false);
-    },[newComment])
-
-    
-    //Probablement mieux
+    //Probablement mieux à faire
     let user;
     if (data){
         user = data.user;
@@ -181,13 +176,25 @@ function ShowPublication(props){
             </ImgContainer>
             }
             <IconContainer>
-                <PublicationIcon type={"heart"} publication={publication} />
-                <PublicationIcon type={"comment"} publication={publication} handleFocusComment={handleFocusComment}/>
+                <PublicationIcon 
+                    type={"heart"} 
+                    publication={publication} 
+                />
+                <PublicationIcon 
+                    type={"comment"} 
+                    publication={publication} 
+                    handleFocusComment={handleFocusComment}
+                />
             </IconContainer>
             <CommentContainer>
-                <AddNewPublication type={"comment"} setNewComment={setNewComment} setRef={commentInput} publicationId={publication._id}/>
-                {comments && comments.comments.map((comment)=>(
-                    <CommentBloc key={comment._id} publication={publication} comment={comment}/>
+                <AddNewPublication 
+                    type={"comment"} 
+                    setRef={commentInput} 
+                    publicationId={publication._id}
+                    setComments={setComments}
+                />
+                {comments && comments.map((comment,i)=>(
+                    <CommentBloc key={i} publication={publication} comment={comment}/>
                 ))}
             </CommentContainer>
         </PublicationContainer> 

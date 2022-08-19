@@ -167,31 +167,30 @@ function AddNewPublication(props){
                     body: dataToPost
                 })
                     // Pourquoi remettre à zéro
-                    await setPublicationData({})
-                    await setImage(null)
-
                     let answer = await res.json()
                     console.log(answer);
                     if (type === "publication"){
                         const newPubli = await fetchGet(`http://localhost:3000/api/publication/one/${answer.id}`)
                         props.setPublications((prev)=> [newPubli.publication, ...prev])
                     } else if (type === "comment"){
-                        props.setNewComment(true);
+                        props.setComments((prev)=>[...prev, {content: publicationData.content, author: dataConnection.userId}]);
                     } else if (type === "modification"){
                         props.setIsOpenModificationBloc(false);
-                    }    
+                    }
+                    //await setPublicationData({})
+                    //await setImage(null)    
             } catch(err) {
                 console.log(err);
             }
         }
     }
-
+//value={inputValue[type].value}
     return (
         <StyledForm type={type}>
             <TextInput 
                 set={handleChangeText} 
                 input={inputValue[type]}
-                value={inputValue[type].value}
+                value={publicationData.content}
             />
             <BottomBloc type={props.type} direction={image === null ? "row" : "column"}>
                 {(props.type === "publication" || props.type === "modification") && 
