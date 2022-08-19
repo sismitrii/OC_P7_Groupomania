@@ -36,6 +36,12 @@ exports.getOnePublication = (req, res, next) => {
     .catch((error)=> res.status(400).json({message:"Error find this publication", error}))
 }
 
+exports.getLength = (req, res, next) => {
+    Publication.find()
+    .then((publications)=>res.status(200).json({publicationLength: publications.length}))
+    .catch((error)=>res.status(400).json({message: "Error find publication", error}))
+}
+
 /*=== Create a publication with or without image and update publications of user that created ===*/
 exports.createPublication = (req, res, next) => {
     let publicationContent = req.body.publication ? JSON.parse(req.body.publication).content: req.body.content;
