@@ -108,9 +108,9 @@ function ShowPublication(props){
 
     useEffect(()=>{
 
-        // if (props.last){
-        //     props.setIsLoading(false);
-        // }
+        if (props.last){
+            props.setIsLoading(false);
+        }
     })
 
     // const fetchOnePublication = useCallback(async()=>{
@@ -121,7 +121,7 @@ function ShowPublication(props){
     //     } catch (error) {
     //         console.error(error)
     //     }
-    // },[setComments, publication, setPublicationModified, modified])
+    // },[setPublicationModified, modified])
     
     const {data} = useFetch(`http://localhost:3000/api/user/${publication.author}`)
     const fetchComment = useCallback(async()=>{
