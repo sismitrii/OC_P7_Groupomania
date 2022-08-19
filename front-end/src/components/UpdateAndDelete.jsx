@@ -9,6 +9,8 @@ import styled from "styled-components"
 import colors from "../utils/styles/colors"
 import ModificationBloc from "./ModificationBloc"
 
+import { AppContext } from "../utils/context"
+
 /*====================================================*/
 /* --------------------- Style ----------------------*/
 /*====================================================*/
@@ -70,6 +72,8 @@ function UpdateAndDelete(props){
     //props.type = "publication ou comment"
     const [isopenModicationBloc, setIsOpenModificationBloc] = useState(false)
     const {dataConnection} = useContext(ConnectionContext);
+    const {setModifIsOpen} = useContext(AppContext)
+
 
     // const isInitialMount = useRef(true);
 
@@ -105,6 +109,7 @@ function UpdateAndDelete(props){
 
     function handleModification(){
         setIsOpenModificationBloc(true);
+        setModifIsOpen(true)
     }
 
     return(

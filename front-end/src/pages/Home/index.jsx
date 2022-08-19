@@ -1,7 +1,7 @@
 /*====================================================*/
 /* ------------------- Import ---------------------*/
 /*====================================================*/
-import { useState} from "react"
+import { useContext, useState} from "react"
 import styled, {keyframes} from "styled-components"
 
 import Header from "../../components/Header"
@@ -10,6 +10,7 @@ import colors from "../../utils/styles/colors"
 
 import InfiniteScroll from 'react-infinite-scroll-component';
 import fetchGet from "../../utils/function/function"
+import { AppContext } from "../../utils/context"
 
 
 /*====================================================*/
@@ -69,7 +70,8 @@ height: 80px;
 /* ------------------- Component ---------------------*/
 /*====================================================*/
 function Home(){
-    const [publications, setPublications] = useState([])
+    //const [publications, setPublications] = useState([])
+    const {publications, setPublications} = useContext(AppContext)
 
     const [hasMore, setHasMore] = useState(true);
     const [offset, setOffset] = useState(0);
@@ -102,7 +104,6 @@ function Home(){
         <Container>
             <HomeTitle>Fil d'actualités</HomeTitle>
             <PublicationBloc 
-                setPublications={setPublications}
                 type={"add"}
             />
             <InfiniteScroll 

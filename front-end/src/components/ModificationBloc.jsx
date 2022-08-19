@@ -2,7 +2,9 @@
 /* --------------------- Import ----------------------*/
 /*====================================================*/
 
+import { useContext } from "react"
 import styled from "styled-components"
+import { AppContext } from "../utils/context"
 import colors from "../utils/styles/colors"
 import AddNewPublication from "./AddNewPublication"
 
@@ -11,22 +13,23 @@ import AddNewPublication from "./AddNewPublication"
 /*====================================================*/
 
 const Container = styled.div`
-    position: absolute;
+    position: fixed;
     top:0;
     left:0;
     background: rgba(0,0,0, 0.4);
     width: 100%;
-    height: ${document.documentElement.scrollHeight}px;
-    z-index:1000;
+    height: 100vh;
+    z-index: 1000;
 `
 
 const ModificationContainer = styled.div`
-    position: sticky;
+    position: absolute;
     width: 90%;
     min-width: 320px;
     max-width: 600px;
     top: 50%;
-    transform: translateY(-50%);
+    left: 50%;
+    transform: translate(-50%, -50%);
     margin: 0 auto;
     background: rgba(230, 230, 230, 1);
 
@@ -58,12 +61,13 @@ const Leave = styled.div`
 /*====================================================*/
 
 function ModificationBloc(props){
+    const {setModifIsOpen} = useContext(AppContext)
 
     return(
     <Container>
         <ModificationContainer>
             <ModificationTitle>Modifier la publication</ModificationTitle>
-            <Leave onClick={()=> props.setIsOpenModificationBloc(false)}>X</Leave>
+            <Leave onClick={()=> {props.setIsOpenModificationBloc(false); setModifIsOpen(false)}}>X</Leave>
             <AddNewPublication 
                 setIsOpenModificationBloc={props.setIsOpenModificationBloc}
                 publicationId={props.publication._id} 

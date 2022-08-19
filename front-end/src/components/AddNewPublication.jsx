@@ -2,7 +2,7 @@
 /* --------------------- Import ----------------------*/
 /*====================================================*/
 import { useState, useContext, useEffect } from "react"
-import { ConnectionContext} from "../utils/context"
+import { AppContext, ConnectionContext} from "../utils/context"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCirclePlus, faEdit} from "@fortawesome/free-solid-svg-icons"
 import styled from "styled-components"
@@ -79,6 +79,7 @@ function AddNewPublication(props){
     const [image, setImage] = useState(null)
     const [publicationData, setPublicationData] = useState({})
     const {dataConnection} = useContext(ConnectionContext);
+    const {publications, setPublications, setModifIsOpen} = useContext(AppContext);
     const [value, setValue] = useState("")
 
     const type = props.type;
@@ -94,6 +95,7 @@ function AddNewPublication(props){
         }
         if(props.value){
             modificationData.content = props.value
+            setValue(props.value);
         }
         setPublicationData(modificationData);
     },[props.imageUrl, props.value])
@@ -104,12 +106,6 @@ function AddNewPublication(props){
             setImage(props.imageUrl);
         }
     },[props.imageUrl])
-
-    useEffect(()=>{
-        if (props.value){
-            setValue(props.value);
-        }
-    },[props.value])
 
     const inputValue = {
         publication: {
@@ -126,8 +122,7 @@ function AddNewPublication(props){
         modification: {
             name: "modification",
             placeholder: "Que souhaitez-vous partagez ?",
-            url: `/${props.publicationId}`,
-            value: props.value
+            url: `/${props.publicationId}`
         }
     }
 
@@ -136,7 +131,7 @@ function AddNewPublication(props){
     // Pour modification c'est au debut la valeur de la publication
     // et dans tout les cas ensuite c'est la valeur de l'input
 
-    function handleChangePicture(e){
+    async function handleChangePicture(e){
         if (e.target.files[0]){
             setImage(URL.createObjectURL(e.target.files[0])); 
             // voir si on pourrait pas utiliser useRef vu que re-render avec setPublicationData
@@ -144,19 +139,20 @@ function AddNewPublication(props){
             
             const formData = new FormData();
             formData.append('image', e.target.files[0]);
-            setPublicationData({...publicationData, image: formData});
+            await setPublicationData({...publicationData, image: formData});
         }
     }
 
-    function handleChangeText(text){
-        setValue(text);
-        setPublicationData({...publicationData, content: text})
+    async function handleChangeText(text){
+        await setValue(text);
+        await setPublicationData({...publicationData, content: text})
     }
 
     async function handlePost(e){
         e.preventDefault();
         if (publicationData !== {}){ 
-            if (publicationData.image && publicationData.content){ 
+            if (publicationData.image ){ 
+                console.log("pass");
                 publicationData.image.append('content', publicationData.content);
                 delete publicationData.content;
             }
@@ -184,11 +180,17 @@ function AddNewPublication(props){
 
                     if (type === "publication"){
                         const newPubli = await fetchGet(`http://localhost:3000/api/publication/one/${answer.id}`)
-                        props.setPublications((prev)=> [newPubli.publication, ...prev])
+                        setPublications((prev)=> [newPubli.publication, ...prev])
                     } else if (type === "comment"){
                         props.setComments((prev)=>[...prev, {content: publicationData.content, author: dataConnection.userId}]);
                     } else if (type === "modification"){
+                        const updatePubli = await fetchGet(`http://localhost:3000/api/publication/one/${props.publicationId}`)
+                        const rank =publications.map((publication)=> publication._id).indexOf(props.publicationId)
+                        const publicationsModifed = publications;
+                        publicationsModifed[rank] = updatePubli.publication
+                        setPublications(publicationsModifed);
                         props.setIsOpenModificationBloc(false);
+                        setModifIsOpen(false);
                     }
                     setValue(""); 
                     await setImage(null); 

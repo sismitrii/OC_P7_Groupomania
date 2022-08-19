@@ -23,3 +23,23 @@ export function ConnectionProvider({children}){
         {children}
     </ConnectionContext.Provider>)
 }
+
+
+
+export const AppContext = createContext();
+
+export function AppProvider({children}){
+    const [modifIsOpen, setModifIsOpen] = useState(false);
+    const [publications, setPublications] = useState([]);
+
+    return (<AppContext.Provider value={{modifIsOpen, setModifIsOpen, publications, setPublications}}>
+        {children}
+        </AppContext.Provider>)
+}
+
+
+
+
+    
+
+

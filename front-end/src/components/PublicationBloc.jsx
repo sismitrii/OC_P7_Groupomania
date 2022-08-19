@@ -29,7 +29,7 @@ function PublicationBloc(props){
 
     switch (props.type){
         case 'add':
-            toReturn = <AddNewPublication setPublications={props.setPublications} type={"publication"} />
+            toReturn = <AddNewPublication type={"publication"} />
             break;
         case 'show': 
             toReturn = <ShowPublication setPubliDeleted={setPubliDeleted} publication={props.publication}/>

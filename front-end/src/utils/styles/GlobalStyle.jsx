@@ -1,4 +1,6 @@
+import { useContext } from 'react'
 import { createGlobalStyle } from 'styled-components'
+import { AppContext } from '../context'
 
 const StyledGlobalStyle = createGlobalStyle`
     *,
@@ -11,6 +13,7 @@ const StyledGlobalStyle = createGlobalStyle`
 
     body {
         font-family: 'Raleway','Arial', sans-serif;
+        overflow: ${(props)=> props.modifIsOpen ? "hidden" : "visible"}
     }
 
     a {
@@ -20,7 +23,8 @@ const StyledGlobalStyle = createGlobalStyle`
 `
 
 function GlobalStyle(){
-    return <StyledGlobalStyle />
+    const {modifIsOpen} = useContext(AppContext)
+    return <StyledGlobalStyle modifIsOpen={modifIsOpen}/>
 }
 
 export default GlobalStyle
