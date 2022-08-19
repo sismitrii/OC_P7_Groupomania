@@ -8,7 +8,6 @@ export function ConnectionProvider({children}){
 
     const [dataConnection, setDataConnection] = useState(initState)
 
-
     useEffect(()=> {
         const data = JSON.parse(localStorage.getItem("dataConnection"))
         if (data){
@@ -19,9 +18,6 @@ export function ConnectionProvider({children}){
     useEffect(()=>{
         localStorage.setItem("dataConnection", JSON.stringify(dataConnection))
     },[dataConnection])
-
-
-
 
     return (<ConnectionContext.Provider value={{dataConnection, setDataConnection}}>
         {children}

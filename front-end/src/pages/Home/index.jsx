@@ -9,6 +9,7 @@ import PublicationBloc from "../../components/PublicationBloc"
 import colors from "../../utils/styles/colors"
 
 import InfiniteScroll from 'react-infinite-scroll-component';
+import fetchGet from "../../utils/function/function"
 
 
 /*====================================================*/
@@ -73,11 +74,9 @@ function Home(){
     const [hasMore, setHasMore] = useState(true);
     const [offset, setOffset] = useState(0);
     //console.log('render');
-    console.log(publications);
 
     const loadMorePublication = async() => {
-        const result = await fetch(`http://localhost:3000/api/publication/length`)
-        const totalLength = await result.json();
+        const totalLength = fetchGet(`http://localhost:3000/api/publication/length`)
 
         if(publications.length >= totalLength.publicationLength){
             setHasMore(false)

@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 import useFetch from '../../utils/hooks'
 import Deleted from '../../assets/Deleted.jpg'
 import UpdateAndDelete from '../UpdateAndDelete'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 /*====================================================*/
 /* ---------------------- Style ----------------------*/
@@ -57,12 +57,7 @@ const StyledLink = styled(Link)`
 function CommentBloc(props){
     const [commentDeleted, setCommentDeleted] = useState(false);
 
-    useEffect(()=>{
-        // setCommentDeleted(false)
-    },[commentDeleted])
-
     const {data} = useFetch(`http://localhost:3000/api/user/${props.comment.author}`)
-
 
     return(
     <>

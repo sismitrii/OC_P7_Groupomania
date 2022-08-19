@@ -2,7 +2,7 @@
 /* --------------------- Import ----------------------*/
 /*====================================================*/
 import { useState, useContext, useEffect } from "react"
-import { ConnectionContext } from "../../utils/context"
+import { ConnectionContext} from "../../utils/context"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCirclePlus, faEdit} from "@fortawesome/free-solid-svg-icons"
 import styled from "styled-components"
@@ -179,7 +179,6 @@ function AddNewPublication(props){
                     headers: header,
                     body: dataToPost
                 })
-                    // Pourquoi remettre à zéro
                     let answer = await res.json()
                     console.log(answer);
                     if (type === "publication"){
@@ -190,9 +189,7 @@ function AddNewPublication(props){
                     } else if (type === "modification"){
                         props.setIsOpenModificationBloc(false);
                     }
-                    setValue("");
-                    //await setPublicationData({})
-                    //await setImage(null)    
+                    setValue("");  
             } catch(err) {
                 console.log(err);
             }

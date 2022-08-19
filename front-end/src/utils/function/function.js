@@ -5,7 +5,7 @@ async function fetchGet(url){
         const answer = await res.json();
         return answer;
     } catch (error) {
-        
+        console.error(error);
     }
 }
 
