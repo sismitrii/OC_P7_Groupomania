@@ -57,7 +57,7 @@ exports.createPublication = (req, res, next) => {
     publication.save()
     .then((newPublication)=>{
         User.findByIdAndUpdate(req.auth.userId, {$push: {publications: newPublication._id}})
-        .then(()=>res.status(201).json({message: "New publication created"}))
+        .then(()=>res.status(201).json({message: "New publication created", id: newPublication._id}))
         .catch((error)=> res.status(400).json({message: "Error updating user", error}))
         })
     .catch((error)=> res.status(400).json({message: "Error saving publication", error}))
