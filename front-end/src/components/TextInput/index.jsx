@@ -1,7 +1,7 @@
 /*====================================================*/
 /* --------------------- Import ----------------------*/
 /*====================================================*/
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components"
 
 /*====================================================*/
@@ -33,20 +33,10 @@ const StyledInput = styled.textarea`
 
 function TextInput(props){
     const [textHeight, setTextHeight] = useState("40px")
-    const [value, setValue] = useState("");
 
-    useEffect(()=>{
-            setValue(props.input.value);
-    },[props.input.value])
-
-    useEffect(()=>{
-        setValue(props.value);
-        console.log(props.value)
-},[props.value])
 
     async function handleKeyUp(e){
         props.set(e.target.value);
-        await setValue(e.target.value);
         await setTextHeight("auto")
         let scrollHeight = e.target.scrollHeight;
         await setTextHeight(scrollHeight+"px");
@@ -63,7 +53,7 @@ function TextInput(props){
             id={props.input.name} 
             aria-label={props.input.placeholder} 
             placeholder={props.input.placeholder}
-            value={value}
+            value={props.value}
             required
          />
     )

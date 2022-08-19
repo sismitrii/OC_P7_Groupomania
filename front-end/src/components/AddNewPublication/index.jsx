@@ -79,6 +79,7 @@ function AddNewPublication(props){
     const [image, setImage] = useState(null)
     const [publicationData, setPublicationData] = useState({})
     const {dataConnection} = useContext(ConnectionContext);
+    const [value, setValue] = useState("")
 
     const type = props.type;
 
@@ -103,6 +104,12 @@ function AddNewPublication(props){
             setImage(props.imageUrl);
         }
     },[props.imageUrl])
+
+    useEffect(()=>{
+        if (props.value){
+            setValue(props.value);
+        }
+    },[props.value])
 
     const inputValue = {
         publication: {
@@ -137,6 +144,7 @@ function AddNewPublication(props){
     }
 
     function handleChangeText(text){
+        setValue(text);
         setPublicationData({...publicationData, content: text})
     }
 
@@ -177,6 +185,7 @@ function AddNewPublication(props){
                     } else if (type === "modification"){
                         props.setIsOpenModificationBloc(false);
                     }
+                    setValue("");
                     //await setPublicationData({})
                     //await setImage(null)    
             } catch(err) {
@@ -184,13 +193,12 @@ function AddNewPublication(props){
             }
         }
     }
-//value={inputValue[type].value}
     return (
         <StyledForm type={type}>
             <TextInput 
                 set={handleChangeText} 
                 input={inputValue[type]}
-                value={publicationData.content}
+                value={value}
             />
             <BottomBloc type={props.type} direction={image === null ? "row" : "column"}>
                 {(props.type === "publication" || props.type === "modification") && 
