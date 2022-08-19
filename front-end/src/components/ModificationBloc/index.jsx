@@ -45,6 +45,14 @@ const ModificationTitle = styled.h2`
     margin-bottom: 20px;
 `
 
+const Leave = styled.div`
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
+    font-size: 30px;
+`
+
 /*====================================================*/
 /* ---------------------- Main -----------------------*/
 /*====================================================*/
@@ -55,12 +63,16 @@ function ModificationBloc(props){
     <Container>
         <ModificationContainer>
             <ModificationTitle>Modifier la publication</ModificationTitle>
+            <Leave onClick={()=> props.setIsOpenModificationBloc(false)}>X</Leave>
             <AddNewPublication 
                 setIsOpenModificationBloc={props.setIsOpenModificationBloc}
                 publicationId={props.publication._id} 
                 imageUrl={props.publication.imageUrl} 
                 value={props.publication.content} 
-                type={"modification"}/>
+                type={"modification"}
+            />
+                
+                
             {/* <TextInput set={handleChangeText} input={{name:'modification', placeholder: "Que souhaitez-vous partagez ?", value: "Test"}}/>
             <StyledLabel>
                 <StyledIcon icon={faEdit} />
