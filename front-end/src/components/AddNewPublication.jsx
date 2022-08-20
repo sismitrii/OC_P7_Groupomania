@@ -173,7 +173,7 @@ function AddNewPublication(props){
                         const newPubli = await fetchGet(`http://localhost:3000/api/publication/one/${answer.id}`)
                         setPublications((prev)=> [newPubli.publication, ...prev])
                     } else if (type === "comment"){
-                        props.setComments((prev)=>[...prev, {content: publicationData.content, author: dataConnection.userId}]);
+                        props.setComments((prev)=>[...prev, {_id: answer.commentId, content: publicationData.content, author: dataConnection.userId}]);
                     } else if (type === "modification"){
                         const updatePubli = await fetchGet(`http://localhost:3000/api/publication/one/${props.publicationId}`)
                         const rank = publications.map((publication)=> publication._id).indexOf(props.publicationId)

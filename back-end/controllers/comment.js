@@ -24,7 +24,7 @@ exports.createComment = (req, res, next)=>{
     comment.save()
     .then((comment)=> {
         Publication.findByIdAndUpdate(req.params.id, {$push: {commentList: comment._id }})
-        .then(()=>res.status(201).json({message: "Comment created"}))
+        .then(()=>res.status(201).json({message: "Comment created", commentId: comment._id}))
         .catch((error)=> res.status(400).json({message: "Error update commentList in Publications", error}))
     })
     .catch((error)=> res.status(400).json({message: "Error saving comment", error}))
