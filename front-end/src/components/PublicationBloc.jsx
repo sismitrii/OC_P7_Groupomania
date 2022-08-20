@@ -4,7 +4,6 @@
 import styled from "styled-components"
 import AddNewPublication from "./AddNewPublication"
 import ShowPublication from "./ShowPublication";
-import { useState } from "react";
 import { PublicationProvider } from "../utils/context";
 
 /*====================================================*/
@@ -25,7 +24,6 @@ const Container = styled.section`
 /* ----------------------- Main ----------------------*/
 /*====================================================*/
 function PublicationBloc(props){
-    //const [publiDeleted, setPubliDeleted] = useState(false);
     let toReturn; 
 
     switch (props.type){

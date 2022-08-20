@@ -88,6 +88,7 @@ function AddNewPublication(props){
 
     useEffect(()=>{
         if(props.imageUrl){
+            setImage(props.imageUrl);
             const formData = new FormData();
             formData.append('image', props.imageUrl);
             modificationData.image = formData;
@@ -99,12 +100,7 @@ function AddNewPublication(props){
         setPublicationData(modificationData);
     },[props.imageUrl, props.value])
 
-    useEffect(()=>{
-        if(props.imageUrl){
-            setImage(props.imageUrl);
-        }
-    },[props.imageUrl])
-
+    
     const inputValue = {
         publication: {
             name: "share",
@@ -143,7 +139,6 @@ function AddNewPublication(props){
         e.preventDefault();
         if (publicationData !== {}){ 
             if (publicationData.image ){ 
-                console.log("pass");
                 publicationData.image.append('content', publicationData.content);
                 delete publicationData.content;
             }
