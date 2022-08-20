@@ -4,7 +4,7 @@
 
 import { useContext } from "react"
 import styled from "styled-components"
-import { AppContext } from "../utils/context"
+import { AppContext, PublicationContext } from "../utils/context"
 import colors from "../utils/styles/colors"
 import AddNewPublication from "./AddNewPublication"
 
@@ -62,10 +62,8 @@ const Leave = styled.div`
 
 function ModificationBloc(props){
     const {setModifIsOpen} = useContext(AppContext)
+    const {publication} = useContext(PublicationContext)
 
-    // publicationId={publication._id} 
-    // imageUrl={publication.imageUrl} 
-    // value={publication.content} 
     return(
     <Container>
         <ModificationContainer>
@@ -73,7 +71,9 @@ function ModificationBloc(props){
             <Leave onClick={()=> {props.setIsOpenModPubliBloc(false); setModifIsOpen(false)}}>X</Leave>
             <AddNewPublication 
                 setIsOpenModPubliBloc={props.setIsOpenModPubliBloc}
-
+                publicationId={publication._id} 
+                imageUrl={publication.imageUrl} 
+                value={publication.content} 
                 type={"modification"}
             />
         </ModificationContainer>
