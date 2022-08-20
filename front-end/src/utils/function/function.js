@@ -1,4 +1,4 @@
-async function fetchGet(url){
+export async function fetchGet(url){
     if (!url){return}
     try {
         const res = await fetch(url)
@@ -9,4 +9,29 @@ async function fetchGet(url){
     }
 }
 
-export default fetchGet
+export async function fetchPostOrPut(method, dataToSend, url, dataConnection){
+    try {
+        const bearer = dataConnection ? "Bearer " + dataConnection.token : "";
+        const dataToPost = dataToSend.image ? dataToSend.image : JSON.stringify(dataToSend)
+        const header = dataToSend.image ? {
+            'Accept': '/',
+            'Authorization': bearer
+        } :
+        {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': bearer
+        }
+
+        let res = await fetch(url,
+        {
+            method: method,
+            headers: header,
+            body: dataToPost
+        })
+            let answer = await res.json()
+            return answer;
+    } catch (error) {
+        console.error(error);
+    }
+}

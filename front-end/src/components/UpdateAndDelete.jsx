@@ -12,6 +12,7 @@ import ModificationBloc from "./ModificationBloc"
 import { AppContext } from "../utils/context"
 import TextInput from "./TextInput"
 import { useEffect } from "react"
+import { fetchPostOrPut } from "../utils/function/function"
 
 /*====================================================*/
 /* --------------------- Style ----------------------*/
@@ -123,24 +124,13 @@ function UpdateAndDelete(props){
         await setValue(text);
     }
 
+
     async function handleLoseFocus(){
         await setIsOpenModComment(false)
-        try {
-            const bearer = "Bearer " + dataConnection.token
-            const res = await fetch(`http://localhost:3000/api/publication/comment/${props.comment._id}`,{
-                method: "PUT",
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': bearer
-                },
-                body: JSON.stringify({content: value})
-            })
-            const answer = await res.json();
-            console.log(answer);
-        } catch (error) {
-            console.error(error);
-        }    
+
+        const answer = await fetchPostOrPut("PUT",{content: value},`http://localhost:3000/api/publication/comment/${props.comment._id}`,dataConnection )
+        console.log(answer);
+   
         // voir s'il peut y avoir mieux parceque là c'est compliqué pour pas grand chose..
         const rank = comments.map((comment)=>comment._id).indexOf(props.comment._id)
         let ModComment = [];

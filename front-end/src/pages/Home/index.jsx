@@ -9,7 +9,7 @@ import PublicationBloc from "../../components/PublicationBloc"
 import colors from "../../utils/styles/colors"
 
 import InfiniteScroll from 'react-infinite-scroll-component';
-import fetchGet from "../../utils/function/function"
+import {fetchGet} from "../../utils/function/function"
 import { AppContext } from "../../utils/context"
 
 

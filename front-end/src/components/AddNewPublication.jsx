@@ -9,7 +9,7 @@ import styled from "styled-components"
 
 import TextInput from "./TextInput"
 import PostButton from "./PostButton"
-import fetchGet from "../utils/function/function"
+import {fetchGet, fetchPostOrPut} from "../utils/function/function"
 
 /*====================================================*/
 /* --------------------- Style ----------------------*/
@@ -72,7 +72,7 @@ const IconEdit = styled(FontAwesomeIcon)`
 `
 
 /*====================================================*/
-/* ------------------ Main Function ------------------*/
+/* ----------------------- Main ----------------------*/
 /*====================================================*/
 
 function AddNewPublication(props){
@@ -99,6 +99,7 @@ function AddNewPublication(props){
         }
         setPublicationData(modificationData);
     },[props.imageUrl, props.value])
+
 
     
     const inputValue = {
@@ -142,48 +143,27 @@ function AddNewPublication(props){
                 publicationData.image.append('content', publicationData.content);
                 delete publicationData.content;
             }
-            try {
-                const bearer = "Bearer " + dataConnection.token
-                const method = type === "modification" ? "PUT" : "POST";
-                const header = publicationData.image ? {
-                    'Accept': '/',
-                    'Authorization': bearer
-                } :
-                {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': bearer
-                }
 
-                const dataToPost = publicationData.image ? publicationData.image : JSON.stringify(publicationData)
-                let res = await fetch(`http://localhost:3000/api/publication${inputValue[type].url}`, {
-                    method: method,
-                    headers: header,
-                    body: dataToPost
-                })
-                    let answer = await res.json()
-                    console.log(answer);
-
-                    if (type === "publication"){
-                        const newPubli = await fetchGet(`http://localhost:3000/api/publication/one/${answer.id}`)
-                        setPublications((prev)=> [newPubli.publication, ...prev])
-                    } else if (type === "comment"){
-                        props.setComments((prev)=>[...prev, {_id: answer.commentId, content: publicationData.content, author: dataConnection.userId}]);
-                    } else if (type === "modification"){
-                        const updatePubli = await fetchGet(`http://localhost:3000/api/publication/one/${props.publicationId}`)
-                        const rank = publications.map((publication)=> publication._id).indexOf(props.publicationId)
-                        publications[rank] = updatePubli.publication
-                        //const publicationsModifed = publications;
-                        //publicationsModifed[rank] = updatePubli.publication
-                        //setPublications(publicationsModifed);
-                        props.setIsOpenModPubliBloc(false);
-                        setModifIsOpen(false);
-                    }
-                    setValue(""); 
-                    await setImage(null); 
-            } catch(err) {
-                console.log(err);
+            const method = type === "modification" ? "PUT" : "POST";
+            const answer = await fetchPostOrPut(method, publicationData,`http://localhost:3000/api/publication${inputValue[type].url}`, dataConnection )
+            console.log(answer)
+            if (type === "publication"){
+                const newPubli = await fetchGet(`http://localhost:3000/api/publication/one/${answer.id}`)
+                setPublications((prev)=> [newPubli.publication, ...prev])
+            } else if (type === "comment"){
+                props.setComments((prev)=>[...prev, {_id: answer.commentId, content: publicationData.content, author: dataConnection.userId}]);
+            } else if (type === "modification"){
+                const updatePubli = await fetchGet(`http://localhost:3000/api/publication/one/${props.publicationId}`)
+                const rank = publications.map((publication)=> publication._id).indexOf(props.publicationId)
+                publications[rank] = updatePubli.publication
+                //const publicationsModifed = publications;
+                //publicationsModifed[rank] = updatePubli.publication
+                //setPublications(publicationsModifed);
+                props.setIsOpenModPubliBloc(false);
+                setModifIsOpen(false);
             }
+            setValue(""); 
+            await setImage(null);
         }
     }
 

@@ -9,6 +9,7 @@ import styled from 'styled-components'
 import colors from '../utils/styles/colors';
 import zxcvbn from 'zxcvbn';
 import { ConnectionContext } from '../utils/context';
+import { fetchPostOrPut } from '../utils/function/function';
 
 
 /*====================================================*/
@@ -222,24 +223,10 @@ function passwordConfirmation(e, userData, setPasswordChecked){
 
 
 async function postData(url, dataToPost){
-    if (!url){return}
-    try {
-        let res = await fetch(url, {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json',
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify(dataToPost)
-        })
-            let answer = await res.json()
-            return answer;
-    } catch(err) {
-        console.log(err);
-    }
+
+    const answer = await fetchPostOrPut("POST", dataToPost,url)
+    return answer;
 }
-
-
 
 /*====================================================*/
 /* ---------------------- Main -----------------------*/
@@ -315,21 +302,10 @@ function Auth(props){
         if (!passwordChecked){
             errorMsgTag.innerText = "Ces mots de passe ne correspondent pas. Veuillez réessayer."
         } else if(userData.password){
-            try {
-                let res = await fetch('http://localhost:3000/api/auth/reset_password', {
-                    method: "PUT",
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-type': 'application/json'
-                    },
-                    body: JSON.stringify(dataToPut)
-                })
-                    console.log(await res.json())
-                    navigate('/login');
-            } catch(err) {
-                console.log(err);
-            }
-            
+
+            const answer = await fetchPostOrPut("PUT",dataToPut,'http://localhost:3000/api/auth/reset_password')
+            console.log(answer);
+            navigate('/login')
         }
     }
 

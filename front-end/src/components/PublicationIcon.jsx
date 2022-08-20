@@ -8,6 +8,7 @@ import styled from "styled-components"
 import { useEffect, useState, useContext } from "react"
 import { ConnectionContext, PublicationContext } from "../utils/context"
 import colors from "../utils/styles/colors"
+import { fetchPostOrPut } from "../utils/function/function"
 
 /*====================================================*/
 /* --------------------- Style -----------------------*/
@@ -74,24 +75,10 @@ function PublicationIcon(props){
     async function handleLike(){
         const like = heartActive ? -1 : 1 ;
         setPublication((prev)=> ({...prev, like: prev.like + like}))
-        const bearer = 'Bearer ' + dataConnection.token;
-        try {
-            const res = await fetch(`http://localhost:3000/api/publication/${publication._id}/like`, {
-            method: 'PUT',
-            headers: {
-                'Accept': '/',
-                'Content-type': 'application/json',
-                'Authorization': bearer
-            },
-            body: JSON.stringify({like: like})
-            })
-            const answer = await res.json();
-            console.log(answer);
-            await setHeartActive(!heartActive);
-            
-        } catch (error) {
-            console.log(error);
-        }
+
+        const answer = await fetchPostOrPut("PUT",{like: like},`http://localhost:3000/api/publication/${publication._id}/like`,dataConnection )
+        console.log(answer);
+        await setHeartActive(!heartActive);
     }
 
     return (
