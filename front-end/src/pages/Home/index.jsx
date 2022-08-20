@@ -115,7 +115,7 @@ function Home(){
             >
                 { publications && publications.map((publication,i)=>(
                     <PublicationBloc 
-                        key={i} 
+                        key={publication._id} 
                         publication={publication} 
                         type={"show"}
                     />
