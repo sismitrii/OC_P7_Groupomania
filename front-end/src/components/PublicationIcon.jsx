@@ -6,7 +6,7 @@ import { faHeart as fasHeart, faComment as fasComment } from "@fortawesome/free-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import styled from "styled-components"
 import { useEffect, useState, useContext } from "react"
-import { ConnectionContext } from "../utils/context"
+import { ConnectionContext, PublicationContext } from "../utils/context"
 import colors from "../utils/styles/colors"
 
 /*====================================================*/
@@ -63,6 +63,7 @@ const StyledIconNotVisible = styled(FontAwesomeIcon)`
 function PublicationIcon(props){
     const [heartActive, setHeartActive] = useState(false);
     const {dataConnection} = useContext(ConnectionContext);
+    const {comments} = useContext(PublicationContext)
 
     useEffect(()=>{
         if(props.publication.userLiked.indexOf(dataConnection.userId)!== -1 ){
@@ -105,7 +106,7 @@ function PublicationIcon(props){
         <IconContainer onClick={()=> props.handleFocusComment()}>
             <StyledIcon className='visible' icon={faComment} />
             <StyledIconNotVisible className='not-visible' icon={fasComment} />
-            <p>{props.publication.commentList.length}</p>
+            <p>{comments.length}</p>
         </IconContainer>
     }
     </>)
