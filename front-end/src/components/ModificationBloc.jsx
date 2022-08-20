@@ -67,9 +67,9 @@ function ModificationBloc(props){
     <Container>
         <ModificationContainer>
             <ModificationTitle>Modifier la publication</ModificationTitle>
-            <Leave onClick={()=> {props.setIsOpenModificationBloc(false); setModifIsOpen(false)}}>X</Leave>
+            <Leave onClick={()=> {props.setIsOpenModPubliBloc(false); setModifIsOpen(false)}}>X</Leave>
             <AddNewPublication 
-                setIsOpenModificationBloc={props.setIsOpenModificationBloc}
+                setIsOpenModPubliBloc={props.setIsOpenModPubliBloc}
                 publicationId={props.publication._id} 
                 imageUrl={props.publication.imageUrl} 
                 value={props.publication.content} 

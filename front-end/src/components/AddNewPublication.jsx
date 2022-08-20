@@ -86,7 +86,6 @@ function AddNewPublication(props){
 
     let modificationData = {};
 
-    // ONLY FOR MODIFICATION
     useEffect(()=>{
         if(props.imageUrl){
             const formData = new FormData();
@@ -100,7 +99,6 @@ function AddNewPublication(props){
         setPublicationData(modificationData);
     },[props.imageUrl, props.value])
 
-    // ONLY FOR MODIFICATION
     useEffect(()=>{
         if(props.imageUrl){
             setImage(props.imageUrl);
@@ -126,16 +124,9 @@ function AddNewPublication(props){
         }
     }
 
-    // on renvoit dans tout les cas publication, comment ou modification une value
-    // Pour publication et comment c'est au début un champs vide 
-    // Pour modification c'est au debut la valeur de la publication
-    // et dans tout les cas ensuite c'est la valeur de l'input
-
     async function handleChangePicture(e){
         if (e.target.files[0]){
             setImage(URL.createObjectURL(e.target.files[0])); 
-            // voir si on pourrait pas utiliser useRef vu que re-render avec setPublicationData
-            // https://developer.mozilla.org/fr/docs/Web/API/URL/createObjectURL
             
             const formData = new FormData();
             formData.append('image', e.target.files[0]);
@@ -185,11 +176,12 @@ function AddNewPublication(props){
                         props.setComments((prev)=>[...prev, {content: publicationData.content, author: dataConnection.userId}]);
                     } else if (type === "modification"){
                         const updatePubli = await fetchGet(`http://localhost:3000/api/publication/one/${props.publicationId}`)
-                        const rank =publications.map((publication)=> publication._id).indexOf(props.publicationId)
-                        const publicationsModifed = publications;
-                        publicationsModifed[rank] = updatePubli.publication
-                        setPublications(publicationsModifed);
-                        props.setIsOpenModificationBloc(false);
+                        const rank = publications.map((publication)=> publication._id).indexOf(props.publicationId)
+                        publications[rank] = updatePubli.publication
+                        //const publicationsModifed = publications;
+                        //publicationsModifed[rank] = updatePubli.publication
+                        //setPublications(publicationsModifed);
+                        props.setIsOpenModPubliBloc(false);
                         setModifIsOpen(false);
                     }
                     setValue(""); 
