@@ -66,18 +66,21 @@ function CommentBloc(props){
     <>
         {data.user &&
             <BottomComment>
-            <ProfilImg size='small' src={data.user.profilImgUrl ? data.user.profilImgUrl : Deleted } /> 
-                <Comment>
-                    <p>
-                        {data.user &&
-                            <StyledLink to={`/profils/${props.comment.author}`}>{data.user.username} </StyledLink>
-                        }
-                        {props.comment.content}
-                        </p>
-                    {props.comment.author === dataConnection.userId && 
-                        <UpdateAndDelete  
-                            id={{publication: props.publication, comment: props.comment}}
-                        />}
+            <ProfilImg 
+                size='small' 
+                src={data.user.profilImgUrl ? data.user.profilImgUrl : Deleted } 
+            /> 
+            <Comment>
+                <p>
+                    {data.user &&
+                        <StyledLink to={`/profils/${props.comment.author}`}>{data.user.username} </StyledLink>
+                    }
+                    {props.comment.content}
+                </p>
+                {props.comment.author === dataConnection.userId && 
+                    <UpdateAndDelete  
+                        comment={props.comment}
+                    />}
                 </Comment>
             </BottomComment>
         }

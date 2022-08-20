@@ -63,6 +63,9 @@ const Leave = styled.div`
 function ModificationBloc(props){
     const {setModifIsOpen} = useContext(AppContext)
 
+    // publicationId={publication._id} 
+    // imageUrl={publication.imageUrl} 
+    // value={publication.content} 
     return(
     <Container>
         <ModificationContainer>
@@ -70,19 +73,9 @@ function ModificationBloc(props){
             <Leave onClick={()=> {props.setIsOpenModPubliBloc(false); setModifIsOpen(false)}}>X</Leave>
             <AddNewPublication 
                 setIsOpenModPubliBloc={props.setIsOpenModPubliBloc}
-                publicationId={props.publication._id} 
-                imageUrl={props.publication.imageUrl} 
-                value={props.publication.content} 
+
                 type={"modification"}
             />
-                
-                
-            {/* <TextInput set={handleChangeText} input={{name:'modification', placeholder: "Que souhaitez-vous partagez ?", value: "Test"}}/>
-            <StyledLabel>
-                <StyledIcon icon={faEdit} />
-                <StyledImg src={Deleted} alt="Publication" />
-            </StyledLabel>
-            <PostButton postMethod={handlePost} type={"modification"}/> */}
         </ModificationContainer>
     </Container>
     )

@@ -63,20 +63,20 @@ const StyledIconNotVisible = styled(FontAwesomeIcon)`
 function PublicationIcon(props){
     const [heartActive, setHeartActive] = useState(false);
     const {dataConnection} = useContext(ConnectionContext);
-    const {comments} = useContext(PublicationContext)
+    const {comments, publication, setPublication} = useContext(PublicationContext)
 
     useEffect(()=>{
-        if(props.publication.userLiked.indexOf(dataConnection.userId)!== -1 ){
+        if(publication.userLiked.indexOf(dataConnection.userId)!== -1 ){
             setHeartActive(true)
         }
     }, [])
 
     async function handleLike(){
         const like = heartActive ? -1 : 1 ;
-        props.publication.like += like;
+        setPublication((prev)=> ({...prev, like: prev.like + like}))
         const bearer = 'Bearer ' + dataConnection.token;
         try {
-            const res = await fetch(`http://localhost:3000/api/publication/${props.publication._id}/like`, {
+            const res = await fetch(`http://localhost:3000/api/publication/${publication._id}/like`, {
             method: 'PUT',
             headers: {
                 'Accept': '/',
@@ -100,7 +100,7 @@ function PublicationIcon(props){
         <IconContainer className={heartActive ? "active" : "" } onClick={()=> handleLike()}>
             <StyledIcon className='visible' icon={faHeart} />
             <StyledIconNotVisible className='not-visible' icon={fasHeart} />
-            <p>{props.publication.like}</p>
+            <p>{publication.like}</p>
         </IconContainer>
     :
         <IconContainer onClick={()=> props.handleFocusComment()}>

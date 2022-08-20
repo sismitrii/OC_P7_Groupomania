@@ -75,34 +75,20 @@ function UpdateAndDelete(props){
     const [isOpenModComment, setIsOpenModComment] = useState(false)
     const {dataConnection} = useContext(ConnectionContext);
     const {setPublications} = useContext(AppContext)
-    const {comments, setComments} = useContext(PublicationContext)
+    const {comments, setComments, publication} = useContext(PublicationContext)
     const {setModifIsOpen} = useContext(AppContext)
     const [value, setValue] = useState("")
 
     useEffect(()=>{
-        if (props.id.comment){
-            setValue(props.id.comment.content)
+        if (props.comment){
+            setValue(props.comment.content)
         }
-    },[props.id.comment])
-
-
-
-    // const isInitialMount = useRef(true);
-
-    // useEffect(() => {
-    //   if (isInitialMount.current) {
-    //      isInitialMount.current = false;
-    //   } else {
-    //     if (IsOpenModPubliBloc === false){
-            
-    //     }
-    //   }
-    // });
+    },[props.comment])
 
     async function handleDelete(){
         try {
-            const endUrl = props.id.comment ? `/comment/${props.id.comment._id}` : ""
-            const requestUrl = `http://localhost:3000/api/publication/${props.id.publication._id}${endUrl}`
+            const endUrl = props.comment ? `/comment/${props.comment._id}` : ""
+            const requestUrl = `http://localhost:3000/api/publication/${publication._id}${endUrl}`
             const bearer = 'Bearer ' + dataConnection.token;
             const res = await fetch(requestUrl,{
                 method: 'DELETE',
@@ -114,20 +100,18 @@ function UpdateAndDelete(props){
             });
             const answer = await res.json();
             console.log(answer);
-            if (props.id.comment){
-                setComments((prev)=> prev.filter(comment => comment._id !== props.id.comment._id))
+            if (props.comment){
+                setComments((prev)=> prev.filter(comment => comment._id !== props.comment._id))
             } else {
-                console.log("pass")
-                await setPublications((prev)=> prev.filter(publication=> publication._id !== props.id.publication._id))
+                await setPublications((prev)=> prev.filter(publi=> publi._id !== publication._id))
             }
-            
         } catch (error) {
             console.error(error)
         }
     }
 
     function handleModification(){
-        if (props.id.comment){
+        if (props.comment){
             setIsOpenModComment(true)
         } else {
             setIsOpenModPubliBloc(true);
@@ -143,7 +127,7 @@ function UpdateAndDelete(props){
         await setIsOpenModComment(false)
         try {
             const bearer = "Bearer " + dataConnection.token
-            const res = await fetch(`http://localhost:3000/api/publication/comment/${props.id.comment._id}`,{
+            const res = await fetch(`http://localhost:3000/api/publication/comment/${props.comment._id}`,{
                 method: "PUT",
                 headers: {
                     'Accept': 'application/json',
@@ -158,12 +142,12 @@ function UpdateAndDelete(props){
             console.error(error);
         }    
         // voir s'il peut y avoir mieux parceque là c'est compliqué pour pas grand chose..
-        const rank = comments.map((comment)=>comment._id).indexOf(props.id.comment._id)
+        const rank = comments.map((comment)=>comment._id).indexOf(props.comment._id)
         let ModComment = [];
         comments.forEach(comment => {
             ModComment.push(comment);
         });
-        ModComment[rank] = {_id: props.id.comment._id, content: value, author: props.id.comment.author};
+        ModComment[rank] = {_id: props.comment._id, content: value, author: props.comment.author};
         setComments(ModComment);
     }
 
@@ -171,8 +155,7 @@ function UpdateAndDelete(props){
     <>
     {isOpenModPubliBloc && 
         <ModificationBloc 
-            setIsOpenModPubliBloc={setIsOpenModPubliBloc} 
-            publication={props.id.publication} 
+            setIsOpenModPubliBloc={setIsOpenModPubliBloc}  
         />
     }
     {isOpenModComment && 
@@ -186,10 +169,8 @@ function UpdateAndDelete(props){
     }
 
    <Container >
-        
         <FontAwesomeIcon icon={faEllipsis} />
         <UpdateAndDeleteContainer>
-            
             <div onClick={()=> handleModification()} >Modifier</div>
             <div onClick={()=>handleDelete()}>Supprimer</div>
         </UpdateAndDeleteContainer>
@@ -199,3 +180,16 @@ function UpdateAndDelete(props){
 }
 
 export default UpdateAndDelete
+
+
+    // const isInitialMount = useRef(true);
+
+    // useEffect(() => {
+    //   if (isInitialMount.current) {
+    //      isInitialMount.current = false;
+    //   } else {
+    //     if (IsOpenModPubliBloc === false){
+            
+    //     }
+    //   }
+    // });

@@ -99,31 +99,26 @@ const StyledLink = styled(Link)`
 
 function ShowPublication(props){
     const commentInput = useRef(null);
-    let publication = props.publication;
+    //let publication = props.publication;
     const {comments, setComments} = useContext(PublicationContext)
     const {dataConnection} = useContext(ConnectionContext)
+    const {publication, setPublication} = useContext(PublicationContext)
 
-
-    // const fetchOnePublication = useCallback(async()=>{
-    //     try {
-    //         const res = await fetch(`http://localhost:3000/api/publication/one/${publication._id}`)
-    //         const answer = await res.json()
-    //         setPublicationModified(answer.publication)
-    //     } catch (error) {
-    //         console.error(error)
-    //     }
-    // },[setPublicationModified, modified])
+    useEffect(()=>{
+        setPublication(props.publication);
+    },[props.publication])
     
-    const {data} = useFetch(`http://localhost:3000/api/user/${publication.author}`)
+    
+    const {data} = useFetch(`http://localhost:3000/api/user/${props.publication.author}`)
     const fetchComment = useCallback(async()=>{
         try {
-            const res = await fetch(`http://localhost:3000/api/publication/${publication._id}/comment`)
+            const res = await fetch(`http://localhost:3000/api/publication/${props.publication._id}/comment`)
             const answer = await res.json()
             setComments(answer.comments)
         } catch (error) {
             console.error(error)
         }
-    },[ publication])
+    },[publication])
 
 useEffect(()=>{
     fetchComment();
@@ -138,36 +133,23 @@ useEffect(()=>{
         }
     }, [publication])
 
-
-    // useEffect(()=>{
-    //     fetchOnePublication()
-    //     setModified(false);
-    // },[modified])
-
-    //Probablement mieux à faire
-    let user;
-    if (data){
-        user = data.user;
-    }
-
     // with useCallBack function handleFocusComment is build only once at first render of page ?
     const handleFocusComment = useCallback(()=>{
         commentInput.current.focus();
     },[commentInput])
 
     return (<>
-        {user &&
+        {data.user &&
         <PublicationContainer >
             <TopContainer>
                 <ProfilContainer>
-                    <ProfilImg size='medium' src={user.profilImgUrl} />
+                    <ProfilImg size='medium' src={data.user.profilImgUrl} />
                     <ProfilText>
-                        <StyledLink to="/profil">{user.username}</StyledLink>
+                        <StyledLink to="/profil">{data.user.username}</StyledLink>
                         <p>Il y a {calcDate()} </p>
                     </ProfilText>
                 </ProfilContainer>
-                {/* user._id === dataConnection.userId*/}
-                { user._id === dataConnection.userId &&
+                { data.user._id === dataConnection.userId &&
                     <UpdateAndDelete  
                         id={{publication: publication}}
                     />
@@ -181,12 +163,10 @@ useEffect(()=>{
             }
             <IconContainer>
                 <PublicationIcon 
-                    type={"heart"} 
-                    publication={publication} 
+                    type={"heart"}  
                 />
                 <PublicationIcon 
                     type={"comment"} 
-                    publication={publication} 
                     handleFocusComment={handleFocusComment}
                 />
             </IconContainer>
@@ -199,8 +179,7 @@ useEffect(()=>{
                 />
                 {comments && comments.map((comment,i)=>(
                     <CommentBloc 
-                        key={`${comment._id}`} 
-                        publication={publication} 
+                        key={`${comment._id}`}  
                         comment={comment}
                     />
                 ))}
