@@ -101,6 +101,7 @@ function UpdateAndDelete(props){
 
     async function handleDelete(){
         try {
+            console.log(props.id)
             const endUrl = props.id.comment ? `/comment/${props.id.comment._id}` : ""
             const requestUrl = `http://localhost:3000/api/publication/${props.id.publication._id}${endUrl}`
             const bearer = 'Bearer ' + dataConnection.token;
