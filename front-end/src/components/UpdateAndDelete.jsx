@@ -71,10 +71,10 @@ const UpdateAndDeleteContainer = styled.div`
 /* ----------------------- Main ----------------------*/
 /*====================================================*/
 function UpdateAndDelete(props){
-    //props.type = "publication ou comment"
     const [isOpenModPubliBloc, setIsOpenModPubliBloc] = useState(false)
     const [isOpenModComment, setIsOpenModComment] = useState(false)
     const {dataConnection} = useContext(ConnectionContext);
+    const {setPublications} = useContext(AppContext)
     const {comments, setComments} = useContext(PublicationContext)
     const {setModifIsOpen} = useContext(AppContext)
     const [value, setValue] = useState("")
@@ -101,7 +101,6 @@ function UpdateAndDelete(props){
 
     async function handleDelete(){
         try {
-            console.log(props.id)
             const endUrl = props.id.comment ? `/comment/${props.id.comment._id}` : ""
             const requestUrl = `http://localhost:3000/api/publication/${props.id.publication._id}${endUrl}`
             const bearer = 'Bearer ' + dataConnection.token;
@@ -115,7 +114,13 @@ function UpdateAndDelete(props){
             });
             const answer = await res.json();
             console.log(answer);
-            props.setDeleted(true);
+            if (props.id.comment){
+                setComments((prev)=> prev.filter(comment => comment._id !== props.id.comment._id))
+            } else {
+                console.log("pass")
+                await setPublications((prev)=> prev.filter(publication=> publication._id !== props.id.publication._id))
+            }
+            
         } catch (error) {
             console.error(error)
         }

@@ -168,8 +168,7 @@ useEffect(()=>{
                 </ProfilContainer>
                 {/* user._id === dataConnection.userId*/}
                 { user._id === dataConnection.userId &&
-                    <UpdateAndDelete 
-                        setDeleted={props.setPubliDeleted} 
+                    <UpdateAndDelete  
                         id={{publication: publication}}
                     />
                 }

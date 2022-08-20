@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom'
 import useFetch from '../utils/hooks'
 import Deleted from '../assets/Deleted.jpg'
 import UpdateAndDelete from './UpdateAndDelete'
-import { useState } from 'react'
 import { useContext } from 'react'
 import { ConnectionContext } from '../utils/context'
 
@@ -18,7 +17,7 @@ import { ConnectionContext } from '../utils/context'
 
 const BottomComment = styled.div`
     width: 100%;
-    display: ${(props)=> props.commentDeleted ? "none" : "flex"};
+    display: flex;
     align-items: center;
     margin-top: 10px;
 `
@@ -58,7 +57,7 @@ const StyledLink = styled(Link)`
 /*====================================================*/
 
 function CommentBloc(props){
-    const [commentDeleted, setCommentDeleted] = useState(false);
+    //const [commentDeleted, setCommentDeleted] = useState(false);
     const {dataConnection} = useContext(ConnectionContext)
 
     const {data} = useFetch(`http://localhost:3000/api/user/${props.comment.author}`)
@@ -66,7 +65,7 @@ function CommentBloc(props){
     return(
     <>
         {data.user &&
-            <BottomComment commentDeleted={commentDeleted}>
+            <BottomComment>
             <ProfilImg size='small' src={data.user.profilImgUrl ? data.user.profilImgUrl : Deleted } /> 
                 <Comment>
                     <p>
@@ -76,8 +75,7 @@ function CommentBloc(props){
                         {props.comment.content}
                         </p>
                     {props.comment.author === dataConnection.userId && 
-                        <UpdateAndDelete 
-                            setDeleted={setCommentDeleted} 
+                        <UpdateAndDelete  
                             id={{publication: props.publication, comment: props.comment}}
                         />}
                 </Comment>

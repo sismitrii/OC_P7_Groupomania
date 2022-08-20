@@ -12,7 +12,7 @@ import { PublicationProvider } from "../utils/context";
 /*====================================================*/
 
 const Container = styled.section`
-    ${(props)=>props.publiDeleted ? "display: none;" : ""}
+
     width: 100%;
     background-color: #EDEDED;
     border-radius: 15px;
@@ -25,7 +25,7 @@ const Container = styled.section`
 /* ----------------------- Main ----------------------*/
 /*====================================================*/
 function PublicationBloc(props){
-    const [publiDeleted, setPubliDeleted] = useState(false);
+    //const [publiDeleted, setPubliDeleted] = useState(false);
     let toReturn; 
 
     switch (props.type){
@@ -35,7 +35,7 @@ function PublicationBloc(props){
         case 'show': 
             toReturn = 
                 <PublicationProvider>
-                    <ShowPublication setPubliDeleted={setPubliDeleted} publication={props.publication}/>
+                    <ShowPublication publication={props.publication}/>
                 </PublicationProvider>
             break
         default:
@@ -43,7 +43,7 @@ function PublicationBloc(props){
     }
 
     return (
-    <Container publiDeleted={publiDeleted}>
+    <Container >
         {toReturn}
     </Container>)
 }
