@@ -2,7 +2,7 @@
 /* --------------------- Import ----------------------*/
 /*====================================================*/
 import { useContext, useState } from "react"
-import { ConnectionContext } from "../utils/context"
+import { ConnectionContext, PublicationContext } from "../utils/context"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons"
 import styled from "styled-components"
@@ -10,6 +10,8 @@ import colors from "../utils/styles/colors"
 import ModificationBloc from "./ModificationBloc"
 
 import { AppContext } from "../utils/context"
+import TextInput from "./TextInput"
+import { useEffect } from "react"
 
 /*====================================================*/
 /* --------------------- Style ----------------------*/
@@ -70,9 +72,19 @@ const UpdateAndDeleteContainer = styled.div`
 /*====================================================*/
 function UpdateAndDelete(props){
     //props.type = "publication ou comment"
-    const [isopenModicationBloc, setIsOpenModificationBloc] = useState(false)
+    const [isOpenModPubliBloc, setIsOpenModPubliBloc] = useState(false)
+    const [isOpenModComment, setIsOpenModComment] = useState(false)
     const {dataConnection} = useContext(ConnectionContext);
+    const {comments, setComments} = useContext(PublicationContext)
     const {setModifIsOpen} = useContext(AppContext)
+    const [value, setValue] = useState("")
+
+    useEffect(()=>{
+        if (props.id.comment){
+            setValue(props.id.comment.content)
+        }
+    },[props.id.comment])
+
 
 
     // const isInitialMount = useRef(true);
@@ -81,7 +93,7 @@ function UpdateAndDelete(props){
     //   if (isInitialMount.current) {
     //      isInitialMount.current = false;
     //   } else {
-    //     if (isopenModicationBloc === false){
+    //     if (IsOpenModPubliBloc === false){
             
     //     }
     //   }
@@ -89,7 +101,8 @@ function UpdateAndDelete(props){
 
     async function handleDelete(){
         try {
-            const requestUrl = `http://localhost:3000/api/publication/${props.id.publication._id}${props.id.comment ? `/comment/${props.id.comment}` : ""}`
+            const endUrl = props.id.comment ? `/comment/${props.id.comment._id}` : ""
+            const requestUrl = `http://localhost:3000/api/publication/${props.id.publication._id}${endUrl}`
             const bearer = 'Bearer ' + dataConnection.token;
             const res = await fetch(requestUrl,{
                 method: 'DELETE',
@@ -108,14 +121,65 @@ function UpdateAndDelete(props){
     }
 
     function handleModification(){
-        setIsOpenModificationBloc(true);
-        setModifIsOpen(true)
+        if (props.id.comment){
+            setIsOpenModComment(true)
+        } else {
+            setIsOpenModPubliBloc(true);
+            setModifIsOpen(true)
+        }
+    }
+
+    async function handleChangeText(text){
+        await setValue(text);
+    }
+
+    async function handleLoseFocus(){
+        await setIsOpenModComment(false)
+        try {
+            const bearer = "Bearer " + dataConnection.token
+            const res = await fetch(`http://localhost:3000/api/publication/comment/${props.id.comment._id}`,{
+                method: "PUT",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': bearer
+                },
+                body: JSON.stringify({content: value})
+            })
+            const answer = await res.json();
+            console.log(answer);
+        } catch (error) {
+            console.error(error);
+        }    
+        // voir s'il peut y avoir mieux parceque là c'est compliqué pour pas grand chose..
+        const rank = comments.map((comment)=>comment._id).indexOf(props.id.comment._id)
+        let ModComment = [];
+        comments.forEach(comment => {
+            ModComment.push(comment);
+        });
+        ModComment[rank] = {_id: props.id.comment._id, content: value, author: props.id.comment.author};
+        setComments(ModComment);
     }
 
     return(
     <>
-    {isopenModicationBloc && <ModificationBloc setIsOpenModificationBloc={setIsOpenModificationBloc} publication={props.id.publication} />}
-    <Container >
+    {isOpenModPubliBloc && 
+        <ModificationBloc 
+            setIsOpenModPubliBloc={setIsOpenModPubliBloc} 
+            publication={props.id.publication} 
+        />
+    }
+    {isOpenModComment && 
+        <TextInput
+        isCommentMod
+        handleLoseFocus={handleLoseFocus} 
+        set={handleChangeText}
+        input={{name: "modComment", placeholder: "Commentez cette publication"}}
+        value={value}
+        />
+    }
+
+   <Container >
         
         <FontAwesomeIcon icon={faEllipsis} />
         <UpdateAndDeleteContainer>

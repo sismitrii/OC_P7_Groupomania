@@ -5,6 +5,7 @@ import styled from "styled-components"
 import AddNewPublication from "./AddNewPublication"
 import ShowPublication from "./ShowPublication";
 import { useState } from "react";
+import { PublicationProvider } from "../utils/context";
 
 /*====================================================*/
 /* --------------------- Style ----------------------*/
@@ -32,7 +33,10 @@ function PublicationBloc(props){
             toReturn = <AddNewPublication type={"publication"} />
             break;
         case 'show': 
-            toReturn = <ShowPublication setPubliDeleted={setPubliDeleted} publication={props.publication}/>
+            toReturn = 
+                <PublicationProvider>
+                    <ShowPublication setPubliDeleted={setPubliDeleted} publication={props.publication}/>
+                </PublicationProvider>
             break
         default:
             <></>

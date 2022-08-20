@@ -4,8 +4,8 @@
 import { Link } from 'react-router-dom' 
 import styled from "styled-components"
 
-import { useContext, useEffect, useState, useCallback, useRef } from "react"
-import { ConnectionContext } from '../utils/context'
+import { useContext, useEffect, useCallback, useRef } from "react"
+import { ConnectionContext, PublicationContext } from '../utils/context'
 import CommentBloc from "./CommentBloc"
 import ProfilImg from "./ProfilImg"
 import useFetch from "../utils/hooks"
@@ -100,8 +100,9 @@ const StyledLink = styled(Link)`
 function ShowPublication(props){
     const commentInput = useRef(null);
     let publication = props.publication;
-    const [comments, setComments] = useState([])
+    const {comments, setComments} = useContext(PublicationContext)
     const {dataConnection} = useContext(ConnectionContext)
+
 
     // const fetchOnePublication = useCallback(async()=>{
     //     try {
@@ -166,13 +167,18 @@ useEffect(()=>{
                     </ProfilText>
                 </ProfilContainer>
                 {/* user._id === dataConnection.userId*/}
-                { user._id === dataConnection.userId && <UpdateAndDelete setDeleted={props.setPubliDeleted} id={{publication: publication}}/>}
+                { user._id === dataConnection.userId &&
+                    <UpdateAndDelete 
+                        setDeleted={props.setPubliDeleted} 
+                        id={{publication: publication}}
+                    />
+                }
             </TopContainer>
             <StyledText>{publication.content}</StyledText>
             {publication.imageUrl &&
-            <ImgContainer>
-                <StyledImg src={publication.imageUrl} alt="Image de la publication" />
-            </ImgContainer>
+                <ImgContainer>
+                    <StyledImg src={publication.imageUrl} alt="Image de la publication" />
+                </ImgContainer>
             }
             <IconContainer>
                 <PublicationIcon 
@@ -193,7 +199,11 @@ useEffect(()=>{
                     setComments={setComments}
                 />
                 {comments && comments.map((comment,i)=>(
-                    <CommentBloc key={i} publication={publication} comment={comment}/>
+                    <CommentBloc 
+                        key={`${comment._id}`} 
+                        publication={publication} 
+                        comment={comment}
+                    />
                 ))}
             </CommentContainer>
         </PublicationContainer> 

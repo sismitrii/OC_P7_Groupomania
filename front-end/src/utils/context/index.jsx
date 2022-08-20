@@ -32,10 +32,25 @@ export function AppProvider({children}){
     const [modifIsOpen, setModifIsOpen] = useState(false);
     const [publications, setPublications] = useState([]);
 
+    console.log(publications);
+
     return (<AppContext.Provider value={{modifIsOpen, setModifIsOpen, publications, setPublications}}>
         {children}
         </AppContext.Provider>)
 }
+
+export const PublicationContext = createContext();
+
+export function PublicationProvider({children}){
+    const [comments, setComments] = useState([])
+
+    console.log(comments);
+
+    return (<PublicationContext.Provider value={{comments, setComments}}>
+        {children}
+        </PublicationContext.Provider>)
+}
+
 
 
 

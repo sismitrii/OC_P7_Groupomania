@@ -9,6 +9,15 @@ import styled from "styled-components"
 /*====================================================*/
 
 const StyledInput = styled.textarea`
+    ${(props)=> props.isCommentMod ? 
+        `position: absolute;
+        left: 0px;
+        top: 0px;
+        z-index: 900;`
+    :
+        ``
+    }
+
     width: 100%;
     height: ${(props) => props.textHeight};
     border: ${(props)=> props.value ? "1px solid black" : "none"};
@@ -39,13 +48,14 @@ function TextInput(props){
         await setTextHeight("auto")
         let scrollHeight = e.target.scrollHeight;
         await setTextHeight(scrollHeight+"px");
-        
     }
 
     return (
         <StyledInput
+            isCommentMod={props.isCommentMod}
             ref={props.input.setRef ? props.input.setRef : null}
             onChange={(e)=>handleKeyUp(e)}
+            onBlur={()=>props.handleLoseFocus ? props.handleLoseFocus(): null}
             textHeight = {textHeight}
             maxLength={500}
             name={props.input.name}
