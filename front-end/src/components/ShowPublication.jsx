@@ -145,7 +145,7 @@ useEffect(()=>{
                 <ProfilContainer>
                     <ProfilImg size='medium' src={data.user.profilImgUrl} />
                     <ProfilText>
-                        <StyledLink to="/profil">{data.user.username}</StyledLink>
+                        <StyledLink to={`/profil/${publication.author}`}>{data.user.username}</StyledLink>
                         <p>Il y a {calcDate()} </p>
                     </ProfilText>
                 </ProfilContainer>

@@ -7,10 +7,11 @@ import { faBars, faHouse, faGear } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import styled from "styled-components";
 import colors from "../utils/styles/colors";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Search from "./Search";
 import LogOut from "./LogOut";
+import { ConnectionContext } from "../utils/context";
 
 /*====================================================*/
 /* --------------------- Style -----------------------*/
@@ -201,6 +202,7 @@ function NavBar(props) {
   const [activeMenu, setActiveMenu] = useState(["home",0, 0]);
   //const [futurActive, setFutureActive] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
+  const {dataConnection} = useContext(ConnectionContext)
 
   const navigate = useNavigate();
 
@@ -211,7 +213,7 @@ function NavBar(props) {
       logo: faHouse
     },
     {
-      id: "profil",
+      id: `profil/${dataConnection.userId}`,
       name: "Profil",
       logo: faUser
     },

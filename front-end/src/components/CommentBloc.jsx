@@ -73,7 +73,7 @@ function CommentBloc(props){
             <Comment>
                 <p>
                     {data.user &&
-                        <StyledLink to={`/profils/${props.comment.author}`}>{data.user.username} </StyledLink>
+                        <StyledLink to={`/profil/${props.comment.author}`}>{data.user.username} </StyledLink>
                     }
                     {props.comment.content}
                 </p>

@@ -23,7 +23,7 @@ root.render(
           <Route path='/resetPassword/:token' element={<SignUp />} />
           <Route path='/login' element={<SignUp />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/profil" element={<Profil />} />
+          <Route path="/profil/:id" element={<Profil />} />
           <Route path="/settings" element={<Settings />} />
         </Routes>
       </ConnectionProvider>
