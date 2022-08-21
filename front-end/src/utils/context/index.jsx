@@ -1,5 +1,8 @@
 import { useState, useEffect, createContext } from "react";
 
+/*====================================================*/
+/* ------------------ Connection ---------------------*/
+/*====================================================*/
 export const ConnectionContext = createContext()
 
 export function ConnectionProvider({children}){
@@ -25,18 +28,32 @@ export function ConnectionProvider({children}){
 }
 
 
-
+/*====================================================*/
+/* ---------------------- App ------------------------*/
+/*====================================================*/
 export const AppContext = createContext();
 
 export function AppProvider({children}){
     const [modifIsOpen, setModifIsOpen] = useState(false);
     const [publications, setPublications] = useState([]);
+    const [profil, setProfil] = useState({});
 
-    return (<AppContext.Provider value={{modifIsOpen, setModifIsOpen, publications, setPublications}}>
+    return (
+    <AppContext.Provider 
+        value={
+            {modifIsOpen, setModifIsOpen,
+             publications, setPublications,
+             profil, setProfil}
+        }
+    >
         {children}
-        </AppContext.Provider>)
+    </AppContext.Provider>)
 }
 
+
+/*====================================================*/
+/* ------------------ Publication --------------------*/
+/*====================================================*/
 export const PublicationContext = createContext();
 
 export function PublicationProvider({children}){

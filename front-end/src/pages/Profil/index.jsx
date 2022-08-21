@@ -7,8 +7,11 @@ import Header from "../../components/Header"
 import ProfilImg from "../../components/ProfilImg"
 import Bloc from "../../components/Bloc"
 
-import Flo from '../../assets/photo_ident.png'
 import colors from "../../utils/styles/colors"
+import { useParams } from "react-router-dom"
+import { useContext, useEffect } from "react"
+import { AppContext } from "../../utils/context"
+import { fetchGet } from "../../utils/function/function"
 
 /*====================================================*/
 /* --------------------- Style -----------------------*/
@@ -69,16 +72,27 @@ const StyledH2 = styled.h2`
 /* ------------------- Component ---------------------*/
 /*====================================================*/
 function Profil(){
+    const profilId = useParams();
+    const {profil, setProfil} = useContext(AppContext)
+
+    useEffect(()=>{
+        async function loadProfil(){
+            const answer = await fetchGet(`http://localhost:3000/api/user/${profilId.id}`)
+            setProfil(answer.user);
+        }
+        loadProfil()
+    },[profilId])
+
     return (
     <>
     <Header active={"profil"}/>
     <Container>
         <section>
             <ProfilContainer>
-                <ProfilImg forProfilPage src={Flo} />
+                <ProfilImg forProfilPage src={profil.profilImgUrl} />
                 <div>
-                    <StyledH1>Flo Guerin</StyledH1>
-                    <StyledH2>Developpement</StyledH2>
+                    <StyledH1>{profil.username}</StyledH1>
+                    <StyledH2>{profil.department}</StyledH2>
                 </div>
             </ProfilContainer>
             <Bloc type={"info"} />

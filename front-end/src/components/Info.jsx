@@ -6,7 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons"
 import styled from "styled-components"
 import colors from "../utils/styles/colors"
-import { useState } from "react"
+import { useContext, useState } from "react"
+import { AppContext } from "../utils/context"
 
 /*====================================================*/
 /* ---------------------- Style ----------------------*/
@@ -41,8 +42,12 @@ const StyledInput = styled.input`
 /*====================================================*/
 /* ---------------------- Main -----------------------*/
 /*====================================================*/
-function Info(){
+function Info(props){
     const [isOnChange, setIsOnChange] = useState(false)
+    const {profil} = useContext(AppContext)
+
+    //si profil[props.type] alors on met un p
+    //sinon on met un button
 
     function handleClick(){
         setIsOnChange(true);
@@ -50,21 +55,29 @@ function Info(){
 
     function handleLoseFocus(){
         setIsOnChange(false);
+        // requete changement d'info
+        // setProfil
     }
 
     return (
-    // <p>Nasum rationem navigandi emas, Lorel</p>
     <>
-        {isOnChange ? 
-        <StyledInput onBlur={()=>handleLoseFocus()} type='text' placeholder="Numéro de portable" autoFocus/>
-        :
-        <AddInfo onClick={()=>handleClick()}>
-            <FontAwesomeIcon icon={faCirclePlus} />
-            <p>Numéro de portable</p>
-        </AddInfo>
+    {props && profil[props.type] ? 
+        <p>{props.sentence} : {profil[props.type]}</p>
+    :
+        <>
+            {isOnChange ? 
+            <StyledInput onBlur={()=>handleLoseFocus()} type='text' placeholder={props.sentence} autoFocus/>
+            :
+            <AddInfo onClick={()=>handleClick()}>
+                <FontAwesomeIcon icon={faCirclePlus} />
+                <p>{props.sentence}</p>
+            </AddInfo>
 
-        }
-    </>)
+            }
+        </>
+    }
+    </>
+    )
 }
 
 export default Info
