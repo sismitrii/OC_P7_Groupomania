@@ -94,7 +94,6 @@ function Home(){
         }
     }
     if (!publications[0]){
-        console.log(publications);
         loadMorePublication();
     }
 
