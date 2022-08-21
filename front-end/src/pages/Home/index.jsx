@@ -5,7 +5,7 @@ import { useContext, useState} from "react"
 import styled, {keyframes} from "styled-components"
 
 import Header from "../../components/Header"
-import PublicationBloc from "../../components/PublicationBloc"
+import Bloc from "../../components/Bloc"
 import colors from "../../utils/styles/colors"
 
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -103,7 +103,7 @@ function Home(){
         <Header active={"home"}/>
         <Container>
             <HomeTitle>Fil d'actualités</HomeTitle>
-            <PublicationBloc 
+            <Bloc 
                 type={"add"}
             />
             <InfiniteScroll 
@@ -114,7 +114,7 @@ function Home(){
                 endMessage={<h3>Il n'y a plus d'autres publications</h3>}
             >
                 { publications && publications.map((publication,i)=>(
-                    <PublicationBloc 
+                    <Bloc 
                         key={publication._id} 
                         publication={publication} 
                         type={"show"}

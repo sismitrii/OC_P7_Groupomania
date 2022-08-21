@@ -23,7 +23,7 @@ const Container = styled.section`
 /*====================================================*/
 /* ----------------------- Main ----------------------*/
 /*====================================================*/
-function PublicationBloc(props){
+function Bloc(props){
     let toReturn; 
 
     switch (props.type){
@@ -46,4 +46,4 @@ function PublicationBloc(props){
     </Container>)
 }
 
-export default PublicationBloc
+export default Bloc
