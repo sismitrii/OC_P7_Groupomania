@@ -5,6 +5,7 @@ import styled from "styled-components"
 import AddNewPublication from "./AddNewPublication"
 import ShowPublication from "./ShowPublication";
 import { PublicationProvider } from "../utils/context";
+import InformationBloc from "./InformationBloc";
 
 /*====================================================*/
 /* --------------------- Style ----------------------*/
@@ -35,7 +36,10 @@ function Bloc(props){
                 <PublicationProvider>
                     <ShowPublication publication={props.publication}/>
                 </PublicationProvider>
-            break
+            break;
+        case 'info':
+            toReturn = <InformationBloc />
+            break;
         default:
             <></>
     }

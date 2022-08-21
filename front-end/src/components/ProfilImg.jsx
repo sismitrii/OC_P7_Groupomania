@@ -11,6 +11,9 @@ const StyledImg = styled.img`
     border-radius: 50%;
     width: ${(props)=> props.width}px;
     height: ${(props)=> props.width}px;
+    ${(props)=> props.forProfilPage && 
+        `border: 1px solid black;
+        margin: 0px 20px;`}
     object-fit: cover;
 `
 
@@ -35,7 +38,7 @@ function ProfilImg(props){
             break;
     }
 
-    return <StyledImg src={props.src } alt="Photo de profil" width={width} />
+    return <StyledImg src={props.src } alt="Photo de profil" forProfilPage={props.forProfilPage} width={width} />
 }
 
 export default ProfilImg
