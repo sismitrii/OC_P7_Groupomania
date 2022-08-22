@@ -29,18 +29,13 @@ function InformationBloc(){
     const {dataConnection} = useContext(ConnectionContext)
     const profilId = useParams();
 
-    // un tableau d'objet
-    //[{type:"", value:""}, ]
-    // si dataConnection.userId === profilId.id on voit que tout les type y soit
-    // sinon 
-
     const parameters = {
         email : {sentence: "Email", inputType: "email"},
         birthday: {sentence: "Date de naissance", inputType: "date"},
         workNumber: {sentence: "Numéro de poste", inputType: "number"},
         mobileNumber: {sentence: "Numéro de portable", inputType: "tel"},
         interests: {sentence: "Centres d'interets", inputType: "text"},
-        biographie: {sentence:"Biographie",inputType: "textarea"}
+        biography: {sentence:"Biographie",inputType: "textarea"}
     }
 
     let informed = Object.keys(parameters);
