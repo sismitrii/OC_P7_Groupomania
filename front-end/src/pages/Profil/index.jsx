@@ -26,7 +26,7 @@ const Container = styled.main`
     max-width: 1300px;
     margin: 0 auto;
 
-    @media (min-width: 768px){ 
+    @media (min-width: 992px){ 
         flex-direction: row;
         align-items: flex-start;
     }

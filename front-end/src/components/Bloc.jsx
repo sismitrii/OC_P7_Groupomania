@@ -14,7 +14,7 @@ import ProfilPublication from "./ProfilPublications";
 
 const Container = styled.section`
 
-    width: auto;
+    width: ${(props)=> props.type === 'add' ? "96%" : "auto"};
     margin: 10px;
     background-color: #EDEDED;
     border-radius: 15px;
@@ -45,12 +45,15 @@ function Bloc(props){
         case 'profilPublication': 
             toReturn = <ProfilPublication />
             break;
+        case 'settings':
+            toReturn = <div>Settings</div>
+            break;
         default:
             <></>
     }
 
     return (
-    <Container isInside={props.isInside} >
+    <Container type={props.type} isInside={props.isInside} >
         {toReturn}
     </Container>)
 }

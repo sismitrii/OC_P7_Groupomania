@@ -14,15 +14,19 @@ import colors from "../utils/styles/colors"
 
 const StyledButton = styled.button`
     padding: ${(props)=> props.type === "comment" ? "Opx" :"5px 30px" };
-    min-width: 40px;
+    ${(props)=> props.type === "comment" ? "min-width: 40px" : ""};
     max-height: 40px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     outline: none;
     background-color: ${colors.secondary};
-    font-size: 16px;
+    font-size: 12px;
     margin-left: 10px;
+
+    @media (min-width: 768px){
+        font-size: 16px;
+    }
 `
 
 /*====================================================*/

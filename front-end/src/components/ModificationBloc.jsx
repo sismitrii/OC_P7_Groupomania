@@ -38,14 +38,22 @@ const ModificationContainer = styled.div`
     align-items: center;
     border: 1px solid black;
     border-radius: 15px;
-    padding: 20px;
+    padding: 10px;
+
+    @media(min-width: 768px){
+        padding: 20px;
+    }
 `
 
 const ModificationTitle = styled.h2`
     color: ${colors.primary};
-    font-size : 35px;
+    font-size : 20px;
     font-weight: 500;
     margin-bottom: 20px;
+
+    @media(min-width:768px){
+        font-size: 30px;
+    }
 `
 
 const Leave = styled.div`

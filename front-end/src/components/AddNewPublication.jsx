@@ -18,7 +18,7 @@ import {fetchGet, fetchPostOrPut} from "../utils/function/function"
 const StyledForm = styled.form`
     width: 100%;
     ${(props)=> props.type === "comment" ? "display: flex;" : ""}
-    padding: 10px 25px;
+    padding: ${(props)=> props.type === "comment" ? "10px 15px" : "10px 25px"};
 `
 
 const BottomBloc = styled.div`
@@ -35,12 +35,22 @@ const PictureBloc = styled.div`
 `
 
 const StyledIcon = styled(FontAwesomeIcon)`
-    font-size: 20px;
+    font-size: 16px;
     margin: 10px 20px;
+
+    @media(min-width: 768px){
+        font-size: 20px;
+    }
 `
 
 const StyledText = styled.p`
     font-weight: 500;
+    text-align: center;
+    font-size: 12px;
+
+    @media(min-width: 768px){
+        font-size: 16px;
+    }
 `
 
 const StyledInput = styled.input`
@@ -55,6 +65,7 @@ const StyledLabel = styled.label`
     align-items: center;
     cursor: pointer;
     z-index: 1;
+    
 `
 const StyledImg = styled.img`
     width: 280px;

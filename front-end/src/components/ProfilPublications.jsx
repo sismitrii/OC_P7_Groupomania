@@ -16,7 +16,7 @@ import { useEffect } from "react"
 /*====================================================*/
 
 const Container = styled.div`
-    margin: 20px;
+    margin: 10px;
 
     & .infinite-scroll-component__outerdiv {
         text-align : center;

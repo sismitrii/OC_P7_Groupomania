@@ -20,15 +20,16 @@ const StyledInput = styled.textarea`
 
     width: 100%;
     height: ${(props) => props.textHeight};
-    border: ${(props)=> props.value ? "1px solid black" : "none"};
+    border: none;
     outline: none;
     border-radius: 5px;
     resize: none;
     font-family: 'Arial';
     padding: 10px;
+    font-size: 12px;
 
     @media (min-width: 768px){
-        font-size: 18px;
+        font-size: 14px;
     }
 
     &::-webkit-scrollbar{
