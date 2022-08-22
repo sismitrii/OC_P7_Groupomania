@@ -36,16 +36,16 @@ function InformationBloc(){
     // si dataConnection.userId === profilId.id on voit que tout les type y soit
     // sinon 
 
-    const sentences = {
-        email : "Email",
-        birthday: "Date de naissance",
-        workNumber: "Numéro de poste",
-        mobile: "Numéro de portable",
-        interests: "Centres d'interets",
-        biographie: "Biographie"
+    const parameters = {
+        email : {sentence: "Email", inputType: "email"},
+        birthday: {sentence: "Date de naissance", inputType: "date"},
+        workNumber: {sentence: "Numéro de poste", inputType: "number"},
+        mobileNumber: {sentence: "Numéro de portable", inputType: "tel"},
+        interests: {sentence: "Centres d'interets", inputType: "text"},
+        biographie: {sentence:"Biographie",inputType: "textarea"}
     }
 
-    let informed = Object.keys(sentences);
+    let informed = Object.keys(parameters);
     if (!(dataConnection.userId === profilId.id)){
         informed = informed.filter((info)=> profil[info])
     }
@@ -55,7 +55,7 @@ function InformationBloc(){
         <h3>Informations</h3>
         <ContainerInfo>
             {informed && informed.map((info,i)=> (
-                <Info key={`${info}-${i}`} type={info} sentence={sentences[info]} />
+                <Info key={`${info}-${i}`} type={info} parameter={parameters[info]} />
             ))}
         </ContainerInfo>
     </Container>)
