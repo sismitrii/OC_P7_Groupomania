@@ -75,7 +75,7 @@ function UpdateAndDelete(props){
     const [isOpenModPubliBloc, setIsOpenModPubliBloc] = useState(false)
     const [isOpenModComment, setIsOpenModComment] = useState(false)
     const {dataConnection} = useContext(ConnectionContext);
-    const {setPublications} = useContext(AppContext)
+    const {setPublications, setProfilPublications} = useContext(AppContext)
     const {comments, setComments, publication} = useContext(PublicationContext)
     const {setModifIsOpen} = useContext(AppContext)
     const [value, setValue] = useState("")
@@ -105,6 +105,7 @@ function UpdateAndDelete(props){
                 setComments((prev)=> prev.filter(comment => comment._id !== props.comment._id))
             } else {
                 await setPublications((prev)=> prev.filter(publi=> publi._id !== publication._id))
+                await setProfilPublications((prev)=> prev.filter(publi => publi._id !== publication._id))
             }
         } catch (error) {
             console.error(error)

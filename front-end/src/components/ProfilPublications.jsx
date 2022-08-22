@@ -18,8 +18,8 @@ import { useEffect } from "react"
 const Container = styled.div`
     margin: 20px;
 
-    & .infinite-scroll-component {
-        margin:0 auto;
+    & .infinite-scroll-component__outerdiv {
+        text-align : center;
     }
 
 `
@@ -31,23 +31,30 @@ const Container = styled.div`
 function ProfilPublication(){
     const {dataConnection} = useContext(ConnectionContext)
     const profilId = useParams();
-    const {profilPublications, setProfilPublications, profil} = useContext(AppContext)
+    const {profilPublications, setProfilPublications, profil, setProfil} = useContext(AppContext)
     const [offset, setOffset] = useState(5)
-    const [hasMore, setHasMore] = useState(false)
+    const [hasMore, setHasMore] = useState(true)
+
+useEffect(()=>{
+    if (profil.publications){
+        // reset old value of precedent profil if has more was at false
+        setHasMore(true)
+        if (profil.publications.length <=5){
+            setHasMore(false);
+        }
+    }
+},[profil, setProfilPublications])
 
 
     async function loadMorePublication() {
-
         const answer = await fetchGet(`http://localhost:3000/api/user/${profilId.id}/publications/${offset}`)
-        setProfilPublications(answer.publications)
+        setProfilPublications((prev)=> [...prev, ...answer.publications])
         setOffset(offset + 5)
 
-        if(profilPublications.length < profil.publications.length){
-            setHasMore(true)
+        if(profilPublications.length >= profil.publications.length){
+            setHasMore(false)
         }
     }
-
-    console.log(profilPublications);
 
     return(
     <Container>

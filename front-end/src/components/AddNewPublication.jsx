@@ -79,7 +79,7 @@ function AddNewPublication(props){
     const [image, setImage] = useState(null)
     const [publicationData, setPublicationData] = useState({})
     const {dataConnection} = useContext(ConnectionContext);
-    const {publications, setPublications, setModifIsOpen} = useContext(AppContext);
+    const {publications, setPublications, profilPublications, setProfilPublications, setModifIsOpen} = useContext(AppContext);
     const [value, setValue] = useState("")
 
     const type = props.type;
@@ -150,12 +150,14 @@ function AddNewPublication(props){
             if (type === "publication"){
                 const newPubli = await fetchGet(`http://localhost:3000/api/publication/one/${answer.id}`)
                 setPublications((prev)=> [newPubli.publication, ...prev])
+                setProfilPublications((prev)=>[newPubli.publication, ...prev])
             } else if (type === "comment"){
                 props.setComments((prev)=>[...prev, {_id: answer.commentId, content: publicationData.content, author: dataConnection.userId}]);
             } else if (type === "modification"){
                 const updatePubli = await fetchGet(`http://localhost:3000/api/publication/one/${props.publicationId}`)
                 const rank = publications.map((publication)=> publication._id).indexOf(props.publicationId)
                 publications[rank] = updatePubli.publication
+                profilPublications[rank] = updatePubli.publication
                 //const publicationsModifed = publications;
                 //publicationsModifed[rank] = updatePubli.publication
                 //setPublications(publicationsModifed);
