@@ -16,7 +16,7 @@ const functionCtrl = require('./function')
 
 
 /*=== Get all user data from an user except password even if it's hashed ===*/
-exports.getUserData = (req, res, next) => {
+exports.getUserData = (req, res) => {
     User.findById(req.params.id)
     .then((user)=>{
         delete user._doc.password;
@@ -25,11 +25,11 @@ exports.getUserData = (req, res, next) => {
         } 
         res.status(200).json({user})
     })
-    .catch((error)=> res.status(400).json({message: "User does exist in DB", error}))
+    .catch((error)=> res.status(500).json({message: "User does exist in DB", error}))
 }
 
 /*=== User loged (token) can modify element from his own profil ===*/
-exports.modifyUserData = (req, res,next) => {
+exports.modifyUserData = (req, res) => {
     const newUserData = req.body.user ? {...JSON.parse(req.body.user)}: {...req.body};
 
     if (req.file){
@@ -54,13 +54,13 @@ exports.modifyUserData = (req, res,next) => {
                 res.status(401).json({message: "le token of user not valid"})
             }
         })
-        .catch((error)=> res.status(400).json({message: "Error finding user", error}))
+        .catch((error)=> res.status(500).json({message: "Error finding user", error}))
     }
 }
 
 /*=== Admin and User loged can delete a user from DB ===*/
 // Maybe add something to say that the  account have been desactivated
-exports.deleteUserData = (req, res, next) => {
+exports.deleteUserData = (req, res) => {
     User.findById(req.auth.userId)
     .then((userRequesting)=>{
         if ((userRequesting.role.includes("ROLE_ADMIN"))|| (req.params.id === req.auth.userId)){
@@ -83,8 +83,15 @@ exports.deleteUserData = (req, res, next) => {
 }
 
 /*=== Get all Publication from a user ===*/
-exports.getUserPublications = (req, res, next) => {
+exports.getUserPublications = (req, res) => {
     User.findById(req.params.id)
     .populate("publications")
-    .then((user)=> res.status(201).json({publications: user.publications}))
+    .then((user)=> {
+        const publicationsToReturn = functionCtrl.sortAndSend(req,user.publications)
+        res.status(201).json({publications: publicationsToReturn})
+    })
+    .catch((error)=> res.status(500).json({message: "Error finding User", error}))
 }
+
+
+

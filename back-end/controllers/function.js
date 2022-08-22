@@ -56,6 +56,17 @@ exports.deletePublication = (res, publicationId, userIsToUpdate) =>{
     .catch((error)=>res.status(400).json({message: "Error finding publications", error}))
 }
 
+exports.sortAndSend = (req, publications, ) =>{
+    publications.sort((a, b) => {
+        let dateA = new Date(a.createdAt),
+            dateB = new Date(b.createdAt);
+        return dateB - dateA;
+    });
+    
+    return publications.slice(parseInt(req.params.start), parseInt(req.params.start) + 5)
+   
+}
+
 exports.removeImage = removeImage;
 exports.deleteComment = deleteComment;
 
