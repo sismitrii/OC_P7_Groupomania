@@ -7506,11 +7506,6 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-18.2.0.tgz"
   "version" "18.2.0"
 
-"react-mailto@^0.4.0":
-  "integrity" "sha512-jFm+7EEfwTPTU/b929+sxUR5W9/cj9A8k4Oozr1uYe8ilNgA04MbQC/1ej0OSR/iGXYXyULa/mNYt0NSZR3VqA=="
-  "resolved" "https://registry.npmjs.org/react-mailto/-/react-mailto-0.4.0.tgz"
-  "version" "0.4.0"
-
 "react-refresh@^0.11.0", "react-refresh@>=0.10.0 <1.0.0":
   "integrity" "sha512-F27qZr8uUqwhWZboondsPx8tnC3Ct3SxZA3V5WyEvujRyyNv0VYPhoBg1gZ8/MV5tubQp76Trw8lTv9hzRBa+A=="
   "resolved" "https://registry.npmjs.org/react-refresh/-/react-refresh-0.11.0.tgz"
