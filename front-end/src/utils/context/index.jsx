@@ -37,13 +37,15 @@ export function AppProvider({children}){
     const [modifIsOpen, setModifIsOpen] = useState(false);
     const [publications, setPublications] = useState([]);
     const [profil, setProfil] = useState({});
+    const [profilPublications, setProfilPublications] = useState([])
 
     return (
     <AppContext.Provider 
         value={
             {modifIsOpen, setModifIsOpen,
              publications, setPublications,
-             profil, setProfil}
+             profil, setProfil,
+             profilPublications, setProfilPublications}
         }
     >
         {children}

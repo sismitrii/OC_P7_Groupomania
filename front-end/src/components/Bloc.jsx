@@ -6,6 +6,7 @@ import AddNewPublication from "./AddNewPublication"
 import ShowPublication from "./ShowPublication";
 import { PublicationProvider } from "../utils/context";
 import InformationBloc from "./InformationBloc";
+import ProfilPublication from "./ProfilPublications";
 
 /*====================================================*/
 /* --------------------- Style ----------------------*/
@@ -13,10 +14,11 @@ import InformationBloc from "./InformationBloc";
 
 const Container = styled.section`
 
-    width: 100%;
+    width: auto;
+    margin: 10px;
     background-color: #EDEDED;
     border-radius: 15px;
-    box-shadow: 2px 6px 8px #C9C9C9;
+    box-shadow: ${(props)=> props.isInside ? "0 0 8px 5px" : "2px 6px 8px"} #C9C9C9;
     margin-bottom: 30px;
 `
 
@@ -40,12 +42,15 @@ function Bloc(props){
         case 'info':
             toReturn = <InformationBloc />
             break;
+        case 'profilPublication': 
+            toReturn = <ProfilPublication />
+            break;
         default:
             <></>
     }
 
     return (
-    <Container >
+    <Container isInside={props.isInside} >
         {toReturn}
     </Container>)
 }

@@ -45,6 +45,7 @@ const Container = styled.main`
         text-align:center;
         font-size: 25px;
         font-weight: 500;
+        margin-bottom: 20px;
     }
 `
 
@@ -73,7 +74,7 @@ const StyledH2 = styled.h2`
 /*====================================================*/
 function Profil(){
     const profilId = useParams();
-    const {profil, setProfil} = useContext(AppContext)
+    const {profil, setProfil, setProfilPublications} = useContext(AppContext)
 
     useEffect(()=>{
         async function loadProfil(){
@@ -81,6 +82,11 @@ function Profil(){
             setProfil(answer.user);
         }
         loadProfil()
+        async function getPublicationOfProfil(){
+            const answer = await fetchGet(`http://localhost:3000/api/user/${profilId.id}/publications/0`)
+            setProfilPublications(answer.publications);
+        }
+        getPublicationOfProfil();
     },[profilId])
 
     return (
@@ -97,15 +103,7 @@ function Profil(){
             </ProfilContainer>
             <Bloc type={"info"} />
         </section>
-        <Bloc>
-            <h3>Publication</h3>
-            <div>
-            <Bloc 
-                type={"add"}
-            /> 
-            </div>
-            <div></div>
-        </Bloc>
+        <Bloc type={"profilPublication"} />
     </Container>
     </>)
 }

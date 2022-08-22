@@ -47,7 +47,7 @@ const animationLoader = keyframes`
   }
 `
 
-const Loader = styled.div`
+export const Loader = styled.div`
 display: inline-block;
 width: 80px;
 height: 80px;
@@ -114,7 +114,7 @@ function Home(){
             >
                 { publications && publications.map((publication,i)=>(
                     <Bloc 
-                        key={publication._id} 
+                        key={`${publication._id}-${i}`} 
                         publication={publication} 
                         type={"show"}
                     />

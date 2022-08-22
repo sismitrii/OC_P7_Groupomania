@@ -16,10 +16,8 @@ const Container = styled.div`
 `
 
 const ContainerInfo = styled.div`
-    margin-top: 30px;
-
     & > * {
-        margin-top: 30px;
+        margin-bottom: 30px;
     }
 `
 
