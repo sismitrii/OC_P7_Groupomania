@@ -4,12 +4,13 @@
 import { useState, useContext, useEffect } from "react"
 import { AppContext, ConnectionContext} from "../utils/context"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCirclePlus, faEdit} from "@fortawesome/free-solid-svg-icons"
+import { faPaperPlane} from "@fortawesome/free-solid-svg-icons"
 import styled from "styled-components"
 
 import TextInput from "./TextInput"
 import PostButton from "./PostButton"
 import {fetchGet, fetchPostOrPut} from "../utils/function/function"
+import PictureBloc from "./PictureBloc"
 
 /*====================================================*/
 /* --------------------- Style ----------------------*/
@@ -26,60 +27,6 @@ const BottomBloc = styled.div`
     flex-direction: ${(props)=> props.direction};
     justify-content: space-between;
     ${(props)=> props.type === "comment" ? "" : "align-items: center;"}
-`
-
-const PictureBloc = styled.div`
-    position: relative;
-    display: flex;
-    align-items: center;
-`
-
-const StyledIcon = styled(FontAwesomeIcon)`
-    font-size: 16px;
-    margin: 10px 20px;
-
-    @media(min-width: 768px){
-        font-size: 20px;
-    }
-`
-
-const StyledText = styled.p`
-    font-weight: 500;
-    text-align: center;
-    font-size: 12px;
-
-    @media(min-width: 768px){
-        font-size: 16px;
-    }
-`
-
-const StyledInput = styled.input`
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    opacity: 0;
-`
-const StyledLabel = styled.label`
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    z-index: 1;
-    
-`
-const StyledImg = styled.img`
-    width: 280px;
-    border-radius: 10px;
-    margin: 10px 0;
-    opacity: 0.6;
-`
-
-const IconEdit = styled(FontAwesomeIcon)`
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 40px;
 `
 
 /*====================================================*/
@@ -117,18 +64,21 @@ function AddNewPublication(props){
         publication: {
             name: "share",
             placeholder: "Que souhaitez-vous partagez ?",
-            url: ""
+            url: "",
+            postButton: "Poster"
         },
         comment: {
             name:"comment",
             placeholder: "Commentez cette publication",
             url: `/${props.publicationId}/comment`,
-            setRef: props.setRef
+            setRef: props.setRef,
+            postButton: <FontAwesomeIcon icon={faPaperPlane} />
         },
         modification: {
             name: "modification",
             placeholder: "Que souhaitez-vous partagez ?",
-            url: `/${props.publicationId}`
+            url: `/${props.publicationId}`,
+            postButton: "Modifier"
         }
     }
 
@@ -189,28 +139,12 @@ function AddNewPublication(props){
             />
             <BottomBloc type={props.type} direction={image === null ? "row" : "column"}>
                 {(props.type === "publication" || props.type === "modification") && 
-                    
-                    <PictureBloc>
-                        {image === null ? 
-                            <StyledLabel htmlFor={type === "publication" ? "addPicture" : "modificationAddPicture"} >
-                                <StyledIcon icon={faCirclePlus} />
-                                <StyledText >Ajouter une photo</StyledText>
-                            </StyledLabel>
-                        :
-                        <>
-                            <StyledImg src={image} alt="Image Publiée" />
-                            <IconEdit icon={faEdit} />
-                        </>
-                        }
-                        <StyledInput 
-                            type="file" 
-                            id={type === "publication" ? "addPicture" : "modificationAddPicture"} 
-                            accept="image/png, image/jpeg, image/jpg" 
-                            onChange={(e)=>handleChangePicture(e)} 
-                        />
-                    </PictureBloc>
+                    <PictureBloc image={image} type={type} handleChangePicture={handleChangePicture}/>
                 }
-                <PostButton postMethod={handlePost} type={type} />
+                <PostButton 
+                    postMethod={handlePost} 
+                    type={type} 
+                    content={inputValue[type].postButton} />
             </BottomBloc>
         </StyledForm>
     )
