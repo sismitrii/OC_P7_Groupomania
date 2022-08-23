@@ -1,6 +1,8 @@
 /*====================================================*/
 /* ------------------- Import ---------------------*/
 /*====================================================*/
+import Accordion from "../../components/Accordion"
+import Bloc from "../../components/Bloc"
 import Header from "../../components/Header"
 //import styled from "styled-components"
 
@@ -14,7 +16,18 @@ import Header from "../../components/Header"
 /* ------------------- Component ---------------------*/
 /*====================================================*/
 function Settings(){
-    return (<Header active={"settings"}/>)
+    const isMobile = window.matchMedia("(max-width:768px)").matches
+    return (
+    <>
+        <Header active={"settings"}/>
+        {isMobile ? 
+            <Accordion />
+        :
+            <Bloc type={"settings"}/>
+        }
+        
+    </> 
+    )
 }
 
 export default Settings

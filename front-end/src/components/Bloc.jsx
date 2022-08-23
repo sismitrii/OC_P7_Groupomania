@@ -7,6 +7,7 @@ import ShowPublication from "./ShowPublication";
 import { PublicationProvider } from "../utils/context";
 import InformationBloc from "./InformationBloc";
 import ProfilPublication from "./ProfilPublications";
+import Accordion from "./Accordion";
 
 /*====================================================*/
 /* --------------------- Style ----------------------*/
@@ -15,7 +16,8 @@ import ProfilPublication from "./ProfilPublications";
 const Container = styled.section`
 
     width: ${(props)=> props.type === 'add' ? "96%" : "auto"};
-    margin: 10px;
+    max-width: 700px;
+    margin:${(props)=>props.type === 'settings'? "10px auto" : "10px"};
     background-color: #EDEDED;
     border-radius: 15px;
     box-shadow: ${(props)=> props.isInside ? "0 0 8px 5px" : "2px 6px 8px"} #C9C9C9;
@@ -46,7 +48,7 @@ function Bloc(props){
             toReturn = <ProfilPublication />
             break;
         case 'settings':
-            toReturn = <div>Settings</div>
+            toReturn = <Accordion />
             break;
         default:
             <></>
