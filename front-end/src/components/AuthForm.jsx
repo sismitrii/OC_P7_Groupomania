@@ -1,15 +1,15 @@
 /*====================================================*/
 /* --------------------- Import ----------------------*/
 /*====================================================*/
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import { useState, useContext } from 'react'
 import { useNavigate, useParams, Link } from "react-router-dom";
-import { faEye } from '@fortawesome/free-solid-svg-icons'
 import styled from 'styled-components'
 import colors from '../utils/styles/colors';
 import zxcvbn from 'zxcvbn';
 import { ConnectionContext } from '../utils/context';
 import { fetchPostOrPut } from '../utils/function/function';
+import PasswordBloc from './PasswordBloc';
 
 
 /*====================================================*/
@@ -74,20 +74,6 @@ const PasswordStrenght = styled.div`
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
-`
-
-const PasswordBloc = styled.div`
-    position: relative;
-    width: 100%;
-`
-
-const EyeIcon = styled(FontAwesomeIcon)`
-    font-size: 12px;
-    position: absolute;
-    right: 6%;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
 `
 
 const AuthLabel = styled.label`
@@ -185,43 +171,6 @@ function checkContent(e, type, userData, setUserData){
     }
 }
 
-function showPassword(e){
-    e.stopPropagation();
-    const input = e.currentTarget.previousElementSibling
-    if (input.type === "password"){
-        input.type = "text";
-    } else {
-        input.type = "password";
-    }
-}
-
-function checkStrenghtPassword(e,setStrenght, userData, setUserData){
-    if (e.target.value.length > 0){
-        setStrenght(zxcvbn(e.target.value).score);
-        setUserData(data =>({
-            ...data,
-            password: e.target.value
-        }))
-    } else {
-        const newUserData = userData;
-        delete newUserData.password;
-        setUserData(newUserData);
-        setStrenght(-1);
-    }
-}
-
-function passwordConfirmation(e, userData, setPasswordChecked){
-    document.querySelector('.confirmationErrorMsg').innerText = "";
-    if (e.target.value.length > 0){
-        if (e.target.value === userData.password){
-            setPasswordChecked(true);
-        } else {
-            setPasswordChecked(false);  
-        }
-    }
-}
-
-
 async function postData(url, dataToPost){
 
     const answer = await fetchPostOrPut("POST", dataToPost,url)
@@ -250,7 +199,32 @@ function Auth(props){
         } else if((userData.email) && (userData.password)){
             console.log(await postData('http://localhost:3000/api/auth/signup', userData))
             login();
+        }
+    }
 
+    function passwordConfirmation(e){
+        document.querySelector('.confirmationErrorMsg').innerText = "";
+        if (e.target.value.length > 0){
+            if (e.target.value === userData.password){
+                setPasswordChecked(true);
+            } else {
+                setPasswordChecked(false);  
+            }
+        }
+    }
+
+    function checkStrenghtPassword(e){
+        if (e.target.value.length > 0){
+            setStrenght(zxcvbn(e.target.value).score);
+            setUserData(data =>({
+                ...data,
+                password: e.target.value
+            }))
+        } else {
+            const newUserData = userData;
+            delete newUserData.password;
+            setUserData(newUserData);
+            setStrenght(-1);
         }
     }
 
@@ -363,11 +337,11 @@ function Auth(props){
             }
             {(props.page === 'login' || props.page === '' || props.page === 'resetPassword' ) &&
             <>
-                <AuthLabel>Mot de passe</AuthLabel>
-                <PasswordBloc>
-                    <AuthInput onChange={(e)=> checkStrenghtPassword(e, setStrenght, userData, setUserData)} name="password" id="signup__password" type="password" />
-                    <EyeIcon onClick={(e)=> showPassword(e)}icon={faEye} />
-                </PasswordBloc>
+                <PasswordBloc 
+                    onChange={checkStrenghtPassword} 
+                    label={"Mot de passe"}
+                    name={"password"}
+                />
             </>
             }
             
@@ -384,11 +358,11 @@ function Auth(props){
                     <PasswordStrenghtPart strenghtPassword = {strenghtPassword}/>
                     <PasswordStrenghtPart strenghtPassword = {strenghtPassword}/>
                 </PasswordStrenght>
-                <AuthLabel>Confirmez votre mot de passe</AuthLabel>
-                <PasswordBloc>
-                    <AuthInput onChange={(e)=> passwordConfirmation(e, userData, setPasswordChecked)} name="confirm_password" id="signup__confirm" type="password" />
-                    <EyeIcon onClick={(e)=> showPassword(e)} icon={faEye} />
-                </PasswordBloc>
+                <PasswordBloc 
+                    onChange={(e)=>passwordConfirmation(e)} 
+                    label={"Confirmez votre mot de passe"} 
+                    name={"password-confirmation"}
+                />
                 <ErrorMsg className='confirmationErrorMsg'></ErrorMsg>
 
             </>}
