@@ -39,13 +39,24 @@ export function AppProvider({children}){
     const [profil, setProfil] = useState({});
     const [profilPublications, setProfilPublications] = useState([])
 
+    const parameters = {
+        email : {sentence: "Email", inputType: "email"},
+        birthday: {sentence: "Date de naissance", inputType: "date"},
+        workNumber: {sentence: "Numéro de poste", inputType: "number"},
+        mobileNumber: {sentence: "Numéro de portable", inputType: "tel"},
+        interests: {sentence: "Centres d'interets", inputType: "text"},
+        biography: {sentence:"Biographie",inputType: "textarea"}
+    }
+
     return (
     <AppContext.Provider 
         value={
             {modifIsOpen, setModifIsOpen,
              publications, setPublications,
              profil, setProfil,
-             profilPublications, setProfilPublications}
+             profilPublications, setProfilPublications,
+            parameters}
+             
         }
     >
         {children}

@@ -25,18 +25,11 @@ const ContainerInfo = styled.div`
 /* --------------------- Import ----------------------*/
 /*====================================================*/
 function InformationBloc(){
-    const {profil} = useContext(AppContext);
+    const {profil, parameters} = useContext(AppContext);
     const {dataConnection} = useContext(ConnectionContext)
     const profilId = useParams();
 
-    const parameters = {
-        email : {sentence: "Email", inputType: "email"},
-        birthday: {sentence: "Date de naissance", inputType: "date"},
-        workNumber: {sentence: "Numéro de poste", inputType: "number"},
-        mobileNumber: {sentence: "Numéro de portable", inputType: "tel"},
-        interests: {sentence: "Centres d'interets", inputType: "text"},
-        biography: {sentence:"Biographie",inputType: "textarea"}
-    }
+
 
     let informed = Object.keys(parameters);
     if (!(dataConnection.userId === profilId.id)){
