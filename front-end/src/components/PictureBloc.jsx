@@ -41,7 +41,7 @@ const StyledText = styled.p`
 `
 
 const StyledImg = styled.img`
-    width: 280px;
+    ${(props)=>props.heightLimited ? "height: 200px;" : "width: 280px;"}
     border-radius: 10px;
     margin: 10px 0;
     opacity: 0.6;
@@ -77,7 +77,7 @@ function PictureBloc(props){
         </StyledLabel>
     :
     <>
-        <StyledImg src={props.image} alt="Image Publiée" />
+        <StyledImg heightLimited={props.heightLimited} src={props.image} alt="Image Publiée" />
         <IconEdit icon={faEdit} />
     </>
     }
