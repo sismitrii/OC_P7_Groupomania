@@ -55,8 +55,10 @@ exports.login = (req, res, next)=>{
 exports.changePassword = (req, res, next)=>{
     bcrypt.hash(req.body.password, 10)
     .then((hash)=>{
-        User.UpdateOne({_id: req.auth.userId}, {$set: { password: hash }})
-        .then(()=> res.status(201).json({message: "User updated"}))
+        User.findByIdAndUpdate(req.auth.userId, {$set: {password: hash }})
+        .then(()=> {
+            res.status(201).json({message: "User updated"})
+        })
         .catch((error)=>res.status(400).json({error}))
     })
     .catch((error)=> res.status(500).json({message: "hash not working",error}))
