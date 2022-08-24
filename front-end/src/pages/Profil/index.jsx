@@ -32,7 +32,10 @@ const Container = styled.main`
     }
 
     & > section {
+        display: flex;
+        flex-direction: column;
         width: 100%;
+        max-width: 700px;
         margin: 0px 10px;
 
         @media (min-width: 992px){
