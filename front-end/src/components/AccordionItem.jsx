@@ -137,9 +137,8 @@ const StyledButton = styled.button`
 /* ---------------------- Main -----------------------*/
 /*====================================================*/
 function AccordionItem(props){
-    const isMobile = window.matchMedia("(max-width:768px)").matches
     const {dataConnection} = useContext(ConnectionContext)
-    const {parameters} = useContext(AppContext)
+    const {parameters, isMobile} = useContext(AppContext)
     const {userData, setUserData} = useContext(SettingsContext)
     const [confirmation, setConfirmation] = useState(false)
     const [image, setImage] = useState("");

@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
 import { useState } from "react"
 import styled from "styled-components"
+import { useContext } from "react"
+import { AppContext } from "../utils/context"
 
 /*====================================================*/
 /* ---------------------- Style ----------------------*/
@@ -83,6 +85,7 @@ const SearchMobileBloc = styled.div`
 
 function Search(props){
     const [isSearching, setIsSearching] = useState(false);
+    const {isMobile} = useContext(AppContext)
 
     async function handleClick(){
         await setIsSearching(true);
@@ -92,19 +95,29 @@ function Search(props){
 
     return (
     <>
-    {window.matchMedia("(max-width:768px)").matches ? 
+    {isMobile ? 
     <>
         {isSearching ? 
             <SearchForm $isMobile>
-                    <SearchInput onBlur={()=> setIsSearching(false)} type="text" id="search-bar" name="search-bar"/>
+                    <SearchInput 
+                        type="text"
+                        id="search-bar" 
+                        name="search-bar"
+                        onBlur={()=> setIsSearching(false)}
+                    />
                     <SearchButton>        
                         <SearchIconContainer>
-                            <FontAwesomeIcon className="search__icon" icon={faMagnifyingGlass} />
+                            <FontAwesomeIcon 
+                                className="search__icon" 
+                                icon={faMagnifyingGlass} />
                         </SearchIconContainer>
                     </SearchButton>
             </SearchForm>
         :
-            <SearchMobileBloc $isOpen={props.$isOpen} onClick={()=> handleClick()}><FontAwesomeIcon icon={faMagnifyingGlass} />Recherchez</SearchMobileBloc>
+            <SearchMobileBloc $isOpen={props.$isOpen} onClick={()=> handleClick()}>
+                <FontAwesomeIcon icon={faMagnifyingGlass} />
+                Recherchez
+            </SearchMobileBloc>
         }
     </>
     :

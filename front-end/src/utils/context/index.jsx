@@ -38,6 +38,7 @@ export function AppProvider({children}){
     const [publications, setPublications] = useState([]);
     const [profil, setProfil] = useState({});
     const [profilPublications, setProfilPublications] = useState([])
+    const [isMobile, setIsMobile] = useState(window.matchMedia("(max-width:768px)").matches);
 
     const parameters = {
         email : {sentence: "Email", inputType: "email"},
@@ -47,6 +48,16 @@ export function AppProvider({children}){
         interests: {sentence: "Centres d'interets", inputType: "text"},
         biography: {sentence:"Biographie",inputType: "textarea"}
     }
+    
+    useEffect(()=>{
+        window.addEventListener('resize', function(e){
+            if(e.target.innerWidth < 768){
+                setIsMobile(true)
+            } else {
+                setIsMobile(false)
+            }
+        })
+    })
 
     return (
     <AppContext.Provider 
@@ -55,7 +66,7 @@ export function AppProvider({children}){
              publications, setPublications,
              profil, setProfil,
              profilPublications, setProfilPublications,
-            parameters}
+             isMobile , parameters}
              
         }
     >

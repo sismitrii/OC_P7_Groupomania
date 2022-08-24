@@ -6,7 +6,7 @@ import { useEffect } from "react"
 import { useContext } from "react"
 import { useState } from "react"
 import styled from "styled-components"
-import { ConnectionContext, SettingsContext } from "../utils/context"
+import { AppContext, ConnectionContext, SettingsContext } from "../utils/context"
 import { fetchGet } from "../utils/function/function"
 import AccordionItem from './AccordionItem'
 
@@ -23,7 +23,7 @@ const Container = styled.div`
 /*====================================================*/
 function Accordion(){
     const {dataConnection} = useContext(ConnectionContext)
-    const isMobile = window.matchMedia("(max-width:768px)").matches
+    const {isMobile} = useContext(AppContext);
     const [activeIndex, setActiveIndex] = useState(0);
     const {setUserData} = useContext(SettingsContext)
     //const [modification, setModification] = useState(false);

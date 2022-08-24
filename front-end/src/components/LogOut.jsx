@@ -1,8 +1,10 @@
 /*====================================================*/
 /* --------------------- Import ----------------------*/
 /*====================================================*/
+import { useContext } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
+import { AppContext } from "../utils/context"
 import colors from "../utils/styles/colors"
 
 /*====================================================*/
@@ -24,6 +26,7 @@ const LogOutContainer = styled.button`
 /*====================================================*/
 
 function LogOut(){
+    const {isMobile} = useContext(AppContext)
     const navigate = useNavigate();
     function handleLogOut(){
         localStorage.clear();
@@ -32,7 +35,7 @@ function LogOut(){
 
     return (
         <div onClick={()=>handleLogOut()}>
-            {window.matchMedia("(max-width:768px)").matches ?
+            {isMobile ?
                 <Link to="/Home">Se Déconnecter</Link> 
             : 
                 <LogOutContainer>Deconnection</LogOutContainer>}

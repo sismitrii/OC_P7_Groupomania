@@ -7,6 +7,8 @@ import styled from 'styled-components';
 import NavBar from './NavBar';
 import Search from './Search';
 import LogOut from './LogOut';
+import { useContext } from 'react';
+import { AppContext } from '../utils/context';
 
 /*====================================================*/
 /* --------------------- Style -----------------------*/
@@ -31,7 +33,7 @@ const HeaderLogo = styled.img`
 /*====================================================*/
 
 function Header(props){
-    const isMobile = window.matchMedia("(max-width:768px)").matches
+    const {isMobile} = useContext(AppContext);
 
     return (
     <HeaderContainer isMobile={isMobile}>

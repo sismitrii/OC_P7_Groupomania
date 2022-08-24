@@ -1,10 +1,11 @@
 /*====================================================*/
 /* ------------------- Import ---------------------*/
 /*====================================================*/
+import { useContext } from "react"
 import Accordion from "../../components/Accordion"
 import Bloc from "../../components/Bloc"
 import Header from "../../components/Header"
-import { SettingsProvider } from "../../utils/context"
+import { AppContext, SettingsProvider } from "../../utils/context"
 
 
 /*====================================================*/
@@ -16,7 +17,7 @@ import { SettingsProvider } from "../../utils/context"
 /* ------------------- Component ---------------------*/
 /*====================================================*/
 function Settings(){
-    const isMobile = window.matchMedia("(max-width:768px)").matches
+    const {isMobile} = useContext(AppContext);
     return (
     <SettingsProvider>
         <Header active={"settings"}/>
