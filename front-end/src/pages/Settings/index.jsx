@@ -4,7 +4,7 @@
 import Accordion from "../../components/Accordion"
 import Bloc from "../../components/Bloc"
 import Header from "../../components/Header"
-//import styled from "styled-components"
+import { SettingsProvider } from "../../utils/context"
 
 
 /*====================================================*/
@@ -18,7 +18,7 @@ import Header from "../../components/Header"
 function Settings(){
     const isMobile = window.matchMedia("(max-width:768px)").matches
     return (
-    <>
+    <SettingsProvider>
         <Header active={"settings"}/>
         {isMobile ? 
             <Accordion />
@@ -26,7 +26,7 @@ function Settings(){
             <Bloc type={"settings"}/>
         }
         
-    </> 
+    </SettingsProvider> 
     )
 }
 

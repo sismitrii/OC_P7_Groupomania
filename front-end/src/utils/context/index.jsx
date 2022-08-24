@@ -78,6 +78,16 @@ export function PublicationProvider({children}){
         </PublicationContext.Provider>)
 }
 
+export const SettingsContext = createContext();
+
+export function SettingsProvider({children}){
+    const [userData, setUserData] = useState({})
+
+    return (<SettingsContext.Provider value={{userData, setUserData}}>
+        {children}
+        </SettingsContext.Provider>)
+}
+
 
 
 

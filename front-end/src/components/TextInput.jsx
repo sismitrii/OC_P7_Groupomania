@@ -45,7 +45,7 @@ function TextInput(props){
     const [textHeight, setTextHeight] = useState("40px")
 
     async function handleKeyUp(e){
-        props.set(e.target.value);
+        props.set(e.target.value, props.information);
         await setTextHeight("auto")
         let scrollHeight = e.target.scrollHeight;
         await setTextHeight(scrollHeight+"px");

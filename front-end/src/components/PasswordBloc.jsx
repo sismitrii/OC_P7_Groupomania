@@ -66,7 +66,8 @@ function PasswordBloc(props){
                 onChange={(e)=> props.onChange(e)} 
                 name={props.name}
                 id={props.name}
-                type="password" />
+                type="password" 
+                value={props.value}/>
             <EyeIcon onClick={(e)=> showPassword(e)}icon={faEye} />
         </InputContainer>
     </>
