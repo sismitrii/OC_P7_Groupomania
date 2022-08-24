@@ -83,15 +83,9 @@ function Home(){
         if(publications.length >= totalLength.publicationLength){
             setHasMore(false)
         }
-        try {
-            //console.log("requete")
-            const res = await fetch(`http://localhost:3000/api/publication/all/${offset}`)
-            const dataToAdd = await res.json()
-            await setPublications((prevPublication) => [...prevPublication, ...dataToAdd.publicationToReturn])
-            setOffset(offset + 5);
-        } catch (error) {
-            console.error(error);
-        }
+        const dataToAdd = await fetchGet(`http://localhost:3000/api/publication/all/${offset}`)
+        await setPublications((prevPublication) => [...prevPublication, ...dataToAdd.publicationToReturn])
+        setOffset(offset + 5);
     }
     if (!publications[0]){
         loadMorePublication();
