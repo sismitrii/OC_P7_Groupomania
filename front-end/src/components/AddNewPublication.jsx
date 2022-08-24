@@ -100,7 +100,7 @@ function AddNewPublication(props){
     async function handlePost(e){
         e.preventDefault();
         if (publicationData !== {}){ 
-            if (publicationData.image ){ 
+            if (publicationData.image && publicationData.content ){ 
                 publicationData.image.append('content', publicationData.content);
                 delete publicationData.content;
             }
