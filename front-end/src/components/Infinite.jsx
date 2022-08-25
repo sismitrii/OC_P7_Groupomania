@@ -45,8 +45,7 @@ function Infinite(){
     const {publications, setPublications} = useContext(AppContext)
 
     const [hasMore, setHasMore] = useState(true);
-    const [offset, setOffset] = useState(0);
-    console.log(publications);
+    const [offset, setOffset] = useState(5);
     
     const loadMorePublication = async() => {
         const totalLength = await fetchGet(`http://localhost:3000/api/publication/length`)
