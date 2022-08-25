@@ -13,7 +13,7 @@ import { AppContext, ConnectionContext, SettingsContext } from "../utils/context
 import PasswordBloc from "./PasswordBloc"
 import { useState } from "react"
 import { fetchPostOrPut } from "../utils/function/function"
-import TextInput from "./TextInput"
+import AutosizedTextArea from "./AutosizedTextArea"
 import { useNavigate } from "react-router-dom"
 
 /*====================================================*/
@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom"
 /*====================================================*/
 const Container = styled.div`
     position: relative;
+    border-radius:${(props)=> props.isMobile ? "" :"5px"};
     background-color: ${(props)=>props.isMobile ? "#EDEDED" : "#FFF"}; 
     margin-bottom: ${(props)=> props.isActive ? "10px" : "2px"};
     box-shadow: 0px 0px 5px #AAA;
@@ -28,16 +29,18 @@ const Container = styled.div`
 
 const StyledTitle = styled.button`
     width: 100%;
+    border-radius: ${(props)=> props.isMobile ? "" : "5px"};
     padding: 10px 20px;
     cursor: pointer;
     border: none;
     text-align: left;
-    font-size: 14px;
-    font-weight: bold;
+    font-size: 12px;
     ${(props)=> props.isMobile ? "" : "background-color: #FFF"};
 
     h2 {
-        font-size: 16px;
+        font-family: 'Raleway';
+        font-weight: 600;
+        font-size: 14px;
     }
 `
 const ContentContainer = styled.div`
@@ -275,7 +278,7 @@ function AccordionItem(props){
                         {parameters[information].sentence}
                     </StyledLabel>
                     { information === "biography" ? 
-                        <TextInput
+                        <AutosizedTextArea
                             information={information} 
                             set={handleInformationChange} 
                             input={{name:  "information__biography" , placeholder: parameters[information].sentence}} 

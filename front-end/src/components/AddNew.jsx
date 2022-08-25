@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPaperPlane} from "@fortawesome/free-solid-svg-icons"
 import styled from "styled-components"
 
-import TextInput from "./TextInput"
+import AutosizedTextArea from "./AutosizedTextArea"
 import PostButton from "./PostButton"
 import {fetchGet, fetchPostOrPut} from "../utils/function/function"
 import PictureBloc from "./PictureBloc"
@@ -33,7 +33,7 @@ const BottomBloc = styled.div`
 /* ----------------------- Main ----------------------*/
 /*====================================================*/
 
-function AddNewPublication(props){
+function AddNew(props){
     const [image, setImage] = useState(null)
     const [publicationData, setPublicationData] = useState({})
     const {dataConnection} = useContext(ConnectionContext);
@@ -133,7 +133,7 @@ function AddNewPublication(props){
 
     return (
         <StyledForm type={type}>
-            <TextInput 
+            <AutosizedTextArea 
                 set={handleChangeText} 
                 input={inputValue[type]}
                 value={value}
@@ -151,4 +151,4 @@ function AddNewPublication(props){
     )
 }
 
-export default AddNewPublication
+export default AddNew

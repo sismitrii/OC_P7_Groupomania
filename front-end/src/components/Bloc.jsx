@@ -2,8 +2,8 @@
 /* --------------------- Import ----------------------*/
 /*====================================================*/
 import styled from "styled-components"
-import AddNewPublication from "./AddNewPublication"
-import ShowPublication from "./ShowPublication";
+import AddNew from "./AddNew"
+import Publication from "./Publication";
 import { PublicationProvider } from "../utils/context";
 import InformationBloc from "./InformationBloc";
 import ProfilPublication from "./ProfilPublications";
@@ -33,12 +33,12 @@ function Bloc(props){
 
     switch (props.type){
         case 'add':
-            toReturn = <AddNewPublication type={"publication"} />
+            toReturn = <AddNew type={"publication"} />
             break;
         case 'show': 
             toReturn = 
                 <PublicationProvider>
-                    <ShowPublication publication={props.publication}/>
+                    <Publication publication={props.publication}/>
                 </PublicationProvider>
             break;
         case 'info':

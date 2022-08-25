@@ -10,7 +10,7 @@ import colors from "../utils/styles/colors"
 import ModificationBloc from "./ModificationBloc"
 
 import { AppContext } from "../utils/context"
-import TextInput from "./TextInput"
+import AutosizedTextArea from "./AutosizedTextArea"
 import { useEffect } from "react"
 import { fetchPostOrPut } from "../utils/function/function"
 
@@ -27,6 +27,7 @@ const Container = styled.div`
         overflow: visible;
         opacity: 1;
         transform: scale(1);
+        z-index:1;
     }
 `
 
@@ -150,7 +151,7 @@ function UpdateAndDelete(props){
         />
     }
     {isOpenModComment && 
-        <TextInput
+        <AutosizedTextArea
         isCommentMod
         handleLoseFocus={handleLoseFocus} 
         set={handleChangeText}

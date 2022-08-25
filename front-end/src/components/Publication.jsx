@@ -10,7 +10,7 @@ import CommentBloc from "./CommentBloc"
 import ProfilImg from "./ProfilImg"
 import useFetch from "../utils/hooks"
 import PublicationIcon from "./PublicationIcon"
-import AddNewPublication from "./AddNewPublication"
+import AddNew from "./AddNew"
 import UpdateAndDelete from "./UpdateAndDelete"
 
 
@@ -98,15 +98,17 @@ const StyledLink = styled(Link)`
 /* ---------------------- Main -----------------------*/
 /*====================================================*/
 
-function ShowPublication(props){
+function Publication(props){
     const commentInput = useRef(null);
-    //let publication = props.publication;
-    const {comments, setComments} = useContext(PublicationContext)
+    const {comments, setComments, publication, setPublication, setHeartActive} = useContext(PublicationContext)
     const {dataConnection} = useContext(ConnectionContext)
-    const {publication, setPublication} = useContext(PublicationContext)
 
     useEffect(()=>{
         setPublication(props.publication);
+        if(props.publication.userLiked.indexOf(dataConnection.userId)!== -1 ){
+            setHeartActive(true)
+            //console.log("je set heart Active parceque l'user est dans publication.userLiked")
+        }
     },[props.publication])
     
     
@@ -177,7 +179,7 @@ useEffect(()=>{
                 />
             </IconContainer>
             <CommentContainer>
-                <AddNewPublication 
+                <AddNew 
                     type={"comment"} 
                     setRef={commentInput} 
                     publicationId={publication._id}
@@ -197,7 +199,7 @@ useEffect(()=>{
 }
 
 
-export default ShowPublication
+export default Publication
 
 //Quand tu declenche un event d'un component et que tu n'as besoin qu'il re-render utiliser useCallBack ou useMemo
 // Permet d'enregistrer une fonction et que celle-ci ne soit pas re-built à chaque re-render juste quand celà la concerne

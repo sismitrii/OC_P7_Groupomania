@@ -6,7 +6,7 @@ import { useContext } from "react"
 import styled from "styled-components"
 import { AppContext, PublicationContext } from "../utils/context"
 import colors from "../utils/styles/colors"
-import AddNewPublication from "./AddNewPublication"
+import AddNew from "./AddNew"
 
 /*====================================================*/
 /* ---------------------- Style ----------------------*/
@@ -77,7 +77,7 @@ function ModificationBloc(props){
         <ModificationContainer>
             <ModificationTitle>Modifier la publication</ModificationTitle>
             <Leave onClick={()=> {props.setIsOpenModPubliBloc(false); setModifIsOpen(false)}}>X</Leave>
-            <AddNewPublication 
+            <AddNew
                 setIsOpenModPubliBloc={props.setIsOpenModPubliBloc}
                 publicationId={publication._id} 
                 imageUrl={publication.imageUrl} 
