@@ -351,7 +351,7 @@ function AccordionItem(props){
 
     return(
     <>
-        {(!(props.type === 'deleteAccount' && dataConnection.role.includes('ROLE_ADMIN'))) ?
+        {(!(props.type === 'deleteAccount' && (dataConnection.role && dataConnection.role.includes('ROLE_ADMIN')))) ?
             <Container isActive={props.isActive} isMobile={isMobile}>
                 <StyledTitle isMobile={isMobile} onClick={props.onClick}>
                     <h2>{props.data.title}</h2>
