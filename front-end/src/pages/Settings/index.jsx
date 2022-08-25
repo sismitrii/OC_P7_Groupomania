@@ -2,11 +2,12 @@
 /* ------------------- Import ---------------------*/
 /*====================================================*/
 import { useContext } from "react"
+import { Navigate } from "react-router-dom"
 import styled from "styled-components"
 import Accordion from "../../components/Accordion"
 import Bloc from "../../components/Bloc"
 import Header from "../../components/Header"
-import { AppContext, SettingsProvider } from "../../utils/context"
+import { AppContext, ConnectionContext, SettingsProvider } from "../../utils/context"
 
 
 /*====================================================*/
@@ -25,18 +26,23 @@ const Container = styled.main`
 /*====================================================*/
 function Settings(){
     const {isMobile} = useContext(AppContext);
+    const {dataConnection} = useContext(ConnectionContext)
     return (
-    <SettingsProvider>
-        <Header active={"settings"}/>
-        <Container>
-        <h1>Paramètres</h1>
-        {isMobile ? 
-            <Accordion />
-        :
-            <Bloc type={"settings"}/>
-        }
-        </Container>
-    </SettingsProvider> 
+    <>{ dataConnection.token ?
+        <SettingsProvider>
+            <Header active={"settings"}/>
+            <Container>
+            <h1>Paramètres</h1>
+            {isMobile ? 
+                <Accordion />
+            :
+                <Bloc type={"settings"}/>
+            }
+            </Container>
+        </SettingsProvider> 
+    :
+    <Navigate replace to="/login"/>
+    }</>
     )
 }
 

@@ -12,6 +12,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { useContext, useEffect } from "react"
 import { AppContext, ConnectionContext } from "../../utils/context"
 import { fetchGet } from "../../utils/function/function"
+import { Navigate } from "react-router-dom"
 
 /*====================================================*/
 /* --------------------- Style -----------------------*/
@@ -125,32 +126,38 @@ function Profil(){
     },[profilId])
 
     return (
-    <>
-    <Header active={"profil"}/>
-    <Container>
-        <section>
-            <ProfilContainer>
-                <ProfilImg forProfilPage src={profil.profilImgUrl} />
-                <div>
-                    <StyledH1 isMobile={isMobile}>
-                        {profil.username}
-                    </StyledH1>
-                    <StyledH2 isMobile={isMobile}>
-                        {profil.department}
-                    </StyledH2>
-                </div>
-                { ((dataConnection.role && dataConnection.role.includes('ROLE_ADMIN'))) && (profil.role && (!profil.role.includes('ROLE_ADMIN'))) 
-                &&
-                    <AdminButton onClick={()=>handleAdminBan()} isMobile={isMobile}>
-                        Bannir cet utilisateur
-                    </AdminButton>
-                }
-            </ProfilContainer>
-            <Bloc type={"info"} />
-        </section>
-        <Bloc type={"profilPublication"} />
-    </Container>
-    </>)
+    <>{ dataConnection.token ?
+        <>
+            <Header active={"profil"}/>
+            <Container>
+                <section>
+                    <ProfilContainer>
+                        <ProfilImg forProfilPage src={profil.profilImgUrl} />
+                        <div>
+                            <StyledH1 isMobile={isMobile}>
+                                {profil.username}
+                            </StyledH1>
+                            <StyledH2 isMobile={isMobile}>
+                                {profil.department}
+                            </StyledH2>
+                        </div>
+                        { ((dataConnection.role && dataConnection.role.includes('ROLE_ADMIN'))) && (profil.role && (!profil.role.includes('ROLE_ADMIN'))) 
+                        &&
+                            <AdminButton onClick={()=>handleAdminBan()} isMobile={isMobile}>
+                                Bannir cet utilisateur
+                            </AdminButton>
+                        }
+                    </ProfilContainer>
+                    <Bloc type={"info"} />
+                </section>
+                <Bloc type={"profilPublication"} />
+            </Container>
+        </>
+        :
+        <Navigate replace to="/login"/>
+    }
+    </>
+)
 }
 
 export default Profil

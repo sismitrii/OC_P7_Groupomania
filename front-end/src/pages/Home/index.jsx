@@ -2,11 +2,12 @@
 /* ------------------- Import ---------------------*/
 /*====================================================*/
 import { useContext, useEffect} from "react"
+import { Navigate } from "react-router-dom"
 import styled from "styled-components"
 import Header from "../../components/Header"
 import Bloc from "../../components/Bloc"
 import {fetchGet} from "../../utils/function/function"
-import {AppContext } from "../../utils/context"
+import {AppContext, ConnectionContext } from "../../utils/context"
 import Infinite from "../../components/Infinite"
 
 
@@ -37,6 +38,7 @@ const Container = styled.main`
 /*====================================================*/
 function Home(){
     const {setPublications} = useContext(AppContext)
+    const {dataConnection} = useContext(ConnectionContext)
 
 useEffect(()=>{
     async function loadPublications(){
@@ -46,16 +48,20 @@ useEffect(()=>{
     loadPublications();
 },[])
     return (
-    <>
-        <Header active={"home"}/>
-        <Container>
-            <h1>Fil d'actualités</h1>
-            <Bloc 
-                type={"add"}
-            />
-            <Infinite />
-        </Container>
-        
+    <>{ dataConnection.token ?
+        <>
+            <Header active={"home"}/>
+            <Container>
+                <h1>Fil d'actualités</h1>
+                <Bloc 
+                    type={"add"}
+                />
+                <Infinite />
+            </Container>`
+        </>
+        :
+        <Navigate replace to="/login"/>
+    }
     </>
     )
 }
