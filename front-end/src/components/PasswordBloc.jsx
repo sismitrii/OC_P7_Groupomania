@@ -72,7 +72,7 @@ function PasswordBloc(props){
                 type="password" 
                 value={props.value}
             />
-            <EyeButton onClick={(e)=> showPassword(e)}>
+            <EyeButton aria-controls={props.name} onClick={(e)=> showPassword(e)}>
                 <FontAwesomeIcon 
                 aria-label="Icon en forme d'œil, fait apparaitre le mot de passe au clic" 
                 icon={faEye} />

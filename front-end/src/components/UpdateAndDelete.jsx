@@ -17,9 +17,8 @@ import { fetchPostOrPut } from "../utils/function/function"
 /*====================================================*/
 /* --------------------- Style ----------------------*/
 /*====================================================*/
-const Container = styled.button`
+const Container = styled.div`
     position: relative;
-    border: none;
     cursor: pointer;
 
     &:hover div, &:focus div, &:focus-within div{
@@ -163,11 +162,15 @@ function UpdateAndDelete(props){
         />
     }
 
-   <Container >
+   <Container tabIndex={0}>
         <FontAwesomeIcon icon={faEllipsis} />
         <UpdateAndDeleteContainer>
-            <button onClick={()=> handleModification()} >Modifier</button>
-            <button onClick={()=>handleDelete()}>Supprimer</button>
+            <button aria-haspopup="true" aria-expanded={isOpenModPubliBloc} onClick={()=> handleModification()}>
+                Modifier
+            </button>
+            <button onClick={()=>handleDelete()}>
+                Supprimer
+            </button>
         </UpdateAndDeleteContainer>
     </Container>
     </>

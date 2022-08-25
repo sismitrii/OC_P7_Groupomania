@@ -15,6 +15,7 @@ import { useState } from "react"
 import { fetchPostOrPut } from "../utils/function/function"
 import AutosizedTextArea from "./AutosizedTextArea"
 import { useNavigate } from "react-router-dom"
+import colors from "../utils/styles/colors"
 
 /*====================================================*/
 /* --------------------- Style -----------------------*/
@@ -55,8 +56,8 @@ const StyledInput = styled.input`
     ${(props)=>props.forInformation ? "width: 100%; min-width: 150px;max-width: 300px;": "flex:1;"}
     height: 25px;
     border: 1px solid #AAA;
-    outline: none;
     padding-left: 10px;
+    margin-top: 2px;
 
     &[type="date"] {
         font-family: arial, sans-serif;
@@ -64,6 +65,11 @@ const StyledInput = styled.input`
         background:#FFF;
         padding:5px;
         color : #888;
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: 0px 0px 0px 1px ${colors.primary};
     }
 `
 const StyledIcon = styled(FontAwesomeIcon)`

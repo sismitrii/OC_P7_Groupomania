@@ -55,14 +55,16 @@ function Accordion(){
     const types = Object.keys(tabs)
     
     return(
-      <Container isMobile={isMobile}>
+      <Container role="Accordéon de paramètres" isMobile={isMobile}>
         {types.map((type , index)=>(
             <AccordionItem 
                 key={`${type}-${index}`}
                 onClick={()=>setActiveIndex(index)}
                 type = {type}
                 data = {tabs[type]}
-                isActive = {index === activeIndex ? true : false}  
+                role ="Onglet"
+                isActive = {index === activeIndex ? true : false}
+                aria-expanded= {index === activeIndex ? true : false}  
             />
         ))}
     
