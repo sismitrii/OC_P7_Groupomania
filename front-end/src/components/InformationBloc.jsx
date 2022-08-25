@@ -29,8 +29,6 @@ function InformationBloc(){
     const {dataConnection} = useContext(ConnectionContext)
     const profilId = useParams();
 
-
-
     let informed = Object.keys(parameters);
     if (!(dataConnection.userId === profilId.id)){
         informed = informed.filter((info)=> profil[info])

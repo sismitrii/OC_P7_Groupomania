@@ -83,8 +83,16 @@ export const PublicationContext = createContext();
 export function PublicationProvider({children}){
     const [comments, setComments] = useState([])
     const [publication, setPublication] = useState({})
+    const [heartActive, setHeartActive] = useState(false)
 
-    return (<PublicationContext.Provider value={{comments, setComments, publication, setPublication}}>
+    return (
+    <PublicationContext.Provider 
+        value={{
+            comments, setComments, 
+            publication, setPublication, 
+            heartActive, setHeartActive}
+        }
+    >
         {children}
         </PublicationContext.Provider>)
 }

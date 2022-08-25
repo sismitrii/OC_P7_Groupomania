@@ -1,18 +1,12 @@
 /*====================================================*/
 /* ------------------- Import ---------------------*/
 /*====================================================*/
-import { useContext, useState} from "react"
-import styled, {keyframes} from "styled-components"
-
+import { useContext, useEffect} from "react"
+import styled from "styled-components"
 import Header from "../../components/Header"
 import Bloc from "../../components/Bloc"
-import colors from "../../utils/styles/colors"
-
-import InfiniteScroll from 'react-infinite-scroll-component';
 import {fetchGet} from "../../utils/function/function"
-import { AppContext } from "../../utils/context"
-import { useEffect } from "react"
-
+import {AppContext } from "../../utils/context"
 import Infinite from "../../components/Infinite"
 
 
