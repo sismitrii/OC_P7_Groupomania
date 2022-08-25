@@ -77,7 +77,7 @@ function CommentBloc(props){
                     }
                     {props.comment.content}
                 </p>
-                {props.comment.author === dataConnection.userId && 
+                {(props.comment.author === dataConnection.userId || (dataConnection.role && dataConnection.role.includes('ROLE_ADMIN'))) && 
                     <UpdateAndDelete  
                         comment={props.comment}
                     />}

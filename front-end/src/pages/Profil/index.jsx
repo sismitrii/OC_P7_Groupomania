@@ -8,9 +8,9 @@ import ProfilImg from "../../components/ProfilImg"
 import Bloc from "../../components/Bloc"
 
 import colors from "../../utils/styles/colors"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useContext, useEffect } from "react"
-import { AppContext } from "../../utils/context"
+import { AppContext, ConnectionContext } from "../../utils/context"
 import { fetchGet } from "../../utils/function/function"
 
 /*====================================================*/
@@ -54,6 +54,7 @@ const Container = styled.main`
 
 const ProfilContainer = styled.section`
     display: flex;
+    align-items: center;
     margin: 20px 0px;
 
     @media (min-width: 992px){
@@ -62,13 +63,24 @@ const ProfilContainer = styled.section`
 `
 
 const StyledH1 = styled.h1`
-    font-size: 30px;
+    font-size: ${(props)=>props.isMobile ? "20": "30"}px;
     font-weight: 500;
     margin: 5px 0px 25px;
 `
 const StyledH2 = styled.h2`
-    font-size: 20px;
+    font-size: ${(props)=>props.isMobile ? "15" : "20"}px;
     font-weight: 400;
+`
+
+const AdminButton = styled.button`
+    padding: 10px;
+    margin-left: 5px;
+    background-color: #ff6000;
+    color: #FFF;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: ${(props)=>props.isMobile ? "12" : "20"}px;
 `
 
 /*====================================================*/
@@ -76,7 +88,28 @@ const StyledH2 = styled.h2`
 /*====================================================*/
 function Profil(){
     const profilId = useParams();
-    const {profil, setProfil, setProfilPublications} = useContext(AppContext)
+    const navigate = useNavigate();
+    const {dataConnection} = useContext(ConnectionContext)
+    const {profil, setProfil, setProfilPublications, isMobile} = useContext(AppContext)
+
+    async function handleAdminBan(){
+        try {
+            const bearer = 'Bearer ' + dataConnection.token;
+            console.log(profilId.id);
+            const res = await fetch(`http://localhost:3000/api/user/${profilId.id}`,{
+                method:"DELETE",
+                headers: {
+                    'Authorization' : bearer
+                }
+            })
+            const answer = await res.json();
+            console.log(answer);
+            navigate('/home')
+
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     useEffect(()=>{
         async function loadProfil(){
@@ -99,9 +132,19 @@ function Profil(){
             <ProfilContainer>
                 <ProfilImg forProfilPage src={profil.profilImgUrl} />
                 <div>
-                    <StyledH1>{profil.username}</StyledH1>
-                    <StyledH2>{profil.department}</StyledH2>
+                    <StyledH1 isMobile={isMobile}>
+                        {profil.username}
+                    </StyledH1>
+                    <StyledH2 isMobile={isMobile}>
+                        {profil.department}
+                    </StyledH2>
                 </div>
+                { ((dataConnection.role && dataConnection.role.includes('ROLE_ADMIN'))) && (profil.role && (!profil.role.includes('ROLE_ADMIN'))) 
+                &&
+                    <AdminButton onClick={()=>handleAdminBan()} isMobile={isMobile}>
+                        Bannir cet utilisateur
+                    </AdminButton>
+                }
             </ProfilContainer>
             <Bloc type={"info"} />
         </section>

@@ -223,7 +223,7 @@ function AccordionItem(props){
                     'Authorization' : bearer
                 }
             })
-            const answer = res.json();
+            const answer = await res.json();
             console.log(answer);
             navigate('/login')
 
@@ -343,17 +343,22 @@ function AccordionItem(props){
     }
 
     return(
-        <Container isActive={props.isActive} isMobile={isMobile}>
-            <StyledTitle isMobile={isMobile} onClick={props.onClick}>
-                <h2>{props.data.title}</h2>
-            </StyledTitle>
-            {/* Revoir Erreur la solution ne me plait pas*/}
-            <StyledIcon active={props.isActive.toString()} icon={faAngleUp} />
-            <ContentContainer isActive={props.isActive} >
-                {toReturn}
-            </ContentContainer>
-        </Container>
-    )
+    <>
+        {(!(props.type === 'deleteAccount' && dataConnection.role.includes('ROLE_ADMIN'))) ?
+            <Container isActive={props.isActive} isMobile={isMobile}>
+                <StyledTitle isMobile={isMobile} onClick={props.onClick}>
+                    <h2>{props.data.title}</h2>
+                </StyledTitle>
+                {/* Revoir Erreur la solution ne me plait pas*/}
+                <StyledIcon active={props.isActive.toString()} icon={faAngleUp} />
+                <ContentContainer isActive={props.isActive} >
+                    {toReturn}
+                </ContentContainer>
+            </Container>
+        :
+            <></>
+        }
+    </>)
 }
 
 export default AccordionItem

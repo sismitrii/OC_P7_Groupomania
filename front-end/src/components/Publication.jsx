@@ -157,7 +157,7 @@ useEffect(()=>{
                         <p>Il y a {calcDate()} </p>
                     </ProfilText>
                 </ProfilContainer>
-                { data.user._id === dataConnection.userId &&
+                { (data.user._id === dataConnection.userId || (dataConnection.role && dataConnection.role.includes('ROLE_ADMIN'))) &&
                     <UpdateAndDelete  
                         id={{publication: publication}}
                     />
