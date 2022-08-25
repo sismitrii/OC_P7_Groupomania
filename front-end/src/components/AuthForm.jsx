@@ -91,7 +91,6 @@ const AuthInput = styled.input`
     border-radius: 5px;
     padding-left: 5px ;
 
-
     &:focus {
         outline: none;
         box-shadow: 0 0 0 1px ${colors.primary};
@@ -109,7 +108,6 @@ const AuthButton = styled.button`
     text-align: center;
     border: none;
     border-radius: 10px;
-    outline: none;
     cursor: pointer;
 
     @media (min-width: 768px){
@@ -330,8 +328,12 @@ function Auth(props){
         <AuthForm>
             { props.page !== 'resetPassword' &&
             <>
-                <AuthLabel>Mail</AuthLabel>
-                <AuthInput onChange={(e) => {checkContent(e, "email", userData, setUserData)}} name="email" id="signup__email" type="email" />
+                <AuthLabel htmlFor='signup__email'>Mail</AuthLabel>
+                <AuthInput 
+                    onChange={(e) => {checkContent(e, "email", userData, setUserData)}} 
+                    name="email" 
+                    id="signup__email" 
+                    type="email" />
                 <ErrorMsg></ErrorMsg>
             </>
             }

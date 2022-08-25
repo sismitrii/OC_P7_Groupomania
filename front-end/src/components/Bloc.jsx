@@ -15,7 +15,7 @@ import Accordion from "./Accordion";
 
 const Container = styled.section`
 
-    width: ${(props)=> props.type === 'add' ? "96%" : "auto"};
+    width: ${(props)=> props.type === 'add' || props.type === 'settings' ? "96%" : "auto"};
     max-width: 700px;
     margin:${(props)=>props.type === 'settings'? "10px auto" : "10px"};
     background-color: #EDEDED;

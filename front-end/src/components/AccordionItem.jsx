@@ -34,7 +34,11 @@ const StyledTitle = styled.button`
     text-align: left;
     font-size: 14px;
     font-weight: bold;
-    ${(props)=> props.isMobile ? "" : "background-color: #FFF"}
+    ${(props)=> props.isMobile ? "" : "background-color: #FFF"};
+
+    h2 {
+        font-size: 16px;
+    }
 `
 const ContentContainer = styled.div`
     padding: 0px 20px;
@@ -99,6 +103,12 @@ const Information = styled.div`
     justify-content: center;
     align-items: center;
     margin-bottom: 10px;
+
+    textarea {
+        max-width: 300px;
+        border: 1px solid #AAA;
+        border-radius: 0;
+    }
 `
 const StyledLabel = styled.label`
     min-width: 120px;
@@ -332,7 +342,7 @@ function AccordionItem(props){
     return(
         <Container isActive={props.isActive} isMobile={isMobile}>
             <StyledTitle isMobile={isMobile} onClick={props.onClick}>
-                {props.data.title}
+                <h2>{props.data.title}</h2>
             </StyledTitle>
             {/* Revoir Erreur la solution ne me plait pas*/}
             <StyledIcon active={props.isActive.toString()} icon={faAngleUp} />

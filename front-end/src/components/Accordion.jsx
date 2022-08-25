@@ -14,6 +14,7 @@ import AccordionItem from './AccordionItem'
 /* --------------------- Style -----------------------*/
 /*====================================================*/
 const Container = styled.div`
+    width: 100%;
     min-width: 320px;
     text-align: center;
     ${(props)=> props.isMobile ? "" : "padding: 30px;"}

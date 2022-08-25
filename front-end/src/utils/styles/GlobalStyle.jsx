@@ -20,6 +20,12 @@ const StyledGlobalStyle = createGlobalStyle`
         text-decoration: none;
         color: black;
     }
+
+    h1 {
+        font-size: 25px;
+        font-weight: 500;
+        margin: 20px;
+    }
 `
 
 function GlobalStyle(){

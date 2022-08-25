@@ -64,8 +64,7 @@ const ProfilContainer = styled.section`
 const StyledH1 = styled.h1`
     font-size: 30px;
     font-weight: 500;
-    margin-top: 5px;
-    margin-bottom: 25px;
+    margin: 5px 0px 25px;
 `
 const StyledH2 = styled.h2`
     font-size: 20px;
