@@ -23,7 +23,6 @@ const StyledButton = styled.button`
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    outline: none;
     background-color: ${colors.secondary};
     font-size: 12px;
     margin-left: 10px;

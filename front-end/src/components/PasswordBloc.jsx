@@ -34,13 +34,16 @@ const StyledInput = styled.input`
         box-shadow: 0 0 0 1px ${colors.primary};
     }
 `
-const EyeIcon = styled(FontAwesomeIcon)`
+const EyeButton = styled.button`
     font-size: 12px;
     position: absolute;
     right: 6%;
     top: 50%;
     transform: translateY(-50%);
+    background-color: transparent;
+    border: none;
     cursor: pointer;
+
 `
 
 /*====================================================*/
@@ -49,7 +52,7 @@ const EyeIcon = styled(FontAwesomeIcon)`
 function PasswordBloc(props){
 
     function showPassword(e){
-        e.stopPropagation();
+        e.preventDefault();
         const input = e.currentTarget.previousElementSibling
         if (input.type === "password"){
             input.type = "text";
@@ -67,8 +70,13 @@ function PasswordBloc(props){
                 name={props.name}
                 id={props.name}
                 type="password" 
-                value={props.value}/>
-            <EyeIcon onClick={(e)=> showPassword(e)}icon={faEye} />
+                value={props.value}
+            />
+            <EyeButton onClick={(e)=> showPassword(e)}>
+                <FontAwesomeIcon 
+                aria-label="Icon en forme d'œil, fait apparaitre le mot de passe au clic" 
+                icon={faEye} />
+            </EyeButton>
         </InputContainer>
     </>
     )

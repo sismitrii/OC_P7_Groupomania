@@ -4,6 +4,7 @@
 import styled from "styled-components"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCirclePlus, faEdit } from "@fortawesome/free-solid-svg-icons"
+import colors from "../utils/styles/colors"
 /*====================================================*/
 /* --------------------- Style -----------------------*/
 /*====================================================*/
@@ -12,6 +13,10 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content:center;
+
+    &:focus-within {
+        box-shadow: 0px 0px 0px 1px ${colors.primary}
+    }
 `
 
 const StyledLabel = styled.label`

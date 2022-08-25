@@ -80,7 +80,7 @@ const GeneralContainer = styled.div`
     flex-direction: ${(props)=> props.column ? "column" : "row"};
     justify-content: center;
     ${(props)=> props.column && "align-items: center;"}
-    padding-bottom: 10px;
+    margin-bottom: 20px;
     
     p{
         font-size: 14px;
@@ -119,17 +119,18 @@ const StyledLabel = styled.label`
 `
 const PasswordContainer = styled.div`
     margin: 0px 20px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
 
+    > button {
+        margin: 20px 0 10px;
+    }
+
     input {
         border-radius: 0px;
         border: 1px solid #AAA;
-    }
-
-    button {
-        margin: 10px;
     }
 
     p{

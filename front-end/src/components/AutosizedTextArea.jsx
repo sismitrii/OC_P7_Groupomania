@@ -3,6 +3,7 @@
 /*====================================================*/
 import { useState } from "react";
 import styled from "styled-components"
+import colors from "../utils/styles/colors";
 
 /*====================================================*/
 /* --------------------- Style ----------------------*/
@@ -27,6 +28,10 @@ const StyledInput = styled.textarea`
     font-family: 'Arial';
     padding: 10px;
     font-size: 12px;
+
+    &:focus {
+        box-shadow: 0px 0px 0px 1px ${colors.primary}
+    }
 
     @media (min-width: 768px){
         font-size: 14px;

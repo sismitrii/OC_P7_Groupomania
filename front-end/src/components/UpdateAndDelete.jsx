@@ -17,11 +17,12 @@ import { fetchPostOrPut } from "../utils/function/function"
 /*====================================================*/
 /* --------------------- Style ----------------------*/
 /*====================================================*/
-const Container = styled.div`
+const Container = styled.button`
     position: relative;
+    border: none;
     cursor: pointer;
 
-    &:hover div{
+    &:hover div, &:focus div, &:focus-within div{
         width: 135px;
         height: 30px;
         overflow: visible;
@@ -61,7 +62,9 @@ const UpdateAndDeleteContainer = styled.div`
         border-left : 8px solid transparent;
     }
 
-    div {
+    button {
+        background-color: transparent;
+        border: none;
         cursor: pointer;
         padding: 5px;
         color: ${colors.primary};
@@ -163,8 +166,8 @@ function UpdateAndDelete(props){
    <Container >
         <FontAwesomeIcon icon={faEllipsis} />
         <UpdateAndDeleteContainer>
-            <div onClick={()=> handleModification()} >Modifier</div>
-            <div onClick={()=>handleDelete()}>Supprimer</div>
+            <button onClick={()=> handleModification()} >Modifier</button>
+            <button onClick={()=>handleDelete()}>Supprimer</button>
         </UpdateAndDeleteContainer>
     </Container>
     </>

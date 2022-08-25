@@ -13,6 +13,13 @@ import { AppContext } from "../utils/context"
 /* ---------------------- Style ----------------------*/
 /*====================================================*/
 
+// @media screen and (max-width:992px){
+//     position: absolute;
+//     left: 50%;
+//     width: 50%;
+//     transform: translateX(-50%);
+// } 
+
 const SearchContainer = styled.div`
     width: 30%;
     display: flex;
@@ -20,18 +27,6 @@ const SearchContainer = styled.div`
     flex: 1;
 `
 
-const SearchIconContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: #DDDDDD;
-    font-size: 22px;
-    color: #9A9A9A;
-    cursor: pointer;
-`
 
 const SearchForm = styled.form `
     position: ${(props)=> props.$isMobile ? "absolute": "relative"};
@@ -46,12 +41,6 @@ const SearchForm = styled.form `
         transform: translate(-50%);`
     :
          ""}
-
-    .search__icon {
-        display: inline;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%,-50%)
     }
 `
 
@@ -66,10 +55,27 @@ const SearchInput = styled.input`
 `
 
 const SearchButton = styled.button`
-    position: absolute;
+    ${(props)=> props.isMobile ? 
+        `position: relative;
+        ;left: -50px;`
+    : ''}
+    min-width: 50px;
+    height: 50px;
+    border-radius: 50%;
     border: none;
-    outline: none;
-    border-radius: 25px;
+    background-color: #DDDDDD;
+    cursor: pointer;
+    font-size: 22px;
+    font-size: 22px;
+    color: #9A9A9A;
+
+    svg {
+        display: inline;
+        position: relative;
+        top:0;
+        left: 0;
+        transform: none;
+    }
 `
 
 const SearchMobileBloc = styled.div`
@@ -97,44 +103,52 @@ function Search(props){
     <>
     {isMobile ? 
     <>
-        {isSearching ? 
-            <SearchForm $isMobile>
-                    <SearchInput 
-                        type="text"
-                        id="search-bar" 
-                        name="search-bar"
-                        onBlur={()=> setIsSearching(false)}
-                    />
-                    <SearchButton>        
-                        <SearchIconContainer>
-                            <FontAwesomeIcon 
-                                className="search__icon" 
-                                icon={faMagnifyingGlass} />
-                        </SearchIconContainer>
-                    </SearchButton>
-            </SearchForm>
+        {!isSearching ? 
+        <SearchMobileBloc tabIndex={0} $isOpen={props.$isOpen} onClick={()=> handleClick()}>
+            <FontAwesomeIcon icon={faMagnifyingGlass} />
+            Recherchez
+        </SearchMobileBloc>
         :
-            <SearchMobileBloc $isOpen={props.$isOpen} onClick={()=> handleClick()}>
-                <FontAwesomeIcon icon={faMagnifyingGlass} />
-                Recherchez
-            </SearchMobileBloc>
+        <SearchForm $isMobile>
+            <SearchInput 
+                type="text"
+                id="search-bar" 
+                name="search-bar"
+                aria-label="Recherchez des utilisateurs"
+                placeholder="Recherchez des utilisateurs"
+                onBlur={()=> setIsSearching(false)}
+            />
+            <SearchButton isMobile={isMobile}>        
+                <FontAwesomeIcon 
+                    className="search__icon" 
+                    icon={faMagnifyingGlass} />
+            </SearchButton>
+        </SearchForm>
         }
     </>
     :
     <SearchContainer>
-        {isSearching ? 
+        {!isSearching ? 
+            <SearchButton onClick={()=> handleClick()}>
+                <FontAwesomeIcon icon={faMagnifyingGlass} />
+            </SearchButton>
+        :
         <SearchForm>
-            <SearchInput onBlur={()=> setIsSearching(false)} type="text" id="search-bar" name="search-bar"/>
+            <SearchInput  
+                type="text" 
+                id="search-bar" 
+                name="search-bar"
+                aria-label="Recherchez des utilisateurs"
+                placeholder="Recherchez des utilisateurs"
+                onBlur={()=> setIsSearching(false)}
+            />
             <SearchButton>        
-                <SearchIconContainer>
-                    <FontAwesomeIcon icon={faMagnifyingGlass} />
-                </SearchIconContainer>
+                <FontAwesomeIcon 
+                    className="search__icon" 
+                    icon={faMagnifyingGlass} />
             </SearchButton>
         </SearchForm>
-        :
-        <SearchIconContainer onClick={()=> handleClick()}>
-            <FontAwesomeIcon icon={faMagnifyingGlass} />
-        </SearchIconContainer>}
+        }
     </SearchContainer> }
     </>)
 }

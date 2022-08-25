@@ -97,6 +97,7 @@ const NavBarListElement = styled.li`
   list-style: none;
   width: 70px;
   height: 70px;
+  cursor: pointer;
   z-index: 1;
 
   &.active div {
@@ -108,11 +109,8 @@ const NavBarListElement = styled.li`
       transform: translateY(10px);
     }
   }
+`
 
-
-
-
-`;
 const NavBarListLink = styled.div`
   position: relative;
   display: flex;
@@ -122,7 +120,7 @@ const NavBarListLink = styled.div`
   width: 100%;
   text-align: center;
   font-weight: 500;
-`;
+`
 const NavBarIconContainer = styled.span`
   position: relative;
   display: block;
@@ -131,7 +129,7 @@ const NavBarIconContainer = styled.span`
   text-align: center;
 
   transition: 0.5s;
-`;
+`
 
 const NavBarText = styled.span`
   position: absolute;
@@ -142,7 +140,8 @@ const NavBarText = styled.span`
   transform: translateY(20px);
 
   transition: 0.5s;
-`;
+`
+
 const NavBarCircle = styled.div`
   position: absolute;
   top: -50%;
@@ -152,7 +151,6 @@ const NavBarCircle = styled.div`
   height: 70px;
   background-color: ${colors.secondary};
   border-radius: 50%;
-
 
   transform: translate(${(props)=> props.transform}px);
 
@@ -182,7 +180,7 @@ const NavBarCircle = styled.div`
   }
 
   transition: 0.5s;
-`;
+`
 
 // &:nth-child(1).active ~ .navBar__Circle {
 //     transform: translateX(0);
@@ -298,8 +296,9 @@ function NavBar(props) {
               {routes.map((route, index) => (
                 <NavBarListElement
                   key={route.id}
+                  aria-label={route.name}
                   id={route.id}
-                  className={activeMenu[0] === route.id ? "active" : ""}
+                  className={activeMenu[0] === route.id ? " active" : ""}
                   onClick={() => {
                     handleClick(route.id, index);
                   }}

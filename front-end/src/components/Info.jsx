@@ -13,7 +13,7 @@ import { Link, useParams } from "react-router-dom"
 /* ---------------------- Style ----------------------*/
 /*====================================================*/
 
-const AddInfo = styled.div`
+const AddInfo = styled.button`
     display: flex;
     width: fit-content;
     height: 35px;
@@ -23,6 +23,9 @@ const AddInfo = styled.div`
     background-color: ${colors.primary};
     color: #FFF;
     cursor: pointer;
+    border: none;
+    font-size: 16px;
+    font-family: 'Raleway';
 
     svg {
         margin-right: 10px;
@@ -124,37 +127,35 @@ function Info(props){
         <p>{props.parameter.sentence} : {printed}</p>
     :
         <>
-            {isOnChange ? 
-            <>
-                {props.parameter.inputType === "textarea" ?
-                    <StyledTextArea 
-                        onChange={(e)=>handleKeyUp(e)}
-                        onBlur={(e)=>handleLoseFocus(e)}
-                        textHeight = {textHeight}
-                        maxLength= {500}
-                        name = {`${profilId}-${props.parameter.inputType}`}
-                        id = {`${profilId}-${props.parameter.inputType}`}
-                        placeholder = {props.parameter.sentence}
-                        autoFocus
-                    />
-                    :
-                    <StyledInput 
-                        onBlur={(e)=>handleLoseFocus(e)} 
-                        type={props.parameter.inputType} 
-                        id={`${profilId}-${props.parameter.inputType}`}
-                        name={`${profilId}-${props.parameter.inputType}`}
-                        placeholder={props.parameter.sentence} 
-                        autoFocus
-                    />
-                }
-            </>
-
-            :
+            {!isOnChange ? 
             <AddInfo onClick={()=>handleClick()}>
                 <FontAwesomeIcon icon={faCirclePlus} />
                 <p>{props.parameter.sentence}</p>
             </AddInfo>
-
+            :
+            <>
+            {props.parameter.inputType === "textarea" ?
+                <StyledTextArea 
+                    onChange={(e)=>handleKeyUp(e)}
+                    onBlur={(e)=>handleLoseFocus(e)}
+                    textHeight = {textHeight}
+                    maxLength= {500}
+                    name = {`${profilId}-${props.parameter.inputType}`}
+                    id = {`${profilId}-${props.parameter.inputType}`}
+                    placeholder = {props.parameter.sentence}
+                    autoFocus
+                />
+                :
+                <StyledInput 
+                    onBlur={(e)=>handleLoseFocus(e)} 
+                    type={props.parameter.inputType} 
+                    id={`${profilId}-${props.parameter.inputType}`}
+                    name={`${profilId}-${props.parameter.inputType}`}
+                    placeholder={props.parameter.sentence} 
+                    autoFocus
+                />
+            }
+        </>
             }
         </>
     }

@@ -13,10 +13,11 @@ import { fetchPostOrPut } from "../utils/function/function"
 /*====================================================*/
 /* --------------------- Style -----------------------*/
 /*====================================================*/
-const IconContainer = styled.div`
+const IconContainer = styled.button`
     position: relative;
     display: flex;
     align-items: center;
+    border: none;
     transition: all 250ms ease-in-out;
 
     &:hover {
@@ -62,18 +63,19 @@ const StyledIconNotVisible = styled(FontAwesomeIcon)`
 /*====================================================*/
 
 function PublicationIcon(props){
-    const [heartActive, setHeartActive] = useState(false);
+    //const [heartActive, setHeartActive] = useState(false);
     const {dataConnection} = useContext(ConnectionContext);
-    const {comments, publication, setPublication} = useContext(PublicationContext)
+    const {comments, publication, setPublication, heartActive, setHeartActive} = useContext(PublicationContext)
 
-    useEffect(()=>{
-        if(publication.userLiked.indexOf(dataConnection.userId)!== -1 ){
-            setHeartActive(true)
-        }
-    })
+    // useEffect(()=>{
+    //     if(publication.userLiked.indexOf(dataConnection.userId)!== -1 ){
+    //         setHeartActive(true)
+    //     }
+    // },[])
 
-    async function handleLike(){
-        const like = heartActive ? -1 : 1 ;
+    async function handleLike(e){
+        e.preventDefault()
+        const like = publication.like ? -1 : 1 ;
         //like est cohérent avec la véritable valeur de like en DB
         let userLikedMod = [...publication.userLiked];
         if (like > 0){
@@ -81,7 +83,6 @@ function PublicationIcon(props){
         } else {
             userLikedMod = userLikedMod.filter((userId)=> userId !== dataConnection.userId)
         }
-        console.log(publication);
         await setPublication({...publication, like: publication.like + like, userLiked: userLikedMod})
 
         const answer = await fetchPostOrPut("PUT",{like: like},`http://localhost:3000/api/publication/${publication._id}/like`,dataConnection )
@@ -92,13 +93,13 @@ function PublicationIcon(props){
     return (
     <>
     {props.type === 'heart' ? 
-        <IconContainer className={heartActive ? "active" : "" } onClick={()=> handleLike()}>
+        <IconContainer className={heartActive ? "active" : "" } onClick={(e)=> handleLike(e)}>
             <StyledIcon className='visible' icon={faHeart} />
             <StyledIconNotVisible className='not-visible' icon={fasHeart} />
             <p>{publication.like}</p>
         </IconContainer>
     :
-        <IconContainer onClick={()=> props.handleFocusComment()}>
+        <IconContainer onClick={(e)=> props.handleFocusComment(e)}>
             <StyledIcon className='visible' icon={faComment} />
             <StyledIconNotVisible className='not-visible' icon={fasComment} />
             <p>{comments.length}</p>

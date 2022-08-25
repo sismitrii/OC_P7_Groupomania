@@ -17,7 +17,6 @@ const LogOutContainer = styled.button`
     text-align: center;
     border: none;
     border-radius: 12px;
-    outline: none;
     background-color: ${colors.secondary};
     cursor: pointer;
 `
