@@ -20,8 +20,8 @@ const userSchema = mongoose.Schema({
     profilImgUrl: {type: String}, // mettre une image bidon par default
     department: {type: String, default: "Groupomania"}, 
     birthday: {type: Date }, 
-    workNumber: {type: Number },
-    mobileNumber: {type: Number },
+    workNumber: {type: String },
+    mobileNumber: {type: String },
     interests: {type: String},
     biography: {type: String},
     publications: [

@@ -85,7 +85,7 @@ function Info(props){
             printed = <A href={`mailto:${profil[props.type]}`}>{profil[props.type]}</A>
             break;
         case "mobileNumber" : 
-            printed = <A href={`tel: ${profil[props.type]}`}>0{profil[props.type]}</A>
+            printed = <A href={`tel: ${profil[props.type]}`}>{profil[props.type]}</A>
             break;
         case "birthday" :
             let birthdate = new Date(profil[props.type]);
