@@ -41,6 +41,7 @@ const ProfilText = styled.div`
     margin-left: 15px;
 
     p{
+        text-align:left;
         margin-top: 8px;
         font-size: 12px;
     }
@@ -126,10 +127,15 @@ useEffect(()=>{
 
     const calcDate = useCallback(()=>{
         const timePassed = (Date.now() - (new Date(publication.createdAt).getTime()))/1000/60;
-        if (timePassed < 60){
+
+        if (timePassed < 60){ // less than an hour
             return `${Math.ceil(timePassed)}min`
+        } else if (timePassed < (60*24)){ // less than an day
+            return `${Math.floor(timePassed/60)}h`
+        } else if (timePassed < (60*24*7)){ // less than a week
+            return `${Math.floor(timePassed/(60*24))}j`
         } else {
-            return `${Math.round(timePassed/60)}h`
+            return `${Math.floor(timePassed/(60*24*7))}sem`
         }
     }, [publication])
 
