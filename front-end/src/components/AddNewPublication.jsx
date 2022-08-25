@@ -110,8 +110,8 @@ function AddNewPublication(props){
             console.log(answer)
             if (type === "publication"){
                 const newPubli = await fetchGet(`http://localhost:3000/api/publication/one/${answer.id}`)
-                setPublications((prev)=> [newPubli.publication, ...prev])
-                setProfilPublications((prev)=>[newPubli.publication, ...prev])
+                await setPublications((prev)=> [newPubli.publication, ...prev])
+                await setProfilPublications((prev)=>[newPubli.publication, ...prev])
             } else if (type === "comment"){
                 props.setComments((prev)=>[...prev, {_id: answer.commentId, content: publicationData.content, author: dataConnection.userId}]);
             } else if (type === "modification"){
@@ -121,11 +121,12 @@ function AddNewPublication(props){
                 profilPublications[rank] = updatePubli.publication
                 //const publicationsModifed = publications;
                 //publicationsModifed[rank] = updatePubli.publication
-                //setPublications(publicationsModifed);
+                //await setPublications(publicationsModifed);
                 props.setIsOpenModPubliBloc(false);
                 setModifIsOpen(false);
             }
-            setValue(""); 
+            await setPublicationData({})
+            await setValue(""); 
             await setImage(null);
         }
     }
