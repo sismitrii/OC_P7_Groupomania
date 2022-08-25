@@ -8,7 +8,7 @@ import styled from "styled-components"
 import { AppContext, ConnectionContext } from "../utils/context"
 import Bloc from "./Bloc"
 import InfiniteScroll from "react-infinite-scroll-component"
-import { Loader } from "../pages/Home"
+import { Loader } from "./Infinite"
 import { fetchGet } from "../utils/function/function"
 import { useEffect } from "react"
 /*====================================================*/

@@ -70,11 +70,19 @@ function PublicationIcon(props){
         if(publication.userLiked.indexOf(dataConnection.userId)!== -1 ){
             setHeartActive(true)
         }
-    }, [])
+    })
 
     async function handleLike(){
         const like = heartActive ? -1 : 1 ;
-        setPublication((prev)=> ({...prev, like: prev.like + like}))
+        //like est cohérent avec la véritable valeur de like en DB
+        let userLikedMod = [...publication.userLiked];
+        if (like > 0){
+            userLikedMod.push(dataConnection.userId);
+        } else {
+            userLikedMod = userLikedMod.filter((userId)=> userId !== dataConnection.userId)
+        }
+        console.log(publication);
+        await setPublication({...publication, like: publication.like + like, userLiked: userLikedMod})
 
         const answer = await fetchPostOrPut("PUT",{like: like},`http://localhost:3000/api/publication/${publication._id}/like`,dataConnection )
         console.log(answer);

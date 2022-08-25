@@ -11,6 +11,9 @@ import colors from "../../utils/styles/colors"
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {fetchGet} from "../../utils/function/function"
 import { AppContext } from "../../utils/context"
+import { useEffect } from "react"
+
+import Infinite from "../../components/Infinite"
 
 
 /*====================================================*/
@@ -32,88 +35,31 @@ const Container = styled.main`
     }
 `
 
-const HomeTitle = styled.h1`
-    font-size: 25px;
-    font-weight: 500;
-    margin: 20px;
-`
 
-const animationLoader = keyframes`
-0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-`
-
-export const Loader = styled.div`
-display: inline-block;
-width: 80px;
-height: 80px;
-
-&::after {
-    content: " ";
-    display: block;
-    width: 64px;
-    height: 64px;
-    margin: 8px;
-    border-radius: 50%;
-    border: 6px solid #fff;
-    border-color: ${colors.primary} transparent ${colors.secondary} transparent;
-    animation: ${animationLoader} 1.2s linear infinite;
-  }
-`
 
 
 /*====================================================*/
 /* ------------------- Component ---------------------*/
 /*====================================================*/
 function Home(){
-    //const [publications, setPublications] = useState([])
-    const {publications, setPublications} = useContext(AppContext)
+    const {setPublications} = useContext(AppContext)
 
-    const [hasMore, setHasMore] = useState(true);
-    const [offset, setOffset] = useState(0);
-    //console.log('render');
-
-    const loadMorePublication = async() => {
-        const totalLength = await fetchGet(`http://localhost:3000/api/publication/length`)
-
-        if(publications.length >= totalLength.publicationLength){
-            setHasMore(false)
-        }
-        const dataToAdd = await fetchGet(`http://localhost:3000/api/publication/all/${offset}`)
-        await setPublications((prevPublication) => [...prevPublication, ...dataToAdd.publicationToReturn])
-        setOffset(offset + 5);
+useEffect(()=>{
+    async function loadPublications(){
+        const answer = await fetchGet(`http://localhost:3000/api/publication/all/0`)
+        setPublications(answer.publicationToReturn)
     }
-    if (!publications[0]){
-        loadMorePublication();
-    }
-
+    loadPublications();
+},[])
     return (
     <>
         <Header active={"home"}/>
         <Container>
-            <HomeTitle>Fil d'actualités</HomeTitle>
+            <h1>Fil d'actualités</h1>
             <Bloc 
                 type={"add"}
             />
-            <InfiniteScroll 
-                dataLength={publications.length} 
-                next={loadMorePublication}
-                hasMore={hasMore}
-                loader={<Loader />}
-                endMessage={<h3>Il n'y a plus d'autres publications</h3>}
-            >
-                { publications && publications.map((publication,i)=>(
-                    <Bloc 
-                        key={`${publication._id}-${i}`} 
-                        publication={publication} 
-                        type={"show"}
-                    />
-                ))}
-            </InfiniteScroll>
+            <Infinite />
         </Container>
         
     </>
