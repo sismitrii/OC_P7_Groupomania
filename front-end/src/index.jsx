@@ -9,6 +9,7 @@ import SignUp from './pages/SignUp';
 import Home from './pages/Home';
 import Profil from './pages/Profil';
 import Settings from './pages/Settings';
+import Error from './pages/Error';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -25,6 +26,7 @@ root.render(
           <Route path="/home" element={<Home />} />
           <Route path="/profil/:id" element={<Profil />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="*" element={<Error />}></Route>
         </Routes>
       </ConnectionProvider>
       </AppProvider>
