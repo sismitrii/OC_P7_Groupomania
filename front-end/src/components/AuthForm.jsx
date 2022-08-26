@@ -90,11 +90,6 @@ const AuthInput = styled.input`
     border: none;
     border-radius: 5px;
     padding-left: 5px ;
-
-    &:focus {
-        outline: none;
-        box-shadow: 0 0 0 1px ${colors.primary};
-    }
 `
 
 const AuthButton = styled.button`

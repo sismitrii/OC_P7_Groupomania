@@ -2,6 +2,8 @@ import { useContext } from 'react'
 import { createGlobalStyle } from 'styled-components'
 import { AppContext } from '../context'
 
+import colors from './colors'
+
 const StyledGlobalStyle = createGlobalStyle`
     *,
     ::before,
@@ -25,6 +27,11 @@ const StyledGlobalStyle = createGlobalStyle`
         font-size: 25px;
         font-weight: 500;
         margin: 20px;
+    }
+
+    input:focus {
+        outline: none;
+        box-shadow: 0px 0px 0px 1px ${colors.primary};
     }
 `
 

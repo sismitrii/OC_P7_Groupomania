@@ -53,11 +53,6 @@ const StyledInput = styled.input`
         padding:5px;
         color : #888;
     }
-
-    &:focus {
-        outline: none;
-        box-shadow: 0px 0px 0px 1px ${colors.primary};
-    }
 `
 
 /*====================================================*/

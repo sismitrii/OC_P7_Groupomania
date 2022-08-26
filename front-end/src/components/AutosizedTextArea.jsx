@@ -22,7 +22,6 @@ const StyledInput = styled.textarea`
     width: 100%;
     height: ${(props) => props.textHeight};
     border: none;
-    outline: none;
     border-radius: 5px;
     resize: none;
     font-family: 'Arial';
@@ -30,6 +29,7 @@ const StyledInput = styled.textarea`
     font-size: 12px;
 
     &:focus {
+        outline: none;
         box-shadow: 0px 0px 0px 1px ${colors.primary}
     }
 

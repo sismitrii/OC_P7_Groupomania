@@ -28,11 +28,6 @@ const StyledInput = styled.input`
     border: 1px solid #AAA;
     padding-left: 10px;
     margin-top: 2px;
-
-    &:focus {
-        outline: none;
-        box-shadow: 0px 0px 0px 1px ${colors.primary};
-    }
 `
 
 /*====================================================*/
