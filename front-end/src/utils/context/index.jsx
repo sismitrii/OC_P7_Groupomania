@@ -48,6 +48,9 @@ export function AppProvider({children}){
         interests: {sentence: "Centres d'interets", inputType: "text"},
         biography: {sentence:"Biographie",inputType: "textarea"}
     }
+
+    const informations = Object.keys(parameters);
+    informations.shift();
     
     useEffect(()=>{
         window.addEventListener('resize', function(e){
@@ -66,7 +69,7 @@ export function AppProvider({children}){
              publications, setPublications,
              profil, setProfil,
              profilPublications, setProfilPublications,
-             isMobile , parameters}
+             isMobile , parameters, informations}
              
         }
     >

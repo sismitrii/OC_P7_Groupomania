@@ -40,7 +40,7 @@ function PostButton(props){
 
     return(<
         StyledButton 
-            onClick={(e)=>props.postMethod(e, props.type)} 
+            onClick={(e)=>props.postMethod(e)} 
             type={props.type}
         >
             {props.content}

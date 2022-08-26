@@ -41,15 +41,13 @@ function Accordion(){
         loadUserData()
     },[dataConnection])
 
-
-
     const tabs = {
-        username: {title: "Nom et Prénom"},
-        picture: {title: "Photo de profil"},
-        department: {title: "Secteur/Poste"},
-        informations: {title: "Informations"},
-        password: {title: "Mot de passe"},
-        deleteAccount: {title: "Supprimer le compte"}
+        username: "Nom et Prénom",
+        picture: "Photo de profil",
+        department: "Secteur/Poste",
+        informations: "Informations",
+        password:  "Mot de passe",
+        deleteAccount: "Supprimer le compte"
     }
 
     const types = Object.keys(tabs)
