@@ -4,13 +4,12 @@
 
 import styled from "styled-components"
 import { useContext } from "react"
-import { AppContext, ConnectionContext, SettingsContext } from "../utils/context"
+import { ConnectionContext, SettingsContext } from "../utils/context"
 
 import PostButton from "./PostButton"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPen } from "@fortawesome/free-solid-svg-icons"
 
-import colors from "../utils/styles/colors"
 import { fetchPostOrPut } from "../utils/function/function"
 
 /*====================================================*/
@@ -65,6 +64,7 @@ function AccordionItemOneField(props){
             type="editProfil" 
             content={<FontAwesomeIcon icon={faPen} />}
             postMethod={handlePost}
+            aria-label="Editer le profil"
         />
     </Container>
     )

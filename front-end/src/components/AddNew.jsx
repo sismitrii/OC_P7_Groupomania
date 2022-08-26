@@ -145,7 +145,9 @@ function AddNew(props){
                 <PostButton 
                     postMethod={handlePost} 
                     type={type} 
-                    content={inputValue[type].postButton} />
+                    content={inputValue[type].postButton}
+                    aria-label="Publier"
+                />
             </BottomBloc>
         </StyledForm>
     )
