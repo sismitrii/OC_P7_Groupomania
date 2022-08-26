@@ -25,9 +25,7 @@ const Container = styled.div`
 function Accordion(){
     const {dataConnection} = useContext(ConnectionContext)
     const {isMobile} = useContext(AppContext);
-    const [activeIndex, setActiveIndex] = useState(0);
-    const {setUserData} = useContext(SettingsContext)
-    //const [modification, setModification] = useState(false);
+    const {activeIndex, setActiveIndex, setUserData, updatedMessage} = useContext(SettingsContext)
 
     useEffect(()=>{
         async function loadUserData(){
@@ -66,7 +64,7 @@ function Accordion(){
             />
         ))}
     
-        <p>Ici on ajoutera un message de modification</p>
+        <p>{updatedMessage}</p>
       </Container>  
     )
 }

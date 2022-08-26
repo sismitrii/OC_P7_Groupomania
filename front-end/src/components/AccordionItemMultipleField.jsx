@@ -60,7 +60,7 @@ const StyledInput = styled.input`
 /*====================================================*/
 function AccordionItemMultipleField(props){
     const {parameters,informations} = useContext(AppContext)
-    const {userData, setUserData} = useContext(SettingsContext)
+    const {userData, setUserData, setUpdatedMessage} = useContext(SettingsContext)
     const {dataConnection} = useContext(ConnectionContext)
     
     async function handleInformationChange(value, type){
@@ -76,7 +76,7 @@ function AccordionItemMultipleField(props){
             toChange[information] = userData[information]
         })
         console.log(await fetchPostOrPut("PUT", toChange, props.urlUpdate, dataConnection));
-        // mettre un texte en bas L'utilisateur à été modifié
+        setUpdatedMessage('Vos informations ont été mise à jour')
     }
 
     return(            

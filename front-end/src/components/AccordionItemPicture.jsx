@@ -25,7 +25,7 @@ const Container = styled.div`
 /* --------------------- Import ----------------------*/
 /*====================================================*/
 function AccordionItemPicture(props){
-    const {userData, setUserData} = useContext(SettingsContext)
+    const {userData, setUserData, setUpdatedMessage} = useContext(SettingsContext)
     const {dataConnection} = useContext(ConnectionContext)
     const [image, setImage] = useState("");
 
@@ -33,6 +33,7 @@ function AccordionItemPicture(props){
         const formData = new FormData();
         formData.append('image', image);
         console.log(await fetchPostOrPut("PUT", {image: formData}, props.urlUpdate, dataConnection));
+        setUpdatedMessage("Votre photo de profil a été mise à jour !")
     }
 
     return(

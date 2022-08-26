@@ -39,7 +39,7 @@ const Container = styled.div`
 function AccordionItemChangePassword(){
     const initialPassword = {passwordIsOK: false, password: "", confirmPassword: "", message:""}
     const [passwordValue, setPasswordValue]= useState(initialPassword)
-    const {userData} = useContext(SettingsContext)
+    const {userData, setUpdatedMessage} = useContext(SettingsContext)
     const {dataConnection} = useContext(ConnectionContext)
 
     async function handleLogin(e){
@@ -55,10 +55,9 @@ function AccordionItemChangePassword(){
     async function handleResetPassword(e){
         e.preventDefault();
         if (passwordValue.password === passwordValue.confirmPassword){
-            console.log(passwordValue);
             console.log(await fetchPostOrPut("PUT", {password: passwordValue.password}, 'http://localhost:3000/api/auth/change_password', dataConnection))
             setPasswordValue(initialPassword);
-            // message qui dit pendant Xs que le mot de passe a été mis à jour
+            setUpdatedMessage('Votre mot de passe à été mis à jour')
         } else {
             setPasswordValue({...passwordValue, message: "Veuillez rentrez deux mot de passes identique"})
         }

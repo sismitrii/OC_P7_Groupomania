@@ -67,8 +67,6 @@ function AccordionItem(props){
     
     const urlUpdate = `http://localhost:3000/api/user/${dataConnection.userId}`
 
-    // remove email don't want to be possible to modified
-
     let toReturn;
     switch(props.type){
         case "department":

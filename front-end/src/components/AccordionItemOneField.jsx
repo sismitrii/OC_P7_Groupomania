@@ -34,7 +34,7 @@ const StyledInput = styled.input`
 /* ---------------------- Main -----------------------*/
 /*====================================================*/
 function AccordionItemOneField(props){
-    const {userData, setUserData} = useContext(SettingsContext)
+    const {userData, setUserData, setUpdatedMessage} = useContext(SettingsContext)
     const {dataConnection} = useContext(ConnectionContext)
 
     async function handleInformationChange(value, type){
@@ -48,7 +48,7 @@ function AccordionItemOneField(props){
         const toChange ={}
         toChange[props.type] = userData[props.type];
         console.log(await fetchPostOrPut("PUT", toChange, props.urlUpdate, dataConnection));
-        // mettre un texte en bas L'utilisateur à été modifié
+        setUpdatedMessage(`${props.data} mis à jour !`);
     }
 
     return(
