@@ -8,7 +8,6 @@ import { AppContext, ConnectionContext, SettingsContext } from "../utils/context
 import AutosizedTextArea from "./AutosizedTextArea"
 import PostButton from "./PostButton"
 
-import colors from "../utils/styles/colors"
 import { fetchPostOrPut } from "../utils/function/function"
 
 /*====================================================*/

@@ -42,7 +42,7 @@ function AddNew(props){
 
     const type = props.type;
 
-    let modificationData = {};
+    const modificationData = {};
 
     useEffect(()=>{
         if(props.imageUrl){

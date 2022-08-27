@@ -31,7 +31,7 @@ const Container = styled.div`
 function ProfilPublication(){
     const {dataConnection} = useContext(ConnectionContext)
     const profilId = useParams();
-    const {profilPublications, setProfilPublications, profil, setProfil} = useContext(AppContext)
+    const {profilPublications, setProfilPublications, profil} = useContext(AppContext)
     const [offset, setOffset] = useState(5)
     const [hasMore, setHasMore] = useState(true)
 
@@ -50,9 +50,11 @@ useEffect(()=>{
         const answer = await fetchGet(`http://localhost:3000/api/user/${profilId.id}/publications/${offset}`)
         setProfilPublications((prev)=> [...prev, ...answer.publications])
         setOffset(offset + 5)
-
-        if(profilPublications.length >= profil.publications.length){
-            setHasMore(false)
+        
+        if (profilPublications){
+            if(profilPublications.length >= profil.publications.length){
+                setHasMore(false)
+            }
         }
     }
 

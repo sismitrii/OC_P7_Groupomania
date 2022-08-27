@@ -8,7 +8,6 @@ import Bloc from "./Bloc"
 import { fetchGet } from "../utils/function/function"
 import styled, {keyframes} from "styled-components"
 import colors from "../utils/styles/colors"
-import { useEffect } from "react"
 /*====================================================*/
 /* --------------------- Style -----------------------*/
 /*====================================================*/

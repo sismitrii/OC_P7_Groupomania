@@ -8,7 +8,7 @@ import colors from "../utils/styles/colors"
 import { useContext, useState } from "react"
 import { AppContext, ConnectionContext } from "../utils/context"
 import { fetchPostOrPut } from "../utils/function/function"
-import { Link, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 /*====================================================*/
 /* ---------------------- Style ----------------------*/
 /*====================================================*/

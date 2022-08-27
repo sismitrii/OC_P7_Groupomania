@@ -13,13 +13,6 @@ import { AppContext } from "../utils/context"
 /* ---------------------- Style ----------------------*/
 /*====================================================*/
 
-// @media screen and (max-width:992px){
-//     position: absolute;
-//     left: 50%;
-//     width: 50%;
-//     transform: translateX(-50%);
-// } 
-
 const SearchContainer = styled.div`
     width: 30%;
     display: flex;

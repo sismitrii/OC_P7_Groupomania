@@ -109,7 +109,7 @@ function Publication(props){
             setHeartActive(true)
             //console.log("je set heart Active parceque l'user est dans publication.userLiked")
         }
-    },[props.publication])
+    },[props.publication, dataConnection, setHeartActive, setPublication])
     
     
     const {data} = useFetch(`http://localhost:3000/api/user/${props.publication.author}`)
@@ -121,11 +121,11 @@ function Publication(props){
         } catch (error) {
             console.error(error)
         }
-    },[publication])
+    },[props.publication._id, setComments,])
 
 useEffect(()=>{
     fetchComment();
-},[])
+},[fetchComment])
 
     const calcDate = useCallback(()=>{
         const timePassed = (Date.now() - (new Date(publication.createdAt).getTime()))/1000/60;
