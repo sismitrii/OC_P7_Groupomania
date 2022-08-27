@@ -57,7 +57,7 @@ function AccordionItemOneField(props){
             name={props.type}
             id={props.type}
             placeholder={props.data} 
-            value={props.type === 'username' ? userData.username : userData.department}
+            value={userData[props.type] ? userData[props.type] : ""}
             onChange={(e)=> handleInformationChange(e.target.value, props.type)}
         />
         <PostButton 
