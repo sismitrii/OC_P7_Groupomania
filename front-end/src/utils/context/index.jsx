@@ -1,4 +1,27 @@
 import { useState, useEffect, createContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { fetchPostOrPut } from "../function/function";
+
+/*====================================================*/
+/* ---------------------- Auth -----------------------*/
+/*====================================================*/
+export const AuthContext = createContext()
+
+export function AuthProvider({children}){
+    const [userData, setUserData] = useState({});
+    const initialError = {mailError: "", generalEror: ""}
+    const [error, setError] = useState(initialError) 
+
+    return (
+    <AuthContext.Provider 
+        value={{
+            userData, setUserData,
+            error, setError, initialError
+        }}
+    >
+        {children}
+        </AuthContext.Provider>)
+}
 
 /*====================================================*/
 /* ------------------ Connection ---------------------*/
@@ -10,6 +33,18 @@ export function ConnectionProvider({children}){
     let initState = init ? init: {} ;
 
     const [dataConnection, setDataConnection] = useState(initState)
+    const navigate = useNavigate();
+
+    const login = async(userData)=>{
+        const answer = await fetchPostOrPut("POST", userData,'http://localhost:3000/api/auth/login')
+        if (answer.message){
+            return answer.message;
+        } else {
+            setDataConnection(answer)
+            navigate('/home') 
+            return "";    
+        }
+    }
 
     useEffect(()=> {
         const data = JSON.parse(localStorage.getItem("dataConnection"))
@@ -22,11 +57,10 @@ export function ConnectionProvider({children}){
         localStorage.setItem("dataConnection", JSON.stringify(dataConnection))
     },[dataConnection])
 
-    return (<ConnectionContext.Provider value={{dataConnection, setDataConnection}}>
+    return (<ConnectionContext.Provider value={{dataConnection, setDataConnection, login}}>
         {children}
     </ConnectionContext.Provider>)
 }
-
 
 /*====================================================*/
 /* ---------------------- App ------------------------*/
@@ -100,14 +134,30 @@ export function PublicationProvider({children}){
         </PublicationContext.Provider>)
 }
 
+
+/*====================================================*/
+/* -------------------- Settings ---------------------*/
+/*====================================================*/
+
 export const SettingsContext = createContext();
 
 export function SettingsProvider({children}){
     const [userData, setUserData] = useState({})
+    const [activeIndex, setActiveIndex] = useState(0);
+    const [updatedMessage, setUpdatedMessage] = useState("");
 
-    return (<SettingsContext.Provider value={{userData, setUserData}}>
+    useEffect(()=>{
+        setActiveIndex(0);
+    },[updatedMessage])
+
+    return (
+    <SettingsContext.Provider 
+        value={{userData, setUserData,
+            updatedMessage, setUpdatedMessage,
+            activeIndex, setActiveIndex}}
+    >
         {children}
-        </SettingsContext.Provider>)
+    </SettingsContext.Provider>)
 }
 
 

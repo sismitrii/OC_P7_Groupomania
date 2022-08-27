@@ -1,24 +1,24 @@
 /*====================================================*/
 /* -------------------- Import -----------------------*/
 /*====================================================*/
-
-import AuthBloc from "../../components/AuthBloc"
-import AuthPageContainer from "../../components/AuthPageContainer"
-
+import styled from "styled-components"
 /*====================================================*/
-/* -------------------- Style ------------------------*/
+/* --------------------- Style -----------------------*/
 /*====================================================*/
-
+const StyledForm = styled.form`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+`
 /*====================================================*/
 /* --------------------- Main ------------------------*/
 /*====================================================*/
-function SignUp(){
-    
+function AuthFormTest({children}){
     return(
-    <AuthPageContainer >
-        <AuthBloc page="signUp"/>
-    </AuthPageContainer>
-    )
+        <StyledForm>
+        {children}
+        </StyledForm>)
 }
 
-export default SignUp
+export default AuthFormTest

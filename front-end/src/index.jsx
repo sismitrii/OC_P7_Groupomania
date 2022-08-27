@@ -6,10 +6,14 @@ import { AppProvider, ConnectionProvider } from './utils/context';
 
 import './index.css';
 import SignUp from './pages/SignUp';
+import Login from './pages/Login';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 import Home from './pages/Home';
 import Profil from './pages/Profil';
 import Settings from './pages/Settings';
 import Error from './pages/Error';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -19,10 +23,9 @@ root.render(
         <GlobalStyle />
         <Routes>
           <Route path="/" element={<SignUp />} />
-          <Route path='/login' element={<SignUp />} />
-          <Route path='/forgotPassword' element={<SignUp />} />
-          <Route path='/resetPassword/:token' element={<SignUp />} />
-          <Route path='/login' element={<SignUp />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/forgotPassword' element={<ForgotPassword />} />
+          <Route path='/resetPassword/:token' element={<ResetPassword />} />
           <Route path="/home" element={<Home />} />
           <Route path="/profil/:id" element={<Profil />} />
           <Route path="/settings" element={<Settings />} />

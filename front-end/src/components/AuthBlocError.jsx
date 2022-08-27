@@ -1,24 +1,25 @@
 /*====================================================*/
 /* -------------------- Import -----------------------*/
 /*====================================================*/
-
-import AuthBloc from "../../components/AuthBloc"
-import AuthPageContainer from "../../components/AuthPageContainer"
-
+import styled from "styled-components"
 /*====================================================*/
-/* -------------------- Style ------------------------*/
+/* --------------------- Style -----------------------*/
 /*====================================================*/
-
+const Error = styled.p`
+    font-family: sans-serif;
+    font-size: 12px;
+    color: red;
+    text-transform: uppercase;
+    margin-top: 10px;
+`
 /*====================================================*/
 /* --------------------- Main ------------------------*/
 /*====================================================*/
-function SignUp(){
-    
+function AuthBlocError(props){
     return(
-    <AuthPageContainer >
-        <AuthBloc page="signUp"/>
-    </AuthPageContainer>
-    )
+    <Error>
+        {props.content}
+    </Error>)
 }
 
-export default SignUp
+export default AuthBlocError

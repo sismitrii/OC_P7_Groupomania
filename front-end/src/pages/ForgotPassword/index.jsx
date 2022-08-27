@@ -12,13 +12,12 @@ import AuthPageContainer from "../../components/AuthPageContainer"
 /*====================================================*/
 /* --------------------- Main ------------------------*/
 /*====================================================*/
-function SignUp(){
-    
+function ForgotPassword(){
     return(
-    <AuthPageContainer >
-        <AuthBloc page="signUp"/>
+    <AuthPageContainer>
+       <AuthBloc page="forgotPassword"/> 
     </AuthPageContainer>
     )
 }
 
-export default SignUp
+export default ForgotPassword
