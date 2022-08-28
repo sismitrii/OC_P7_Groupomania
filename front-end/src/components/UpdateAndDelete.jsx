@@ -1,17 +1,17 @@
 /*====================================================*/
 /* --------------------- Import ----------------------*/
 /*====================================================*/
-import { useContext, useState } from "react"
+import styled from "styled-components"
+import { useContext, useState, useEffect } from "react"
+import { AppContext } from "../utils/context"
 import { ConnectionContext, PublicationContext } from "../utils/context"
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons"
-import styled from "styled-components"
-import colors from "../utils/styles/colors"
 import ModificationBloc from "./ModificationBloc"
-
-import { AppContext } from "../utils/context"
 import AutosizedTextArea from "./AutosizedTextArea"
-import { useEffect } from "react"
+
+import colors from "../utils/styles/colors"
 import { fetchPostOrPut } from "../utils/function/function"
 
 /*====================================================*/
@@ -30,7 +30,6 @@ const Container = styled.div`
         z-index:1;
     }
 `
-
 const UpdateAndDeleteContainer = styled.div`
     width: 0;
     height:0;
@@ -68,9 +67,7 @@ const UpdateAndDeleteContainer = styled.div`
         padding: 5px;
         color: ${colors.primary};
     }
-
 `
-
 /*====================================================*/
 /* ----------------------- Main ----------------------*/
 /*====================================================*/
@@ -89,6 +86,7 @@ function UpdateAndDelete(props){
         }
     },[props.comment])
 
+    /*=== Request to delete publi or comment in DB and remove it from DOM===*/
     async function handleDelete(){
         try {
             const endUrl = props.comment ? `/comment/${props.comment._id}` : ""
@@ -115,6 +113,7 @@ function UpdateAndDelete(props){
         }
     }
 
+    /*=== Open window of modification for publication(pop up) or for comment(input) ===*/
     function handleModification(){
         if (props.comment){
             setIsOpenModComment(true)
@@ -124,11 +123,12 @@ function UpdateAndDelete(props){
         }
     }
 
+    /*=== On changing value in comment input set new value===*/
     async function handleChangeText(text){
         await setValue(text);
     }
 
-
+    /*=== On Losing Focus request to update DB and display comment modified ===*/
     async function handleLoseFocus(){
         await setIsOpenModComment(false)
 

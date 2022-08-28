@@ -1,11 +1,11 @@
 /*====================================================*/
 /* --------------------- Import ----------------------*/
 /*====================================================*/
-import { Link } from 'react-router-dom' 
 import styled from "styled-components"
-
+import { Link } from 'react-router-dom' 
 import { useContext, useEffect, useCallback, useRef } from "react"
 import { ConnectionContext, PublicationContext } from '../utils/context'
+
 import CommentBloc from "./CommentBloc"
 import ProfilImg from "./ProfilImg"
 import useFetch from "../utils/hooks"
@@ -13,30 +13,25 @@ import PublicationIcon from "./PublicationIcon"
 import AddNew from "./AddNew"
 import UpdateAndDelete from "./UpdateAndDelete"
 
-
 /*====================================================*/
 /* --------------------- Style ----------------------*/
 /*====================================================*/
-
 const PublicationContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 10px;
 `
-
 const TopContainer = styled.div`
     width: 95%;
     display: flex;
     justify-content: space-between;
     align-items: center;
 `
-
 const ProfilContainer = styled.div`
     display: flex;
     align-items: center;
 `
-
 const ProfilText = styled.div`
     margin-left: 15px;
 
@@ -46,13 +41,11 @@ const ProfilText = styled.div`
         font-size: 12px;
     }
 `
-
 const StyledText = styled.p`
     width: 90%;
     text-align: left;
     margin: 20px auto;
 `
-
 const ImgContainer = styled.div`
     display: flex;
     justify-content: center;
@@ -60,28 +53,21 @@ const ImgContainer = styled.div`
     height: 250px;
     background-color: #FFF;
 `
-
 const StyledImg = styled.img`
     height: 250px;
     margin: 0 auto;
 `
-
 const IconContainer = styled.div`
-    
     display: flex;
     justify-content: space-around;
     width: 80%;
     border-bottom: 1px solid black;
     padding: 10px 0px;
 `
-
 const CommentContainer = styled.div`
     width: 100%;
     margin: 10px 0px;
 `
-
-
-
 const StyledLink = styled(Link)`
     border-bottom: 1px solid transparent;
     font-size: 18px;
@@ -93,11 +79,9 @@ const StyledLink = styled(Link)`
         border-bottom: 1px solid black;
     }
 `
-
 /*====================================================*/
 /* ---------------------- Main -----------------------*/
 /*====================================================*/
-
 function Publication(props){
     const commentInput = useRef(null);
     const {comments, setComments, publication, setPublication, setHeartActive} = useContext(PublicationContext)
@@ -111,8 +95,10 @@ function Publication(props){
         }
     },[props.publication, dataConnection, setHeartActive, setPublication])
     
-    
+    /*=== Fetch data of author of publication ===*/
     const {data} = useFetch(`http://localhost:3000/api/user/${props.publication.author}`)
+
+    /*=== request to get the comments of the publication===*/
     const fetchComment = useCallback(async()=>{
         try {
             const res = await fetch(`http://localhost:3000/api/publication/${props.publication._id}/comment`)
@@ -127,9 +113,9 @@ useEffect(()=>{
     fetchComment();
 },[fetchComment])
 
+    /*=== Calculate date to show it in the right format ===*/
     const calcDate = useCallback(()=>{
         const timePassed = (Date.now() - (new Date(publication.createdAt).getTime()))/1000/60;
-
         if (timePassed < 60){ // less than an hour
             return `${Math.ceil(timePassed)}min`
         } else if (timePassed < (60*24)){ // less than an day
@@ -141,7 +127,7 @@ useEffect(()=>{
         }
     }, [publication])
 
-    // with useCallBack function handleFocusComment is build only once at first render of page ?
+    /*=== Onclick on comment icon it focus the input in AddNew ===*/
     const handleFocusComment = useCallback(()=>{
         commentInput.current.focus();
     },[commentInput])

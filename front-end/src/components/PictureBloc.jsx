@@ -4,6 +4,7 @@
 import styled from "styled-components"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCirclePlus, faEdit } from "@fortawesome/free-solid-svg-icons"
+
 import colors from "../utils/styles/colors"
 /*====================================================*/
 /* --------------------- Style -----------------------*/
@@ -18,14 +19,12 @@ const Container = styled.div`
         box-shadow: 0px 0px 0px 1px ${colors.primary}
     }
 `
-
 const StyledLabel = styled.label`
     display: flex;
     align-items: center;
     cursor: pointer;
     z-index: 1; 
 `
-
 const StyledIcon = styled(FontAwesomeIcon)`
     font-size: 16px;
     margin: 10px 20px;
@@ -34,7 +33,6 @@ const StyledIcon = styled(FontAwesomeIcon)`
         font-size: 20px;
     }
 `
-
 const StyledText = styled.p`
     font-weight: 500;
     text-align: center;
@@ -44,14 +42,12 @@ const StyledText = styled.p`
         font-size: 16px;
     }
 `
-
 const StyledImg = styled.img`
     ${(props)=>props.heightLimited ? "height: 200px;" : "width: 280px;"}
     border-radius: 10px;
     margin: 10px 0;
     opacity: 0.6;
 `
-
 const IconEdit = styled(FontAwesomeIcon)`
     position: absolute;
     left: 50%;
@@ -59,7 +55,6 @@ const IconEdit = styled(FontAwesomeIcon)`
     transform: translate(-50%, -50%);
     font-size: 40px;
 `
-
 const StyledInput = styled.input`
     width: 100%;
     height: 100%;
@@ -67,12 +62,10 @@ const StyledInput = styled.input`
     left: 0;
     opacity: 0;
 `
-
 /*====================================================*/
 /* ---------------------- Main -----------------------*/
 /*====================================================*/
 function PictureBloc(props){
-
     return(
     <Container>
     {props.image === null ? 
@@ -93,7 +86,6 @@ function PictureBloc(props){
         onChange={(e)=>props.handleChangePicture(e)} 
     />
 </Container>)
-
 }
 
 export default PictureBloc

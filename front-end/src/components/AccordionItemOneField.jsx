@@ -36,12 +36,14 @@ function AccordionItemOneField(props){
     const {userData, setUserData, setUpdatedMessage} = useContext(SettingsContext)
     const {dataConnection} = useContext(ConnectionContext)
 
+    /*=== When user write in input it set the User Data ===*/
     async function handleInformationChange(value, type){
         const toChange = {}
         toChange[type] = value;
         setUserData({...userData, ...toChange})
     }
 
+    /*=== Request the update of user in DB and print a message to user ===*/
     async function handlePost(e){
         e.preventDefault() 
         const toChange ={}

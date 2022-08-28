@@ -1,10 +1,9 @@
 /*====================================================*/
 /* --------------------- Import ----------------------*/
 /*====================================================*/
-
 import styled from "styled-components"
-import colors from "../utils/styles/colors"
 
+import colors from "../utils/styles/colors"
 /*====================================================*/
 /* ---------------------- Style ----------------------*/
 /*====================================================*/
@@ -31,22 +30,19 @@ const StyledButton = styled.button`
         font-size: 16px;
     }
 `
-
 /*====================================================*/
 /* -------------------- Main  ------------------------*/
 /*====================================================*/
-
 function PostButton(props){
 
-    return(<
-        StyledButton 
+    return(
+        <StyledButton 
             onClick={(e)=>props.postMethod(e)} 
             type={props.type}
         >
             {props.content}
         </StyledButton>)
 }
-
 
 export default PostButton
 

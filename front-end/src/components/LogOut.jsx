@@ -1,16 +1,16 @@
 /*====================================================*/
 /* --------------------- Import ----------------------*/
 /*====================================================*/
-import { useContext } from "react"
-import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
+import { Link, useNavigate } from "react-router-dom"
+import { useContext } from "react"
 import { AppContext } from "../utils/context"
+
 import colors from "../utils/styles/colors"
 
 /*====================================================*/
 /* ---------------------- Style ----------------------*/
 /*====================================================*/
-
 const LogOutContainer = styled.button`
     padding: 10px 30px;
     margin: 0 10px;

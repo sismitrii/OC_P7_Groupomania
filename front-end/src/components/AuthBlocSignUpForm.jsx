@@ -11,7 +11,7 @@ import AuthBlocButton from "./AuthBlocButton";
 import AuthBlocEmail from "./AuthBlocEmail"
 import AuthBlocError from "./AuthBlocError";
 import AuthBlocSetPassword from "./AuthBlocSetPassword"
-import AuthFormTest from "./AuthFormTest"
+import AuthForm from "./AuthForm"
 
 import colors from "../utils/styles/colors";
 
@@ -36,6 +36,7 @@ function AuthBlocSignUpForm(){
     const {error, setError, userData} = useContext(AuthContext)
     const {login} = useContext(ConnectionContext);
 
+    /*=== Request to SignUp if all data are entered and display error message if there are ===*/
     async function signUp(e){
         e.preventDefault();
         if (!passwordChecked){
@@ -52,7 +53,7 @@ function AuthBlocSignUpForm(){
     }
 
     return(
-    <AuthFormTest>
+    <AuthForm>
         <AuthBlocEmail />
         <AuthBlocSetPassword setPasswordChecked={setPasswordChecked} />
         <AuthBlocButton content={"Je m'inscris"} onClick={signUp}/>
@@ -61,7 +62,7 @@ function AuthBlocSignUpForm(){
             Déjà inscrit ?  
             <Link to="/login"> Se Connectez</Link>
         </AuthChangeSentence>
-    </AuthFormTest>
+    </AuthForm>
     )
 }
 

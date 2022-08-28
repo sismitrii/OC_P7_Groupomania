@@ -2,17 +2,14 @@
 /* -------------------- Import -----------------------*/
 /*====================================================*/
 import styled from "styled-components"
-
-
 import { AuthProvider } from "../utils/context"
 
 import AuthBlocResetForm from "./AuthBlocResetForm"
 import AuthBlocLoginForm from "./AuthBlocLoginForm"
 import AuthBlocForgotForm from "./AuthBlocForgotForm"
-
-import colors from "../utils/styles/colors"
 import AuthBlocSignUpForm from "./AuthBlocSignUpForm"
 
+import colors from "../utils/styles/colors"
 
 /*====================================================*/
 /* -------------------- Style ------------------------*/

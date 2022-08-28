@@ -1,9 +1,7 @@
 /*====================================================*/
 /* --------------------- Import ----------------------*/
 /*====================================================*/
-
 import styled from "styled-components"
-
 /*====================================================*/
 /* --------------------- Style ----------------------*/
 /*====================================================*/
@@ -16,11 +14,9 @@ const StyledImg = styled.img`
         margin: 0px 20px;`}
     object-fit: cover;
 `
-
 /*====================================================*/
 /* ---------------------- Main -----------------------*/
 /*====================================================*/
-
 function ProfilImg(props){
     let width;
     switch (props.size){
@@ -37,8 +33,12 @@ function ProfilImg(props){
             width = 100;
             break;
     }
-
-    return <StyledImg src={props.src } alt="Photo de profil" forProfilPage={props.forProfilPage} width={width} />
+    return <StyledImg 
+                src={props.src } 
+                alt="Photo de profil" 
+                forProfilPage={props.forProfilPage} 
+                width={width} 
+            />
 }
 
 export default ProfilImg

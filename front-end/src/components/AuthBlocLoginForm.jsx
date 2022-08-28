@@ -9,7 +9,7 @@ import styled from "styled-components";
 import AuthBlocButton from "./AuthBlocButton";
 import AuthBlocEmail from "./AuthBlocEmail"
 import AuthBlocError from "./AuthBlocError";
-import AuthFormTest from "./AuthFormTest"
+import AuthForm from "./AuthForm"
 import PasswordBloc from "./PasswordBloc";
 
 import colors from "../utils/styles/colors";
@@ -41,6 +41,7 @@ function AuthBlocLoginForm(){
     const {login} = useContext(ConnectionContext);
     const [valuePassword, setValuePassword] = useState("")
 
+    /*=== Set the user data with the email the user is enterring ===*/
     function handleChange(e){
         if (e.target.value.length > 0){
             setUserData({
@@ -56,6 +57,7 @@ function AuthBlocLoginForm(){
         setError(initialError)
     }
 
+    /*=== Check if there a an email and login and call login function of Connection context to login ===*/
     async function loginRequest(e){
         e.preventDefault();
         if (userData.email && userData.password){
@@ -65,7 +67,7 @@ function AuthBlocLoginForm(){
     }
 
     return(
-        <AuthFormTest>
+        <AuthForm>
             <AuthBlocEmail />
             <PasswordBloc 
                 onChange={handleChange} 
@@ -80,7 +82,7 @@ function AuthBlocLoginForm(){
                 Pas encore de compte ?  
                 <Link to="/"> S'inscrire</Link>
             </AuthChangeSentence>
-        </AuthFormTest>
+        </AuthForm>
     )
 }
 

@@ -29,6 +29,7 @@ function AccordionItemPicture(props){
     const {dataConnection} = useContext(ConnectionContext)
     const [image, setImage] = useState("");
 
+    /*=== Request to change to picture in DB, display new picture and an update message ===*/ 
     async function handlePostPicture(){
         const formData = new FormData();
         formData.append('image', image);

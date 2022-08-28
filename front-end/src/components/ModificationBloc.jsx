@@ -1,17 +1,16 @@
 /*====================================================*/
 /* --------------------- Import ----------------------*/
 /*====================================================*/
-
-import { useContext } from "react"
 import styled from "styled-components"
+import { useContext } from "react"
 import { AppContext, PublicationContext } from "../utils/context"
-import colors from "../utils/styles/colors"
+
 import AddNew from "./AddNew"
 
+import colors from "../utils/styles/colors"
 /*====================================================*/
 /* ---------------------- Style ----------------------*/
 /*====================================================*/
-
 const Container = styled.div`
     position: fixed;
     top:0;
@@ -51,7 +50,7 @@ const ModificationTitle = styled.h2`
     font-weight: 500;
     margin-bottom: 20px;
 
-    @media(min-width:768px){
+    @media(min-width: 768px){
         font-size: 30px;
     }
 `
@@ -67,7 +66,6 @@ const Leave = styled.div`
 /*====================================================*/
 /* ---------------------- Main -----------------------*/
 /*====================================================*/
-
 function ModificationBloc(props){
     const {setModifIsOpen} = useContext(AppContext)
     const {publication} = useContext(PublicationContext)

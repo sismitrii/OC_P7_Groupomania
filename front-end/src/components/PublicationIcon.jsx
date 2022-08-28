@@ -1,12 +1,14 @@
 /*====================================================*/
 /* --------------------- Import ----------------------*/
 /*====================================================*/
-import { faComment, faHeart } from "@fortawesome/free-regular-svg-icons"
-import { faHeart as fasHeart, faComment as fasComment } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import styled from "styled-components"
 import { useContext } from "react"
 import { ConnectionContext, PublicationContext } from "../utils/context"
+
+import { faComment, faHeart } from "@fortawesome/free-regular-svg-icons"
+import { faHeart as fasHeart, faComment as fasComment } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+
 import colors from "../utils/styles/colors"
 import { fetchPostOrPut } from "../utils/function/function"
 
@@ -61,7 +63,6 @@ const StyledIconNotVisible = styled(FontAwesomeIcon)`
 /*====================================================*/
 /* ---------------------- Main -----------------------*/
 /*====================================================*/
-
 function PublicationIcon(props){
     //const [heartActive, setHeartActive] = useState(false);
     const {dataConnection} = useContext(ConnectionContext);

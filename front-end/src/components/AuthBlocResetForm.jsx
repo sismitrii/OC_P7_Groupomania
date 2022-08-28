@@ -6,9 +6,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../utils/context";
 
-
 import AuthBlocSetPassword from "./AuthBlocSetPassword"
-import AuthFormTest from "./AuthFormTest"
+import AuthForm from "./AuthForm"
 import AuthBlocButton from "./AuthBlocButton";
 import AuthBlocError from "./AuthBlocError";
 
@@ -24,11 +23,11 @@ import { fetchPostOrPut } from "../utils/function/function";
 function AuthBlocResetForm(){
     const [passwordChecked, setPasswordChecked] = useState(false);
     const {userData, error, setError} = useContext(AuthContext)
-
     const navigate = useNavigate();
-    
     let {token} = useParams();
 
+    /*=== Get the token created when forgot email is send in the url ===*/
+    /*=== And check and set the new password then request change in DB ===*/
     async function resetRequest(e){
         e.preventDefault()
  
@@ -47,7 +46,7 @@ function AuthBlocResetForm(){
     }
 
     return (
-    <AuthFormTest>
+    <AuthForm>
         <AuthBlocSetPassword 
             passwordChecked={passwordChecked} 
             setPasswordChecked={setPasswordChecked}
@@ -57,7 +56,7 @@ function AuthBlocResetForm(){
             onClick={resetRequest} 
         />
         <AuthBlocError content={error.generalEror}/>
-    </AuthFormTest>)
+    </AuthForm>)
 }
 
 export default AuthBlocResetForm

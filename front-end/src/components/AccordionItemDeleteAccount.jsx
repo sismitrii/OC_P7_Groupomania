@@ -2,8 +2,7 @@
 /* --------------------- Import ----------------------*/
 /*====================================================*/
 import styled from "styled-components"
-import { useState } from "react"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { ConnectionContext } from "../utils/context"
 import { useNavigate } from "react-router-dom"
 
@@ -29,7 +28,6 @@ const Container = styled.div`
         width: 300px;
     }
 `
-
 const StyledButton = styled.button`
     min-width : 90px;
     background-color: ${(props)=> props.cancel ? "#AAA" : "red"};
@@ -37,7 +35,6 @@ const StyledButton = styled.button`
     border: none;
     padding: 5px;
     border-radius: 2px;
-    margin-bottom: 10px;
     cursor: pointer;
 `
 /*====================================================*/
@@ -48,6 +45,7 @@ function AccordionItemDeleteAccount(){
     const {dataConnection} = useContext(ConnectionContext)
     const navigate = useNavigate();
 
+    /*=== Request to delete the account and return to login page===*/
     async function handleDelete(e){
         e.preventDefault();
         try {
@@ -68,7 +66,7 @@ function AccordionItemDeleteAccount(){
     }
 
     return(
-    <Container column>
+    <Container>
         {!confirmation ?
             <StyledButton onClick={()=>setConfirmation(true)}>
                 Je veux supprimer mon compte

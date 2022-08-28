@@ -1,7 +1,7 @@
 import { useState, useEffect, createContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchPostOrPut } from "../function/function";
 
+import { fetchPostOrPut } from "../function/function";
 /*====================================================*/
 /* ---------------------- Auth -----------------------*/
 /*====================================================*/
@@ -35,6 +35,8 @@ export function ConnectionProvider({children}){
     const [dataConnection, setDataConnection] = useState(initState)
     const navigate = useNavigate();
 
+    /*=== Request to log with data entered and set dataConnection with the answer===*/
+    /*=== Return error message if error===*/
     const login = async(userData)=>{
         const answer = await fetchPostOrPut("POST", userData,'http://localhost:3000/api/auth/login')
         if (answer.message){
@@ -46,6 +48,7 @@ export function ConnectionProvider({children}){
         }
     }
 
+    /*=== If user is reloading his page it get dataConnection in the local Storage ===*/
     useEffect(()=> {
         const data = JSON.parse(localStorage.getItem("dataConnection"))
         if (data){
@@ -53,6 +56,7 @@ export function ConnectionProvider({children}){
         }
     }, [])
 
+    /*=== when data connection are it add to the local storage these data ===*/
     useEffect(()=>{
         localStorage.setItem("dataConnection", JSON.stringify(dataConnection))
     },[dataConnection])
@@ -86,6 +90,7 @@ export function AppProvider({children}){
     const informations = Object.keys(parameters);
     informations.shift();
     
+    /*=== On resizing it check if it's mobile size or bigger===*/
     useEffect(()=>{
         window.addEventListener('resize', function(e){
             if(e.target.innerWidth < 768){

@@ -1,12 +1,14 @@
 /*====================================================*/
 /* --------------------- Import ----------------------*/
 /*====================================================*/
-import { useContext, useState } from "react"
-import InfiniteScroll from "react-infinite-scroll-component"
-import { AppContext } from "../utils/context"
-import Bloc from "./Bloc"
-import { fetchGet } from "../utils/function/function"
 import styled, {keyframes} from "styled-components"
+import { useContext, useState } from "react"
+import { AppContext } from "../utils/context"
+
+import InfiniteScroll from "react-infinite-scroll-component"
+import Bloc from "./Bloc"
+
+import { fetchGet } from "../utils/function/function"
 import colors from "../utils/styles/colors"
 /*====================================================*/
 /* --------------------- Style -----------------------*/
@@ -46,6 +48,7 @@ function Infinite(){
     const [hasMore, setHasMore] = useState(true);
     const [offset, setOffset] = useState(5);
     
+    /*=== Fetch 5 more publications and set tif they are more publi for infinite scroll ===*/ 
     const loadMorePublication = async() => {
         const totalLength = await fetchGet(`http://localhost:3000/api/publication/length`)
 
@@ -56,7 +59,6 @@ function Infinite(){
         await setPublications((prevPublication) => [...prevPublication, ...dataToAdd.publicationToReturn])
         setOffset(offset + 5);
     }
-
 
     return(
         <InfiniteScroll 

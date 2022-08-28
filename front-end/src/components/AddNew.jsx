@@ -3,32 +3,30 @@
 /*====================================================*/
 import { useState, useContext, useEffect } from "react"
 import { AppContext, ConnectionContext} from "../utils/context"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faPaperPlane} from "@fortawesome/free-solid-svg-icons"
 import styled from "styled-components"
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faPaperPlane} from "@fortawesome/free-solid-svg-icons"
 import AutosizedTextArea from "./AutosizedTextArea"
 import PostButton from "./PostButton"
-import {fetchGet, fetchPostOrPut} from "../utils/function/function"
 import PictureBloc from "./PictureBloc"
+
+import {fetchGet, fetchPostOrPut} from "../utils/function/function"
 
 /*====================================================*/
 /* --------------------- Style ----------------------*/
 /*====================================================*/
-
 const StyledForm = styled.form`
     width: 100%;
     ${(props)=> props.type === "comment" ? "display: flex;" : ""}
     padding: ${(props)=> props.type === "comment" ? "10px 15px" : "10px 25px"};
 `
-
 const BottomBloc = styled.div`
     display: flex;
     flex-direction: ${(props)=> props.direction};
     justify-content: space-between;
     ${(props)=> props.type === "comment" ? "" : "align-items: center;"}
 `
-
 /*====================================================*/
 /* ----------------------- Main ----------------------*/
 /*====================================================*/
@@ -44,6 +42,7 @@ function AddNew(props){
 
     const modificationData = {};
 
+    /*=== Set Image and content when AddNew is used for modification ===*/
     useEffect(()=>{
         if(props.imageUrl){
             setImage(props.imageUrl);
@@ -82,6 +81,7 @@ function AddNew(props){
         }
     }
 
+    /*=== Set the publicationData whith formData and display the new image===*/ 
     async function handleChangePicture(e){
         if (e.target.files[0]){
             setImage(URL.createObjectURL(e.target.files[0])); 
@@ -92,11 +92,13 @@ function AddNew(props){
         }
     }
 
+    /*=== Add the content of input to publication Data ===*/
     async function handleChangeText(text){
         await setValue(text);
         await setPublicationData({...publicationData, content: text})
     }
 
+    /*=== Request to post(publication, comment) or put(modification) update data displayed  ===*/
     async function handlePost(e){
         e.preventDefault();
         if (publicationData !== {}){ 

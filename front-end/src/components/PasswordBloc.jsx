@@ -2,9 +2,11 @@
 /* --------------------- Import ----------------------*/
 /*====================================================*/
 import styled from "styled-components"
-import colors from "../utils/styles/colors"
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEye } from "@fortawesome/free-solid-svg-icons"
+
+import colors from "../utils/styles/colors"
 /*====================================================*/
 /* --------------------- Style -----------------------*/
 /*====================================================*/
@@ -15,19 +17,16 @@ const Label = styled.label`
         font-size: 18px;
     }
 `
-
 const InputContainer = styled.div`
     position: relative;
     width: 100%;
 `
-
 const StyledInput = styled.input`
     height: 30px;
     width: 100%;
     border: none;
     border-radius: 5px;
     padding-left: 5px ;
-
 
     &:focus {
         outline: none;
@@ -45,12 +44,12 @@ const EyeButton = styled.button`
     cursor: pointer;
 
 `
-
 /*====================================================*/
 /* ---------------------- Main -----------------------*/
 /*====================================================*/
 function PasswordBloc(props){
 
+    /*=== At click on eye change type of input to show it content===*/
     function showPassword(e){
         e.preventDefault();
         const input = e.currentTarget.previousElementSibling

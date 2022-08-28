@@ -3,6 +3,7 @@
 /*====================================================*/
 import { useState } from "react";
 import styled from "styled-components"
+
 import colors from "../utils/styles/colors";
 
 /*====================================================*/
@@ -49,6 +50,7 @@ const StyledInput = styled.textarea`
 function AutosizedTextArea(props){
     const [textHeight, setTextHeight] = useState("40px")
 
+    /*=== Autosize the textarea and call function of props===*/
     async function handleKeyUp(e){
         props.set(e.target.value, props.information);
         await setTextHeight("auto")

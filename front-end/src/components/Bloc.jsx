@@ -2,9 +2,10 @@
 /* --------------------- Import ----------------------*/
 /*====================================================*/
 import styled from "styled-components"
+import { PublicationProvider } from "../utils/context";
+
 import AddNew from "./AddNew"
 import Publication from "./Publication";
-import { PublicationProvider } from "../utils/context";
 import InformationBloc from "./InformationBloc";
 import ProfilPublication from "./ProfilPublications";
 import Accordion from "./Accordion";
@@ -14,7 +15,6 @@ import Accordion from "./Accordion";
 /*====================================================*/
 
 const Container = styled.section`
-
     width: ${(props)=> props.type === 'add' || props.type === 'settings' ? "96%" : "auto"};
     max-width: 700px;
     margin:${(props)=>props.type === 'settings'? "10px auto" : "10px"};

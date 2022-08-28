@@ -1,20 +1,19 @@
 /*====================================================*/
 /* --------------------- Import ----------------------*/
 /*====================================================*/
-import { useState } from "react"
-import { useContext } from "react"
-import { useParams } from "react-router-dom"
 import styled from "styled-components"
+import { useState, useEffect, useContext} from "react"
 import { AppContext, ConnectionContext } from "../utils/context"
+import { useParams } from "react-router-dom"
+
 import Bloc from "./Bloc"
 import InfiniteScroll from "react-infinite-scroll-component"
 import { Loader } from "./Infinite"
+
 import { fetchGet } from "../utils/function/function"
-import { useEffect } from "react"
 /*====================================================*/
 /* ---------------------- Style ----------------------*/
 /*====================================================*/
-
 const Container = styled.div`
     margin: 10px;
 
@@ -23,11 +22,9 @@ const Container = styled.div`
     }
 
 `
-
 /*====================================================*/
 /* ---------------------- Main -----------------------*/
 /*====================================================*/
-
 function ProfilPublication(){
     const {dataConnection} = useContext(ConnectionContext)
     const profilId = useParams();
@@ -45,7 +42,7 @@ useEffect(()=>{
     }
 },[profil, setProfilPublications])
 
-
+    /*=== Load 5 more publication and check if there are more publication===*/
     async function loadMorePublication() {
         const answer = await fetchGet(`http://localhost:3000/api/user/${profilId.id}/publications/${offset}`)
         setProfilPublications((prev)=> [...prev, ...answer.publications])

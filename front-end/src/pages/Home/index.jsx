@@ -1,20 +1,20 @@
 /*====================================================*/
 /* ------------------- Import ---------------------*/
 /*====================================================*/
-import { useContext, useEffect} from "react"
-import { Navigate } from "react-router-dom"
 import styled from "styled-components"
+import { Navigate } from "react-router-dom"
+import { useContext, useEffect} from "react"
+import {AppContext, ConnectionContext } from "../../utils/context"
+
 import Header from "../../components/Header"
 import Bloc from "../../components/Bloc"
-import {fetchGet} from "../../utils/function/function"
-import {AppContext, ConnectionContext } from "../../utils/context"
 import Infinite from "../../components/Infinite"
 
+import {fetchGet} from "../../utils/function/function"
 
 /*====================================================*/
 /* --------------------- Style -----------------------*/
 /*====================================================*/
-
 const Container = styled.main`
     display: flex;
     flex-direction: column;
@@ -29,10 +29,6 @@ const Container = styled.main`
         text-align: center;
     }
 `
-
-
-
-
 /*====================================================*/
 /* ------------------- Component ---------------------*/
 /*====================================================*/
@@ -40,6 +36,7 @@ function Home(){
     const {setPublications} = useContext(AppContext)
     const {dataConnection} = useContext(ConnectionContext)
 
+    /*=== When arriving on Home load 5 first publication ===*/
 useEffect(()=>{
     async function loadPublications(){
         const answer = await fetchGet(`http://localhost:3000/api/publication/all/0`)

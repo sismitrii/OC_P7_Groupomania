@@ -9,7 +9,6 @@ const Comment = require('../models/comments')
 
 const functionCtrl = require('./function')
 
-
 /*=============================================================*/
 /*------------------------ FUNCTIONS --------------------------*/
 /*=============================================================*/
@@ -30,6 +29,7 @@ exports.getOnePublication = (req, res, next) => {
     .catch((error)=> res.status(400).json({message:"Error find this publication", error}))
 }
 
+/*=== Return Number of publications===*/
 exports.getLength = (req, res, next) => {
     Publication.find()
     .then((publications)=>res.status(200).json({publicationLength: publications.length}))

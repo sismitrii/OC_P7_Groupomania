@@ -37,10 +37,8 @@ function AuthBlocEmail(){
 
     function checkContent(e){
         const regex = /^\w+([.-]*\w+)*@\w+([.-]?\w+)*(\.\w{2,4})+$/;
-        
-        let testRegex = regex.test(e.target.value);
-        
-        if (testRegex){
+                
+        if (regex.test(e.target.value)){
             setUserData({...userData, email: e.target.value})
             setError(initialError);
         } else {

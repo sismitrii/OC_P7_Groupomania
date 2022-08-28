@@ -1,14 +1,15 @@
 /*====================================================*/
 /* --------------------- Import ----------------------*/
 /*====================================================*/
-import Logo from '../assets/icon-left-font.svg';
 import styled from 'styled-components';
+import { useContext } from 'react';
+import { AppContext } from '../utils/context';
 
 import NavBar from './NavBar';
 import Search from './Search';
 import LogOut from './LogOut';
-import { useContext } from 'react';
-import { AppContext } from '../utils/context';
+
+import Logo from '../assets/icon-left-font.svg';
 
 /*====================================================*/
 /* --------------------- Style -----------------------*/

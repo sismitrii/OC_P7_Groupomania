@@ -7,8 +7,10 @@ import { useEffect } from "react"
 import { useContext } from "react"
 import styled from "styled-components"
 import { AppContext, ConnectionContext, SettingsContext } from "../utils/context"
-import { fetchGet } from "../utils/function/function"
+
 import AccordionItem from './AccordionItem'
+
+import { fetchGet } from "../utils/function/function"
 
 /*====================================================*/
 /* --------------------- Style -----------------------*/
@@ -27,6 +29,7 @@ function Accordion(){
     const {isMobile} = useContext(AppContext);
     const {activeIndex, setActiveIndex, setUserData, updatedMessage} = useContext(SettingsContext)
 
+    /*=== Request to set userData with DB data, set the date at the good format to be printed ===*/
     const loadUserData = useCallback(async()=>{
         const answer = await fetchGet(`http://localhost:3000/api/user/${dataConnection.userId}`)
         //input type date need a date with format : "yyyt-mm-dd"
@@ -37,14 +40,6 @@ function Accordion(){
     },[dataConnection, setUserData])
 
     useEffect(()=>{
-        // async function loadUserData(){
-        //     const answer = await fetchGet(`http://localhost:3000/api/user/${dataConnection.userId}`)
-        //     //input type date need a date with format : "yyyt-mm-dd"
-        //     if (answer.user.birthday){
-        //         answer.user.birthday = answer.user.birthday.split('T')[0];
-        //     }
-        //     setUserData(answer.user)
-        // }
         loadUserData()
     },[dataConnection, loadUserData])
 

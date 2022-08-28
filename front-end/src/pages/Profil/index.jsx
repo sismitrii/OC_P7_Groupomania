@@ -2,17 +2,17 @@
 /* ------------------- Import ---------------------*/
 /*====================================================*/
 import styled from "styled-components"
+import { useNavigate, useParams, Navigate } from "react-router-dom"
+import { useContext, useEffect } from "react"
+import { AppContext, ConnectionContext } from "../../utils/context"
 
 import Header from "../../components/Header"
 import ProfilImg from "../../components/ProfilImg"
 import Bloc from "../../components/Bloc"
 
 import colors from "../../utils/styles/colors"
-import { useNavigate, useParams } from "react-router-dom"
-import { useContext, useEffect } from "react"
-import { AppContext, ConnectionContext } from "../../utils/context"
 import { fetchGet } from "../../utils/function/function"
-import { Navigate } from "react-router-dom"
+
 
 /*====================================================*/
 /* --------------------- Style -----------------------*/
@@ -52,7 +52,6 @@ const Container = styled.main`
         margin-bottom: 20px;
     }
 `
-
 const ProfilContainer = styled.section`
     display: flex;
     align-items: center;
@@ -62,7 +61,6 @@ const ProfilContainer = styled.section`
         margin-left: 20px; 
     }
 `
-
 const StyledH1 = styled.h1`
     font-size: ${(props)=>props.isMobile ? "20": "30"}px;
     font-weight: 500;
@@ -72,7 +70,6 @@ const StyledH2 = styled.h2`
     font-size: ${(props)=>props.isMobile ? "15" : "20"}px;
     font-weight: 400;
 `
-
 const AdminButton = styled.button`
     padding: 10px;
     margin-left: 5px;
@@ -83,7 +80,6 @@ const AdminButton = styled.button`
     cursor: pointer;
     font-size: ${(props)=>props.isMobile ? "12" : "20"}px;
 `
-
 /*====================================================*/
 /* ------------------- Component ---------------------*/
 /*====================================================*/
@@ -93,6 +89,7 @@ function Profil(){
     const {dataConnection} = useContext(ConnectionContext)
     const {profil, setProfil, setProfilPublications, isMobile} = useContext(AppContext)
 
+    /*=== When admin click on button it request to delete this user ===*/
     async function handleAdminBan(){
         try {
             const bearer = 'Bearer ' + dataConnection.token;
@@ -112,6 +109,7 @@ function Profil(){
         }
     }
 
+    /*=== When arriving on a profil page load data and publication of this user===*/
     useEffect(()=>{
         async function loadProfil(){
             const answer = await fetchGet(`http://localhost:3000/api/user/${profilId.id}`)

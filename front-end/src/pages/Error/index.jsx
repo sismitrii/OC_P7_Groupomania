@@ -1,22 +1,19 @@
 /*====================================================*/
 /* ------------------- Import ---------------------*/
 /*====================================================*/
+import styled from "styled-components";
 
 import Header from "../../components/Header";
 import ErrorImg from '../../assets/Error404.png'
-import styled from "styled-components";
-
 /*====================================================*/
 /* --------------------- Style -----------------------*/
 /*====================================================*/
-
 const Container = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
     min-width: 320px;
 `
-
 const StyledImg = styled.img`
     width: 80%;
     max-width: 700px;
@@ -25,7 +22,6 @@ const StyledImg = styled.img`
 /* ---------------------- Main -----------------------*/
 /*====================================================*/
 function Error(){
-
     return(
         <>
             <Header />

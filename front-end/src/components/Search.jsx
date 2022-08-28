@@ -1,26 +1,21 @@
 /*====================================================*/
 /* --------------------- Import ----------------------*/
 /*====================================================*/
+import styled from "styled-components"
+import { useState, useContext } from "react"
+import { AppContext } from "../utils/context"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
-import { useState } from "react"
-import styled from "styled-components"
-import { useContext } from "react"
-import { AppContext } from "../utils/context"
-
 /*====================================================*/
 /* ---------------------- Style ----------------------*/
 /*====================================================*/
-
 const SearchContainer = styled.div`
     width: 30%;
     display: flex;
     justify-content: flex-end;
     flex: 1;
 `
-
-
 const SearchForm = styled.form `
     position: ${(props)=> props.$isMobile ? "absolute": "relative"};
     display: flex;
@@ -36,7 +31,6 @@ const SearchForm = styled.form `
          ""}
     }
 `
-
 const SearchInput = styled.input`
     width: 100%;
     height: 100%;
@@ -46,7 +40,6 @@ const SearchInput = styled.input`
     font-size: 20px;
     outline: none;
 `
-
 const SearchButton = styled.button`
     ${(props)=> props.isMobile ? 
         `position: relative;
@@ -70,7 +63,6 @@ const SearchButton = styled.button`
         transform: none;
     }
 `
-
 const SearchMobileBloc = styled.div`
     cursor: pointer;
     width: 100%;
@@ -81,17 +73,16 @@ const SearchMobileBloc = styled.div`
 /*====================================================*/
 /* ---------------------- Main -----------------------*/
 /*====================================================*/
-
 function Search(props){
     const [isSearching, setIsSearching] = useState(false);
     const {isMobile} = useContext(AppContext)
 
+    /*=== On click open the input search===*/
     async function handleClick(){
         await setIsSearching(true);
         await props.setIsOpen(false);
         document.getElementById('search-bar').focus()  
     }
-
     return (
     <>
     {isMobile ? 

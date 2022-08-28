@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 import { useContext } from "react"
 import { AuthContext } from "../utils/context"
 
-import AuthFormTest from "./AuthFormTest"
+import AuthForm from "./AuthForm"
 import AuthBlocEmail from "./AuthBlocEmail"
 import AuthBlocButton from "./AuthBlocButton"
 import AuthBlocError from "./AuthBlocError"
@@ -34,6 +34,7 @@ function AuthBlocForgotForm(){
     const {userData, error, setError} = useContext(AuthContext)
     const navigate = useNavigate();
     
+    /*=== Request to send an email and display error or succes ===*/
     async function forgotRequest(e){
         e.preventDefault()
         if(userData.email){
@@ -50,7 +51,7 @@ function AuthBlocForgotForm(){
     }
 
     return(
-    <AuthFormTest>
+    <AuthForm>
         <AuthBlocEmail />
         <AuthBlocButton onClick={forgotRequest} content={"Envoyer lien"} />
         <AuthBlocError content={error.generalEror}/>
@@ -58,7 +59,7 @@ function AuthBlocForgotForm(){
             Vers la page de 
             <Link to="/login"> Connection</Link>
         </AuthChangeSentence>
-    </AuthFormTest>
+    </AuthForm>
     )
 }
 

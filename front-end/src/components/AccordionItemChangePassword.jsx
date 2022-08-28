@@ -42,6 +42,7 @@ function AccordionItemChangePassword(){
     const {userData, setUpdatedMessage} = useContext(SettingsContext)
     const {dataConnection} = useContext(ConnectionContext)
 
+    /*=== Login to check the user identity before he changed the password ===*/
     async function handleLogin(e){
         e.preventDefault();
         const answer = await fetchPostOrPut("POST", {email: userData.email, password: passwordValue.password},'http://localhost:3000/api/auth/login', dataConnection)
@@ -52,6 +53,7 @@ function AccordionItemChangePassword(){
         }
     }
 
+    /*=== Request to change the password and print succes or error ===*/
     async function handleResetPassword(e){
         e.preventDefault();
         if (passwordValue.password === passwordValue.confirmPassword){

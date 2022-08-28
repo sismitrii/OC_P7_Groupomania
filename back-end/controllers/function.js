@@ -11,8 +11,8 @@ const User = require('../models/users')
 /*------------------------ FUNCTIONS -----------------------------*/
 /*=============================================================*/
 
+/*=== Delete image from API===*/
 function removeImage(object){
-
     if (object.imageUrl || object.profilImgUrl){
         const imageUrl = object.profilImgUrl ? object.profilImgUrl: object.imageUrl
         const filename = imageUrl.split('/images/')[1];
@@ -24,6 +24,7 @@ function removeImage(object){
     }
 }
 
+/*=== Delete the comment asked from DB ===*/
 function deleteComment(res, commentId, publiId){
     Comment.findByIdAndDelete(commentId)
     .then(()=>{
@@ -36,6 +37,7 @@ function deleteComment(res, commentId, publiId){
     .catch((error)=> res.status(400).json({message: "Error deleting a comment", error}))
 }
 
+/*=== Delete a publication and these comment ===*/
 exports.deletePublication = (res, publicationId, userIsToUpdate) =>{
     Publication.findById(publicationId)
     .then((publication)=>{
@@ -56,6 +58,7 @@ exports.deletePublication = (res, publicationId, userIsToUpdate) =>{
     .catch((error)=>res.status(400).json({message: "Error finding publications", error}))
 }
 
+/*=== sort publication and return 5 ===*/
 exports.sortAndSend = (req, publications, ) =>{
     publications.sort((a, b) => {
         let dateA = new Date(a.createdAt),

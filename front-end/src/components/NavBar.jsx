@@ -1,29 +1,28 @@
 /*====================================================*/
 /* --------------------- Import ----------------------*/
 /*====================================================*/
+import styled from "styled-components";
+import { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { ConnectionContext } from "../utils/context";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faHouse, faGear } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
-import styled from "styled-components";
-import colors from "../utils/styles/colors";
-import { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import Search from "./Search";
 import LogOut from "./LogOut";
-import { ConnectionContext } from "../utils/context";
+
+import colors from "../utils/styles/colors";
 
 /*====================================================*/
 /* --------------------- Style -----------------------*/
 /*====================================================*/
-
 const MenuBars = styled(FontAwesomeIcon)`
   color: ${colors.primary};
   margin: 20px;
   font-size: 28px;
   cursor: pointer;
 `
-
 const VerticalMenu = styled.ul`
   position: absolute;
   left: 0;
@@ -33,7 +32,6 @@ const VerticalMenu = styled.ul`
   z-index: 2;
   background-color: #FFF;
 `
-
 const VerticalMenuElement = styled.li`
   position: relative;
   width: 100%;
@@ -43,7 +41,6 @@ const VerticalMenuElement = styled.li`
   font-size: 16px;
   font-weight: 500;
   transition: all 250ms ease-in-out;
-
 
   ${(props)=>
     props.isOpen ? "top: 0; opacity: 1; height: 45px;": "top: -50px; opacity:1; height: 0px;"}
@@ -68,15 +65,13 @@ const VerticalMenuElement = styled.li`
     top: 50%;
     transform: translateY(-50%);
   }
-`;
-
+`
 const AnimatedNavBarContainer = styled.div`
   position: absolute;
   top: 170px;
   left: 50%;
   transform: translate(-50%);
-`;
-
+`
 const Container = styled.div`
   position: relative;
   width: 300px;
@@ -86,12 +81,11 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 10px;
-`;
-
+`
 const NavBarList = styled.ul`
   display: flex;
   width: 210px;
-`;
+`
 const NavBarListElement = styled.li`
   position: relative;
   list-style: none;
@@ -110,7 +104,6 @@ const NavBarListElement = styled.li`
     }
   }
 `
-
 const NavBarListLink = styled.div`
   position: relative;
   display: flex;
@@ -130,7 +123,6 @@ const NavBarIconContainer = styled.span`
 
   transition: 0.5s;
 `
-
 const NavBarText = styled.span`
   position: absolute;
   color: ${colors.primary};
@@ -141,7 +133,6 @@ const NavBarText = styled.span`
 
   transition: 0.5s;
 `
-
 const NavBarCircle = styled.div`
   position: absolute;
   top: -50%;
@@ -262,7 +253,6 @@ function NavBar(props) {
 
 
   function handleClick(id, index) {
-
     navigate(`/${id}`);
   }
 

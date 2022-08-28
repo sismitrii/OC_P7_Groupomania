@@ -45,6 +45,7 @@ function AuthBlocSetPassword(props){
     const [strenghtPassword, setStrenght] = useState(-1);
     const {userData, setUserData, setError, initialError} = useContext(AuthContext)
 
+    /*=== Check the strenght of password with zxcvbn===*/ 
     function checkStrenghtPassword(e){
         if (e.target.value.length > 0){
             setStrenght(zxcvbn(e.target.value).score);
@@ -58,6 +59,7 @@ function AuthBlocSetPassword(props){
         setError(initialError)
     }
 
+    /*=== Check if the two password are the same ===*/
     function passwordConfirmation(e){
         if (e.target.value.length > 0){
             if (e.target.value === userData.password){

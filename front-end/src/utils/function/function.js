@@ -1,3 +1,4 @@
+/*=== Request fetch de method GET ===*/
 export async function fetchGet(url){
     if (!url){return}
     try {
@@ -9,6 +10,7 @@ export async function fetchGet(url){
     }
 }
 
+/*=== Request fetch PUT or POST setting header depending of type and authorization===*/
 export async function fetchPostOrPut(method, dataToSend, url, dataConnection){
     try {
         const bearer = dataConnection ? "Bearer " + dataConnection.token : "";

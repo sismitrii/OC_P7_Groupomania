@@ -1,12 +1,12 @@
 /*====================================================*/
 /* --------------------- Import ----------------------*/
 /*====================================================*/
-
-import { faAngleUp } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import styled from "styled-components"
 import { useContext } from "react"
 import { AppContext, ConnectionContext } from "../utils/context"
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faAngleUp } from "@fortawesome/free-solid-svg-icons"
 import AccordionItemOneField from "./AccordionItemOneField"
 import AccordionItemPicture from "./AccordionItemPicture"
 import AccordionItemMultipleField from "./AccordionItemMultipleField"
@@ -68,6 +68,7 @@ function AccordionItem(props){
     const urlUpdate = `http://localhost:3000/api/user/${dataConnection.userId}`
 
     let toReturn;
+    /*=== Use different component for the different tab of the Accordion ===*/
     switch(props.type){
         case "department":
         case "username":
@@ -105,7 +106,6 @@ function AccordionItem(props){
                 <StyledTitle isMobile={isMobile} onClick={props.onClick}>
                     <h2>{props.data}</h2>
                 </StyledTitle>
-                {/* Revoir Erreur la solution ne me plait pas*/}
                 <StyledIcon active={props.isActive.toString()} icon={faAngleUp} />
                 <ContentContainer isActive={props.isActive} >
                     {toReturn}

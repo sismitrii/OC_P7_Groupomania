@@ -3,13 +3,15 @@
 /*====================================================*/
 
 import styled from 'styled-components'
-import ProfilImg from './ProfilImg'
 import { Link } from 'react-router-dom'
-import useFetch from '../utils/hooks'
-import Deleted from '../assets/Deleted.jpg'
-import UpdateAndDelete from './UpdateAndDelete'
 import { useContext } from 'react'
 import { ConnectionContext } from '../utils/context'
+import useFetch from '../utils/hooks'
+
+import ProfilImg from './ProfilImg'
+import UpdateAndDelete from './UpdateAndDelete'
+
+import Deleted from '../assets/Deleted.jpg'
 
 /*====================================================*/
 /* ---------------------- Style ----------------------*/

@@ -1,18 +1,20 @@
 /*====================================================*/
 /* --------------------- Import ----------------------*/
 /*====================================================*/
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCirclePlus } from "@fortawesome/free-solid-svg-icons"
 import styled from "styled-components"
-import colors from "../utils/styles/colors"
+import { useParams } from "react-router-dom"
 import { useContext, useState } from "react"
 import { AppContext, ConnectionContext } from "../utils/context"
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCirclePlus } from "@fortawesome/free-solid-svg-icons"
+
+import colors from "../utils/styles/colors"
 import { fetchPostOrPut } from "../utils/function/function"
-import { useParams } from "react-router-dom"
+
 /*====================================================*/
 /* ---------------------- Style ----------------------*/
 /*====================================================*/
-
 const AddInfo = styled.button`
     display: flex;
     width: fit-content;
@@ -31,7 +33,6 @@ const AddInfo = styled.button`
         margin-right: 10px;
     }
 `
-
 const StyledInput = styled.input`
     display: block;
     width: 100%;
@@ -51,7 +52,6 @@ const StyledInput = styled.input`
         padding:5px;
     }
 `
-
 const StyledTextArea = styled.textarea`
     display: block;
     width: 100%;
@@ -66,7 +66,6 @@ const StyledTextArea = styled.textarea`
         width: 0px;
     }
 `
-
 const A = styled.a`
     &:hover {
         text-decoration: underline;
@@ -97,15 +96,13 @@ function Info(props){
         default:
             printed = <>{profil[props.type]}</>
     }
-    if (props.type === "birthday"){
-        
-        console.log()
-    }
 
+    /*=== SetIsOnChange allowed to display an input to change profil data ===*/
     function handleClick(){
         setIsOnChange(true);
     }
 
+    /*=== At Losing focus request to update new data in DB and display them===*/
     async function handleLoseFocus(e){
         setIsOnChange(false);
         const dataTosend = {}
@@ -115,6 +112,7 @@ function Info(props){
         setProfil((prev)=> ({...prev, ...dataTosend }))
     }
 
+    /*=== Autosizing of textArea===*/
     async function handleKeyUp(e){
         await setTextHeight("auto")
         let scrollHeight = e.target.scrollHeight;
