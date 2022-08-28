@@ -2,7 +2,7 @@
 /* --------------------- Import ----------------------*/
 /*====================================================*/
 import styled from "styled-components";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ConnectionContext } from "../utils/context";
 
@@ -103,6 +103,16 @@ const NavBarListElement = styled.li`
       transform: translateY(10px);
     }
   }
+
+  &:nth-child(1).active ~ .navBar__Circle {
+    transform: translateX(0);
+  }
+  &:nth-child(2).active ~ .navBar__Circle {
+    transform: translateX(70px);
+  }
+  &:nth-child(3).active ~ .navBar__Circle {
+    transform: translateX(140px);
+  }
 `
 const NavBarListLink = styled.div`
   position: relative;
@@ -136,14 +146,11 @@ const NavBarText = styled.span`
 const NavBarCircle = styled.div`
   position: absolute;
   top: -50%;
-  left: ${(props)=> (props.left) + 45 }px;
   border: 6px solid white;
   width: 70px;
   height: 70px;
   background-color: ${colors.secondary};
   border-radius: 50%;
-
-  transform: translate(${(props)=> props.transform}px);
 
   &::before {
     content: "";
@@ -173,23 +180,11 @@ const NavBarCircle = styled.div`
   transition: 0.5s;
 `
 
-// &:nth-child(1).active ~ .navBar__Circle {
-//     transform: translateX(0);
-//   }
-//   &:nth-child(2).active ~ .navBar__Circle {
-//     transform: translateX(70px);
-//   }
-//   &:nth-child(3).active ~ .navBar__Circle {
-//     transform: translateX(140px);
-//   }
-
 /*====================================================*/
 /* ---------------------- Main -----------------------*/
 /*====================================================*/
 
 function NavBar(props) {
-  const [activeMenu, setActiveMenu] = useState(["home",0, 0]);
-  //const [futurActive, setFutureActive] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const {dataConnection} = useContext(ConnectionContext)
 
@@ -213,49 +208,16 @@ function NavBar(props) {
     },
   ];
 
-  useEffect(() => {
-    const { active } = props;
-    const indexObj = {
-        home: 0,
-        profil: 1,
-        settings: 2
-    }
-    /*let index ;
-    if (active === "home"){
-        index = 0;
-    }
-    if (active === "profil"){
-        index = 1;
-    }
-    if (active === "settings"){
-        index = 2;
-    }*/
-
-    setActiveMenu([active, indexObj[active], activeMenu[1]]);
-  }, [navigate]);
-
-  //IDEE quand je clique dessus je ne passe pas par un lien je fais le changement d'actif ()
-  //et ensuite je navigate sur l'autre page avec la bonne class déjà inscrite
-  // (non au re-render de la page le translate s'effectuera)
-
-  // IDEE crée un composant App avec le header, la page et le footer comme ça on change pas le header..
-
-  // IDEE travailler avec un actif et un futur actif et avec des position left(ou right) qui évolue
-  // et des translate qui se calcule avec la différence actif/ futur actif.
-  // Si tu passe de home à profil d'abord un transform de ((futurActif- Actif)*70)
-  // puis au re-render left = (futurActif*70) + décalage initial(45px)
-  // futurActif devra être un state initialisé à 0
-  // Au clic la 1ere chose à faire c'est le translate pour ça on doit
-  // donner la classe active au li( text et icon) et faire faire au cercle un transform
-  // li.active transform =
-
-  //ajouter class au Circle
 
 
-  function handleClick(id, index) {
+  function handleClick(e, id){
+    const allLi = document.querySelectorAll('.list');
+    allLi.forEach((li)=>{
+        li.classList.remove('active')
+    })
+    e.currentTarget.classList.add('active');
     navigate(`/${id}`);
-  }
-
+}
 
   return (
     <nav>
@@ -264,7 +226,7 @@ function NavBar(props) {
           <MenuBars icon={faBars} onClick={() => setIsOpen(!isOpen)} />
           <VerticalMenu>
             {routes.map((route)=>(
-                <VerticalMenuElement isOpen={isOpen} key={route.id}>
+                <VerticalMenuElement isOpen={isOpen} onClick={()=>setIsOpen(false)} key={route.id}>
                 <Link to={`/${route.id}`}>
                   <FontAwesomeIcon icon={route.logo} />
                   {route.name}
@@ -288,9 +250,9 @@ function NavBar(props) {
                   key={route.id}
                   aria-label={route.name}
                   id={route.id}
-                  className={activeMenu[0] === route.id ? " active" : ""}
-                  onClick={() => {
-                    handleClick(route.id, index);
+                  className={`list ${route.id === 'home' && "active"}`}
+                  onClick={(e) => {
+                    handleClick(e, route.id);
                   }}
                 >
                     <NavBarListLink>
@@ -301,7 +263,7 @@ function NavBar(props) {
                   </NavBarListLink>
                 </NavBarListElement>
               ))}
-              <NavBarCircle className="navBar__Circle" transform={((activeMenu[1]-activeMenu[2])*70)} left={activeMenu[2]}/>
+              <NavBarCircle className="navBar__Circle"/>
             </NavBarList>
           </Container>
         </AnimatedNavBarContainer>
