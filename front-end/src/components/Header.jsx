@@ -10,6 +10,7 @@ import Search from './Search';
 import LogOut from './LogOut';
 
 import Logo from '../assets/icon-left-font.svg';
+import { useLocation } from 'react-router-dom';
 
 /*====================================================*/
 /* --------------------- Style -----------------------*/
@@ -34,22 +35,30 @@ const HeaderLogo = styled.img`
 /*====================================================*/
 
 function Header(props){
+    const location = useLocation()
     const {isMobile} = useContext(AppContext);
 
     return (
-    <HeaderContainer isMobile={isMobile}>
-        <HeaderLogo src={Logo} alt="Logo de Groupomania"/>
-        {isMobile ?
-            <NavBar $forMobile/>
-       :
-        <>
-            <NavBar active={props.active}/>
-            <Search />
-            <LogOut />
-        </>
+    <>
+        {(location.pathname.includes('/home') || location.pathname.includes('/profil') || location.pathname.includes('/settings'))? 
+        <HeaderContainer isMobile={isMobile}>
+            <HeaderLogo src={Logo} alt="Logo de Groupomania"/>
+            {isMobile ?
+                <NavBar $forMobile/>
+        :
+            <>
+                <NavBar active={props.active}/>
+                <Search />
+                <LogOut />
+            </>
 
+            }
+        </HeaderContainer>
+        :
+        <></>
         }
-    </HeaderContainer>)
+    </>
+    )    
 }
 
 export default Header

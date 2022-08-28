@@ -126,7 +126,6 @@ function Profil(){
     return (
     <>{ dataConnection.token ?
         <>
-            <Header active={"profil"}/>
             <Container>
                 <section>
                     <ProfilContainer>

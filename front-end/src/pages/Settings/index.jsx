@@ -30,7 +30,6 @@ function Settings(){
     <>
         { dataConnection.token ?
             <SettingsProvider>
-                <Header active={"settings"}/>
                 <Container>
                 <h1>Paramètres</h1>
                 {isMobile ? 

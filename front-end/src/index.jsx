@@ -13,6 +13,7 @@ import Home from './pages/Home';
 import Profil from './pages/Profil';
 import Settings from './pages/Settings';
 import Error from './pages/Error';
+import Header from './components/Header';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -21,6 +22,7 @@ root.render(
       <AppProvider>
       <ConnectionProvider>
         <GlobalStyle />
+        <Header/>
         <Routes>
           <Route path="/" element={<SignUp />} />
           <Route path='/login' element={<Login />} />

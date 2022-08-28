@@ -47,7 +47,7 @@ useEffect(()=>{
     return (
     <>{ dataConnection.token ?
         <>
-            <Header active={"home"}/>
+        
             <Container>
                 <h1>Fil d'actualités</h1>
                 <Bloc 
