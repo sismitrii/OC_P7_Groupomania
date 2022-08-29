@@ -3,16 +3,16 @@
 /*====================================================*/
 import styled from "styled-components"
 import { Link } from 'react-router-dom' 
-import { useContext, useEffect, useCallback, useRef } from "react"
+import { useContext, useEffect, useCallback, useRef, useState } from "react"
 import { ConnectionContext, PublicationContext } from '../utils/context'
 
 import CommentBloc from "./CommentBloc"
 import ProfilImg from "./ProfilImg"
-import useFetch from "../utils/hooks"
 import PublicationIcon from "./PublicationIcon"
 import AddNew from "./AddNew"
 import UpdateAndDelete from "./UpdateAndDelete"
 
+import { fetchGet } from "../utils/function/function"
 /*====================================================*/
 /* --------------------- Style ----------------------*/
 /*====================================================*/
@@ -86,17 +86,25 @@ function Publication(props){
     const commentInput = useRef(null);
     const {comments, setComments, publication, setPublication, setHeartActive} = useContext(PublicationContext)
     const {dataConnection} = useContext(ConnectionContext)
+    const [author, setAuthor] = useState({})
+
+    /*=== Get data of author of publication ===*/
+    const getAuthor = useCallback(async()=>{
+        const answer = await fetchGet(`http://localhost:3000/api/user/${props.publication.author}`)
+        if (answer.user){
+            await setAuthor(answer.user)
+        }
+    },[props.publication])
 
     useEffect(()=>{
         setPublication(props.publication);
+        getAuthor()
         if(props.publication.userLiked.indexOf(dataConnection.userId)!== -1 ){
             setHeartActive(true)
             //console.log("je set heart Active parceque l'user est dans publication.userLiked")
         }
-    },[props.publication, dataConnection, setHeartActive, setPublication])
+    },[props.publication, dataConnection, setHeartActive, setPublication, getAuthor])
     
-    /*=== Fetch data of author of publication ===*/
-    const {data} = useFetch(`http://localhost:3000/api/user/${props.publication.author}`)
 
     /*=== request to get the comments of the publication===*/
     const fetchComment = useCallback(async()=>{
@@ -133,17 +141,17 @@ useEffect(()=>{
     },[commentInput])
 
     return (<>
-        {data.user &&
+        {author &&
         <PublicationContainer >
             <TopContainer>
                 <ProfilContainer>
-                    <ProfilImg size='medium' src={data.user.profilImgUrl} />
+                    <ProfilImg size='medium' src={author.profilImgUrl} />
                     <ProfilText>
-                        <StyledLink to={`/profil/${publication.author}`}>{data.user.username}</StyledLink>
+                        <StyledLink to={`/profil/${publication.author}`}>{author.username}</StyledLink>
                         <p>Il y a {calcDate()} </p>
                     </ProfilText>
                 </ProfilContainer>
-                { (data.user._id === dataConnection.userId || (dataConnection.role && dataConnection.role.includes('ROLE_ADMIN'))) &&
+                { (author._id === dataConnection.userId || (dataConnection.role && dataConnection.role.includes('ROLE_ADMIN'))) &&
                     <UpdateAndDelete  
                         id={{publication: publication}}
                     />

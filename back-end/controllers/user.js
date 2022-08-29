@@ -19,13 +19,17 @@ const functionCtrl = require('./function')
 exports.getUserData = (req, res) => {
     User.findById(req.params.id)
     .then((user)=>{
-        delete user._doc.password;
-        if (user._doc.token){
-            delete user._doc.token;
-        } 
-        res.status(200).json({user})
+        if (user){
+            delete user._doc.password;
+            if (user._doc.token){
+                delete user._doc.token;
+            } 
+            res.status(200).json({user})
+        } else {
+            res.status(200).json({message : "User doesn't exist"})
+        }
     })
-    .catch((error)=> res.status(500).json({message: "User does exist in DB", error}))
+    .catch((error)=> res.status(400).json({message: "Error finding user", error}))
 }
 
 /*=== User loged (token) can modify element from his own profil ===*/

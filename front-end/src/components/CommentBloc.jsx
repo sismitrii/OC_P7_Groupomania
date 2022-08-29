@@ -6,12 +6,14 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { useContext } from 'react'
 import { ConnectionContext } from '../utils/context'
-import useFetch from '../utils/hooks'
-
 import ProfilImg from './ProfilImg'
 import UpdateAndDelete from './UpdateAndDelete'
 
 import Deleted from '../assets/Deleted.jpg'
+import { useEffect } from 'react'
+import { useCallback } from 'react'
+import { fetchGet } from '../utils/function/function'
+import { useState } from 'react'
 
 /*====================================================*/
 /* ---------------------- Style ----------------------*/
@@ -59,23 +61,34 @@ const StyledLink = styled(Link)`
 /*====================================================*/
 
 function CommentBloc(props){
-    //const [commentDeleted, setCommentDeleted] = useState(false);
     const {dataConnection} = useContext(ConnectionContext)
+    const [author, setAuthor] = useState({})
 
-    const {data} = useFetch(`http://localhost:3000/api/user/${props.comment.author}`)
+    const getAuthor = useCallback(async()=>{
+        const answer = await fetchGet(`http://localhost:3000/api/user/${props.comment.author}`)
+        if (answer.user){
+            await setAuthor(answer.user)
+        } else {
+            console.log(`L'auteur du commentaire "${props.comment.content}" n'existe plus`);
+            setAuthor({})
+        }
+    },[props.comment])
+
+    useEffect(()=>{
+        getAuthor();
+    },[getAuthor])
 
     return(
     <>
-        {data.user &&
             <BottomComment>
             <ProfilImg 
                 size='small' 
-                src={data.user.profilImgUrl ? data.user.profilImgUrl : Deleted } 
+                src={author.profilImgUrl ? author.profilImgUrl : Deleted } 
             /> 
             <Comment>
                 <p>
-                    {data.user &&
-                        <StyledLink to={`/profil/${props.comment.author}`}>{data.user.username} </StyledLink>
+                    {author.username &&
+                        <StyledLink to={`/profil/${props.comment.author}`}>{author.username} </StyledLink>
                     }
                     {props.comment.content}
                 </p>
@@ -85,7 +98,6 @@ function CommentBloc(props){
                     />}
                 </Comment>
             </BottomComment>
-        }
     </>
     )
 }
