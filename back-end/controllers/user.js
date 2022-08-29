@@ -96,7 +96,7 @@ exports.getUserPublications = (req, res) => {
 /*=== Research Request ===*/
 exports.getUsers = (req, res) =>{
     let regex = new RegExp(req.body.searchValue, 'i')
-    User.find({username: regex}, '_id username')
+    User.find({username: regex}, '_id username profilImgUrl')
     .then((users)=> res.status(200).json({users}))
     .catch((error)=>res.status(500).json({message: "Error finding Users"}))
 }

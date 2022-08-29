@@ -20,6 +20,12 @@ const LogOutContainer = styled.button`
     background-color: ${colors.secondary};
     cursor: pointer;
 `
+const StyledText = styled.p`
+    display: block;
+    width: 100%;
+    padding: 15px;
+    cursor: pointer;
+`
 /*====================================================*/
 /* ---------------------- Main -----------------------*/
 /*====================================================*/
@@ -35,7 +41,7 @@ function LogOut(){
     return (
         <div onClick={()=>handleLogOut()}>
             {isMobile ?
-                <Link to="/Home">Se Déconnecter</Link> 
+                <StyledText>Se Déconnecter</StyledText> 
             : 
                 <LogOutContainer>Deconnection</LogOutContainer>}
         </div>)

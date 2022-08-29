@@ -4,7 +4,7 @@
 import styled from "styled-components";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ConnectionContext } from "../utils/context";
+import { AppContext, ConnectionContext } from "../utils/context";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faHouse, faGear } from "@fortawesome/free-solid-svg-icons";
@@ -41,6 +41,7 @@ const VerticalMenuElement = styled.li`
   font-size: 16px;
   font-weight: 500;
   transition: all 250ms ease-in-out;
+  ${(props)=> !(props.isSearching) && 'overflow: hidden;'}
 
   ${(props)=>
     props.isOpen ? "top: 0; opacity: 1; height: 45px;": "top: -50px; opacity:1; height: 0px;"}
@@ -49,23 +50,24 @@ const VerticalMenuElement = styled.li`
     background-color: ${colors.primary};
   }
 
-  a {
-    display: ${(props)=> props.isOpen ? "block" : "none"};
-    padding: ${(props)=> props.isOpen ? "15px" : "0px"};
-    width: 100%;
-    transition: all 250ms ease-in-out;
-
-  }
-
   svg {
-    display: ${(props)=> props.isOpen ? "inline" : "none"};
-    position: absolute;
-    left: 20px;
-    font-size: 20px;
-    top: 50%;
-    transform: translateY(-50%);
+    display: ${(props)=> !(props.isOpen || props.isSearching) && "none"};
+    ${(props)=>!(props.isSearching) && 
+      `position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);`}
+      font-size: 20px;
   }
 `
+
+const StyledLink = styled(Link)`
+  display: block;
+  padding 15px;
+  width: 100%;
+  transition: all 250ms ease-in-out;
+`
+
 const AnimatedNavBarContainer = styled.div`
   position: absolute;
   top: 170px;
@@ -186,6 +188,7 @@ const NavBarCircle = styled.div`
 
 function NavBar(props) {
   const [isOpen, setIsOpen] = useState(false);
+  const {isSearching} = useContext(AppContext)
   const {dataConnection} = useContext(ConnectionContext)
 
   const navigate = useNavigate();
@@ -227,14 +230,14 @@ function NavBar(props) {
           <VerticalMenu>
             {routes.map((route)=>(
                 <VerticalMenuElement isOpen={isOpen} onClick={()=>setIsOpen(false)} key={route.id}>
-                <Link to={`/${route.id}`}>
+                <StyledLink to={`/${route.id}`}>
                   <FontAwesomeIcon icon={route.logo} />
                   {route.name}
-                </Link>
+                </StyledLink>
               </VerticalMenuElement>
             ))}
-            <VerticalMenuElement isOpen={isOpen}>
-              <Search $isOpen={isOpen} setIsOpen={setIsOpen}/>
+            <VerticalMenuElement isSearching={isSearching} isOpen={isOpen}>
+              <Search isOpen={isOpen} setIsOpen={setIsOpen}/>
             </VerticalMenuElement>
             <VerticalMenuElement isOpen={isOpen}>
               <LogOut />

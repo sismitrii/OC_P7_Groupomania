@@ -73,6 +73,7 @@ export const AppContext = createContext();
 
 export function AppProvider({children}){
     const [modifIsOpen, setModifIsOpen] = useState(false);
+    const [isSearching, setIsSearching] = useState(false);
     const [publications, setPublications] = useState([]);
     const [profil, setProfil] = useState({});
     const [profilPublications, setProfilPublications] = useState([])
@@ -105,6 +106,7 @@ export function AppProvider({children}){
     <AppContext.Provider 
         value={
             {modifIsOpen, setModifIsOpen,
+             isSearching, setIsSearching,
              publications, setPublications,
              profil, setProfil,
              profilPublications, setProfilPublications,

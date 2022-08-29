@@ -15,7 +15,7 @@ const StyledGlobalStyle = createGlobalStyle`
 
     body {
         font-family: 'Raleway','Arial', sans-serif;
-        overflow: ${(props)=> props.modifIsOpen ? "hidden" : "visible"}
+        overflow: ${(props)=> (props.modifIsOpen || props.isSearching) ? "hidden" : "visible"}
     }
 
     a {
@@ -36,8 +36,8 @@ const StyledGlobalStyle = createGlobalStyle`
 `
 
 function GlobalStyle(){
-    const {modifIsOpen} = useContext(AppContext)
-    return <StyledGlobalStyle modifIsOpen={modifIsOpen}/>
+    const {modifIsOpen, isSearching} = useContext(AppContext)
+    return <StyledGlobalStyle modifIsOpen={modifIsOpen} isSearching={isSearching}/>
 }
 
 export default GlobalStyle
