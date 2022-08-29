@@ -17,6 +17,7 @@ router.get('/:id', userCtrl.getUserData)
 router.put('/:id', auth, multer, userCtrl.modifyUserData)
 router.delete('/:id', auth, userCtrl.deleteUserData)
 router.get('/:id/publications/:start', userCtrl.getUserPublications)
+router.post('/getUsers', userCtrl.getUsers)
 
 
 module.exports = router;
