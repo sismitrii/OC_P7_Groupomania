@@ -99,12 +99,12 @@ function Publication(props){
     useEffect(()=>{
         setPublication(props.publication);
         getAuthor()
-        if(props.publication.userLiked.indexOf(dataConnection.userId)!== -1 ){
-            setHeartActive(true)
-            //console.log("je set heart Active parceque l'user est dans publication.userLiked")
-        }
     },[props.publication, dataConnection, setHeartActive, setPublication, getAuthor])
-    
+
+    // if(props.publication.userLiked.indexOf(dataConnection.userId)!== -1 ){
+    //     setHeartActive(true)
+    //     //console.log("je set heart Active parceque l'user est dans publication.userLiked")
+    // }
 
     /*=== request to get the comments of the publication===*/
     const fetchComment = useCallback(async()=>{
@@ -195,8 +195,3 @@ useEffect(()=>{
 
 export default Publication
 
-//Quand tu declenche un event d'un component et que tu n'as besoin qu'il re-render utiliser useCallBack ou useMemo
-// Permet d'enregistrer une fonction et que celle-ci ne soit pas re-built à chaque re-render juste quand celà la concerne
-// En plus si on change un elt dans la function (sans useCallback) qui fait qu'elle re-render et ba on peut avoir une boucle infini
-
-//https://infinitypaul.medium.com/reactjs-useeffect-usecallback-simplified-91e69fb0e7a3

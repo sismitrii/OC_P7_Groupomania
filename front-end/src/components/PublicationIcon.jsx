@@ -2,7 +2,7 @@
 /* --------------------- Import ----------------------*/
 /*====================================================*/
 import styled from "styled-components"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { ConnectionContext, PublicationContext } from "../utils/context"
 
 import { faComment, faHeart } from "@fortawesome/free-regular-svg-icons"
@@ -68,15 +68,22 @@ function PublicationIcon(props){
     const {dataConnection} = useContext(ConnectionContext);
     const {comments, publication, setPublication, heartActive, setHeartActive} = useContext(PublicationContext)
 
-    // useEffect(()=>{
-    //     if(publication.userLiked.indexOf(dataConnection.userId)!== -1 ){
-    //         setHeartActive(true)
-    //     }
-    // },[])
+    // a chaque chaque fois que la publi va être modifié il va checké si l'user est dans les userLiked
+    useEffect(()=>{
+        if (publication.userLiked){
+            console.log(publication.userLiked)
+            if(publication.userLiked.indexOf(dataConnection.userId)!== -1 ){
+                setHeartActive(true)
+            } else {
+                setHeartActive(false)
+            }
+        }
+    },[publication, dataConnection, setHeartActive])
 
     async function handleLike(e){
         e.preventDefault()
-        const like = publication.like ? -1 : 1 ;
+        const like = heartActive ? -1 : 1;
+        console.log(like);
         //like est cohérent avec la véritable valeur de like en DB
         let userLikedMod = [...publication.userLiked];
         if (like > 0){
@@ -88,7 +95,6 @@ function PublicationIcon(props){
 
         const answer = await fetchPostOrPut("PUT",{like: like},`http://localhost:3000/api/publication/${publication._id}/like`,dataConnection )
         console.log(answer);
-        await setHeartActive(!heartActive);
     }
 
     return (
