@@ -71,7 +71,6 @@ function PublicationIcon(props){
     // a chaque chaque fois que la publi va être modifié il va checké si l'user est dans les userLiked
     useEffect(()=>{
         if (publication.userLiked){
-            console.log(publication.userLiked)
             if(publication.userLiked.indexOf(dataConnection.userId)!== -1 ){
                 setHeartActive(true)
             } else {
@@ -83,7 +82,6 @@ function PublicationIcon(props){
     async function handleLike(e){
         e.preventDefault()
         const like = heartActive ? -1 : 1;
-        console.log(like);
         //like est cohérent avec la véritable valeur de like en DB
         let userLikedMod = [...publication.userLiked];
         if (like > 0){
