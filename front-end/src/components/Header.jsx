@@ -16,13 +16,18 @@ import { useLocation } from 'react-router-dom';
 /* --------------------- Style -----------------------*/
 /*====================================================*/
 const HeaderContainer = styled.header`
+    box-shadow: 0px 0px 5px 0px #b3b3b3;
+    margin-bottom ${(props)=> props.isMobile ? "20px": "150px" }
+`
+
+const Container = styled.div`
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    max-width: 1300px;
     height: 120px;
-    box-shadow: 0 4px 10px -2px #b3b3b3;
-    margin-bottom ${(props)=> props.isMobile ? "20px": "150px" }
 `
 const HeaderLogo = styled.img`
     width: 60%;
@@ -42,6 +47,7 @@ function Header(props){
     <>
         {(location.pathname.includes('/home') || location.pathname.includes('/profil') || location.pathname.includes('/settings'))? 
         <HeaderContainer isMobile={isMobile}>
+            <Container>
             <HeaderLogo src={Logo} alt="Logo de Groupomania"/>
             {isMobile ?
                 <NavBar $forMobile/>
@@ -53,6 +59,7 @@ function Header(props){
             </>
 
             }
+            </Container>
         </HeaderContainer>
         :
         <></>
