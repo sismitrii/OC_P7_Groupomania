@@ -57,7 +57,7 @@ useEffect(()=>{
 
     return(
     <Container>
-        <h3>Publication</h3>
+        <h3>Publications</h3>
         {dataConnection.userId === profilId.id && <Bloc isInside type={"add"}/>} 
         <InfiniteScroll 
             dataLength={profilPublications.length} 

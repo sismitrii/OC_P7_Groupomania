@@ -62,7 +62,7 @@ function AddNew(props){
     const inputValue = {
         publication: {
             name: "share",
-            placeholder: "Que souhaitez-vous partagez ?",
+            placeholder: "Que souhaitez-vous partager ?",
             url: "",
             postButton: "Poster"
         },
@@ -75,7 +75,7 @@ function AddNew(props){
         },
         modification: {
             name: "modification",
-            placeholder: "Que souhaitez-vous partagez ?",
+            placeholder: "Que souhaitez-vous partager ?",
             url: `/${props.publicationId}`,
             postButton: "Modifier"
         }
