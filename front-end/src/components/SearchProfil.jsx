@@ -28,6 +28,7 @@ import { AppContext } from "../utils/context"
     const StyledName = styled.p`
         padding-left: 20px;
         font-size: 20px;
+        letter-spacing: 1px;
         font-weight: bold;
     `
 /*====================================================*/

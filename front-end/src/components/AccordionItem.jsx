@@ -35,7 +35,7 @@ const StyledTitle = styled.button`
     ${(props)=> props.isMobile ? "" : "background-color: #FFF"};
 
     h2 {
-        font-family: 'Raleway';
+        font-family: 'Lato';
         font-weight: 600;
         font-size: 14px;
     }

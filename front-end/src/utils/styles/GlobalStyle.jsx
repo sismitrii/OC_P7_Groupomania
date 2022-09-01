@@ -2,6 +2,7 @@ import { useContext } from 'react'
 import { createGlobalStyle } from 'styled-components'
 import { AppContext } from '../context'
 
+
 import colors from './colors'
 
 const StyledGlobalStyle = createGlobalStyle`
@@ -14,7 +15,7 @@ const StyledGlobalStyle = createGlobalStyle`
     }
 
     body {
-        font-family: 'Raleway','Arial', sans-serif;
+        font-family: 'Lato','Arial', sans-serif;
         overflow: ${(props)=> (props.modifIsOpen || props.isSearching) ? "hidden" : "visible"}
     }
 

@@ -10,6 +10,10 @@ const StyledForm = styled.form`
     flex-direction: column;
     align-items: center;
     text-align: center;
+
+    label {
+        letter-spacing: 0.3px;
+    }
 `
 /*====================================================*/
 /* --------------------- Main ------------------------*/

@@ -28,9 +28,9 @@ const StyledTitle = styled.h1`
     text-align: center;
     font-weight: 500;
     color: ${colors.primary};
-    font-size: 20px;
-    margin-bottom: 20px;
-    font-family: 'Arial';
+    font-size: 24px;
+    margin-bottom: 15px;
+    letter-spacing: 0.3px;
 
     @media (min-width: 768px){
         font-size: 25px;
@@ -42,10 +42,10 @@ const StyledTitle = styled.h1`
 function AuthBloc(props){
 
     const pages = {
-        signUp : "Inscrivez-vous",
-        login : "Connectez-vous",
-        forgotPassword: "Mot de passe oublié",
-        resetPassword: "Veuillez-rentrez un nouveau mot de passe"
+        signUp : "Inscrivez-vous !",
+        login : "Connectez-vous !",
+        forgotPassword: "Mot de passe oublié ?",
+        resetPassword: "Veuillez-rentrer un nouveau mot de passe"
     }
 
     let toReturn ;

@@ -25,7 +25,7 @@ const StyledInput = styled.textarea`
     border: none;
     border-radius: 5px;
     resize: none;
-    font-family: 'Arial';
+    font-family: 'Lato';
     padding: 10px;
     font-size: 12px;
 

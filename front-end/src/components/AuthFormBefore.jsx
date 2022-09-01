@@ -34,7 +34,7 @@ const AuthTitle = styled.h1`
     color: ${colors.primary};
     font-size: 20px;
     margin-bottom: 20px;
-    font-family: 'Arial';
+    font-family: 'Lato';
 
     @media (min-width: 768px){
         font-size: 25px;

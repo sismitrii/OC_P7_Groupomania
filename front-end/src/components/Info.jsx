@@ -27,7 +27,7 @@ const AddInfo = styled.button`
     cursor: pointer;
     border: none;
     font-size: 16px;
-    font-family: 'Raleway';
+    font-family: 'Lato';
 
     svg {
         margin-right: 10px;
@@ -59,7 +59,7 @@ const StyledTextArea = styled.textarea`
     border: none;
     outline: none;
     resize: none;
-    font-family: 'Arial';
+    font-family: 'Lato';
     padding: 10px;
 
     &::-webkit-scrollbar{
