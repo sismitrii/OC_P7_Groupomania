@@ -46,7 +46,7 @@ const VerticalMenuElement = styled.li`
   ${(props)=>
     props.isOpen ? "top: 0; opacity: 1; height: 45px;": "top: -50px; opacity:1; height: 0px;"}
 
-  &:hover {
+  &:hover, &:focus-within {
     background-color: ${colors.primary};
   }
 
@@ -138,7 +138,7 @@ const NavBarIconContainer = styled.span`
 const NavBarText = styled.span`
   position: absolute;
   color: ${colors.primary};
-  font-weight: 300;
+  font-weight: 500;
   letter-spacing: 1px;
   opacity: 0;
   transform: translateY(20px);
@@ -226,7 +226,15 @@ function NavBar(props) {
     <nav>
       {props.$forMobile ? (
         <>
-          <MenuBars icon={faBars} onClick={() => setIsOpen(!isOpen)} />
+          <MenuBars 
+            tabIndex="0" 
+            icon={faBars} 
+            onClick={() => setIsOpen(!isOpen)}
+            onKeyDown={(e)=>{
+              if(e.key === 'Enter' || e.key === ' '){
+                e.preventDefault(); // cancel scroll down on space
+                setIsOpen(!isOpen)
+              }}} />
           <VerticalMenu>
             {routes.map((route)=>(
                 <VerticalMenuElement isOpen={isOpen} onClick={()=>setIsOpen(false)} key={route.id}>
@@ -248,12 +256,18 @@ function NavBar(props) {
         <AnimatedNavBarContainer>
           <Container>
             <NavBarList>
-              {routes.map((route, index) => (
+              {routes.map((route) => (
                 <NavBarListElement
+                  tabIndex="0"
                   key={route.id}
                   aria-label={route.name}
                   id={route.id}
                   className={`list ${route.id === 'home' && "active"}`}
+                  onKeyDown={(e)=>{
+                    if (e.key === 'Enter'){
+                      handleClick(e,route.id)
+                    }
+                  }}
                   onClick={(e) => {
                     handleClick(e, route.id);
                   }}
@@ -263,7 +277,7 @@ function NavBar(props) {
                       <FontAwesomeIcon icon={route.logo} />
                     </NavBarIconContainer>
                     <NavBarText className="navBar__text">{route.name}</NavBarText>
-                  </NavBarListLink>
+                  </NavBarListLink >
                 </NavBarListElement>
               ))}
               <NavBarCircle className="navBar__Circle"/>

@@ -2,6 +2,7 @@
 /* --------------------- Import ----------------------*/
 /*====================================================*/
 import styled from "styled-components"
+import { useRef } from "react"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEye } from "@fortawesome/free-solid-svg-icons"
@@ -33,7 +34,7 @@ const StyledInput = styled.input`
         box-shadow: 0 0 0 1px ${colors.primary};
     }
 `
-const EyeButton = styled.button`
+const EyeButton = styled.div`
     font-size: 12px;
     position: absolute;
     right: 6%;
@@ -48,15 +49,16 @@ const EyeButton = styled.button`
 /* ---------------------- Main -----------------------*/
 /*====================================================*/
 function PasswordBloc(props){
+    const input = useRef(null)
 
     /*=== At click on eye change type of input to show it content===*/
     function showPassword(e){
         e.preventDefault();
-        const input = e.currentTarget.previousElementSibling
-        if (input.type === "password"){
-            input.type = "text";
+
+        if (input.current.type === "password"){
+            input.current.type = "text";
         } else {
-            input.type = "password";
+            input.current.type = "password";
         }
     }
 
@@ -70,9 +72,16 @@ function PasswordBloc(props){
                 id={props.name}
                 type="password" 
                 value={props.value}
+                ref={input}
             />
             <EyeButton aria-controls={props.name} onClick={(e)=> showPassword(e)}>
                 <FontAwesomeIcon 
+                tabIndex="0"
+                onKeyDown={(e)=>{
+                    if(e.key === 'Enter' || e.key === " "){
+                        showPassword(e)
+                    }
+                }}
                 aria-label="Icon en forme d'œil, fait apparaitre le mot de passe au clic" 
                 icon={faEye} />
             </EyeButton>

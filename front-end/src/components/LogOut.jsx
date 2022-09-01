@@ -41,7 +41,7 @@ function LogOut(){
     return (
         <div onClick={()=>handleLogOut()}>
             {isMobile ?
-                <StyledText>Se Déconnecter</StyledText> 
+                <StyledText tabIndex="0">Se Déconnecter</StyledText> 
             : 
                 <LogOutContainer>Deconnection</LogOutContainer>}
         </div>)
