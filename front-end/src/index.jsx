@@ -14,6 +14,7 @@ import Profil from './pages/Profil';
 import Settings from './pages/Settings';
 import Error from './pages/Error';
 import Header from './components/Header';
+import Footer from './components/Footer';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -33,6 +34,7 @@ root.render(
           <Route path="/settings" element={<Settings />} />
           <Route path="*" element={<Error />}></Route>
         </Routes>
+        <Footer/>
       </ConnectionProvider>
       </AppProvider>
     </Router>
