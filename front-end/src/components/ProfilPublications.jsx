@@ -48,7 +48,7 @@ useEffect(()=>{
         setProfilPublications((prev)=> [...prev, ...answer.publications])
         setOffset(offset + 5)
         
-        if (profilPublications){
+        if (profilPublications && profil.publications){
             if(profilPublications.length >= profil.publications.length){
                 setHasMore(false)
             }
