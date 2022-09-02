@@ -81,10 +81,12 @@ npm start
 ```
 
 ## Technology
-Database:
+#####Database:  
 - MongoDb Atlas
-Back-end:
+
+#####Back-end:  
 - Node.js
 - Express
-Front-end:
+
+#####Front-end:   
 - React.js (Create React App)
