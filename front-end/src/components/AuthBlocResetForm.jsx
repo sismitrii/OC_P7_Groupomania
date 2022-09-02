@@ -24,7 +24,7 @@ function AuthBlocResetForm(){
     const [passwordChecked, setPasswordChecked] = useState(false);
     const {userData, error, setError} = useContext(AuthContext)
     const navigate = useNavigate();
-    let {token} = useParams();
+    const {token} = useParams();
 
     /*=== Get the token created when forgot email is send in the url ===*/
     /*=== And check and set the new password then request change in DB ===*/

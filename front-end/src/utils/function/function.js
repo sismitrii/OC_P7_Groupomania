@@ -25,15 +25,15 @@ export async function fetchPostOrPut(method, dataToSend, url, dataConnection){
             'Authorization': bearer
         }
 
-        let res = await fetch(url,
+        const res = await fetch(url,
         {
             method: method,
             headers: header,
             body: dataToPost
         })
-            let answer = await res.json()
+            const answer = await res.json()
             return answer;
     } catch (error) {
-        console.error(error);
+        console.error("pass");
     }
 }

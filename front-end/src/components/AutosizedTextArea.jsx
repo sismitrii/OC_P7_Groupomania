@@ -54,7 +54,7 @@ function AutosizedTextArea(props){
     async function handleKeyUp(e){
         props.set(e.target.value, props.information);
         await setTextHeight("auto")
-        let scrollHeight = e.target.scrollHeight;
+        const scrollHeight = e.target.scrollHeight;
         await setTextHeight(scrollHeight+"px");
     }
 

@@ -137,7 +137,7 @@ function UpdateAndDelete(props){
    
         // voir s'il peut y avoir mieux parceque là c'est compliqué pour pas grand chose..
         const rank = comments.map((comment)=>comment._id).indexOf(props.comment._id)
-        let ModComment = [];
+        const ModComment = [];
         comments.forEach(comment => {
             ModComment.push(comment);
         });

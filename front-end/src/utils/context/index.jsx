@@ -30,7 +30,7 @@ export const ConnectionContext = createContext()
 
 export function ConnectionProvider({children}){
     const init = JSON.parse(localStorage.getItem("dataConnection"))
-    let initState = init ? init: {} ;
+    const initState = init ? init: {} ;
 
     const [dataConnection, setDataConnection] = useState(initState)
     const navigate = useNavigate();

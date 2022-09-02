@@ -90,7 +90,7 @@ function Info(props){
             printed = <A href={`tel: ${profil[props.type]}`}>{profil[props.type]}</A>
             break;
         case "birthday" :
-            let birthdate = new Date(profil[props.type]);
+            const birthdate = new Date(profil[props.type]);
             printed = <>{birthdate.toLocaleDateString('en-GB')}</>
             break
         default:
@@ -115,7 +115,7 @@ function Info(props){
     /*=== Autosizing of textArea===*/
     async function handleKeyUp(e){
         await setTextHeight("auto")
-        let scrollHeight = e.target.scrollHeight;
+        const scrollHeight = e.target.scrollHeight;
         await setTextHeight(scrollHeight+"px");
     }
 

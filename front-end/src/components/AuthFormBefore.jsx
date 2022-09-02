@@ -143,9 +143,9 @@ const regexToCheck = {
 function checkContent(e, type, userData, setUserData){
     const regex = regexToCheck[type];
     
-    let testRegex = regex.test(e.target.value);
+    const testRegex = regex.test(e.target.value);
 
-    let errorMsgTag = e.target.nextElementSibling
+    const errorMsgTag = e.target.nextElementSibling
     
     if (testRegex){
         const newUserData = userData;
@@ -180,9 +180,9 @@ function Auth(props){
     const [passwordChecked, setPasswordChecked] = useState(false);
     const {setDataConnection} = useContext(ConnectionContext)
 
-    let {token} = useParams();
+    const {token} = useParams();
 
-    let navigate = useNavigate();
+    const navigate = useNavigate();
 
     async function signUpRequest(e){
         e.preventDefault();
