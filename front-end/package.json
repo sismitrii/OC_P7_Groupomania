@@ -23,8 +23,7 @@
     "start": "PORT=3001 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "prefix": "postcss ./src/css/style.css --use autoprefixer -d ./css/"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
