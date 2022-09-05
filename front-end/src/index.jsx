@@ -25,8 +25,8 @@ root.render(
         <GlobalStyle />
         <Header/>
         <Routes>
-          <Route path="/" element={<SignUp />} />
-          <Route path='/login' element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path='/' element={<Login />} />
           <Route path='/forgotPassword' element={<ForgotPassword />} />
           <Route path='/resetPassword/:token' element={<ResetPassword />} />
           <Route path="/home" element={<Home />} />

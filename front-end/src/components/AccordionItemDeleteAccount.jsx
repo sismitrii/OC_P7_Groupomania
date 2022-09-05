@@ -58,7 +58,7 @@ function AccordionItemDeleteAccount(){
             })
             const answer = await res.json();
             console.log(answer);
-            navigate('/login')
+            navigate('/')
 
         } catch (error) {
             console.error(error)

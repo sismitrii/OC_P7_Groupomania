@@ -80,7 +80,7 @@ function AuthBlocLoginForm(){
             <AuthBlocError content={error.generalEror}/>
             <AuthChangeSentence>
                 Pas encore de compte ?  
-                <Link to="/"> S'inscrire</Link>
+                <Link to="/signup"> S'inscrire</Link>
             </AuthChangeSentence>
         </AuthForm>
     )

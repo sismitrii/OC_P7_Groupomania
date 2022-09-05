@@ -44,7 +44,7 @@ function AuthBlocForgotForm(){
             setError({...error, generalEror: answer.message})
             if (answer.message === "email sent"){
                 setTimeout(()=>{
-                    navigate('/login')
+                    navigate('/')
                 }, 3000)
             }
         }
@@ -57,7 +57,7 @@ function AuthBlocForgotForm(){
         <AuthBlocError content={error.generalEror}/>
         <AuthChangeSentence> 
             Vers la page de 
-            <Link to="/login"> Connection</Link>
+            <Link to="/"> Connection</Link>
         </AuthChangeSentence>
     </AuthForm>
     )

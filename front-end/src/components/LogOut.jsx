@@ -35,7 +35,7 @@ function LogOut(){
     const navigate = useNavigate();
     function handleLogOut(){
         localStorage.clear();
-        navigate('/login');
+        navigate('/');
     }
 
     return (

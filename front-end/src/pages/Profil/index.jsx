@@ -151,7 +151,7 @@ function Profil(){
             </Container>
         </>
         :
-        <Navigate replace to="/login"/>
+        <Navigate replace to="/"/>
     }
     </>
 )

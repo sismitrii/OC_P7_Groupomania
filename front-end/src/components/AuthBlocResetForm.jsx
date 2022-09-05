@@ -41,7 +41,7 @@ function AuthBlocResetForm(){
         } else if(userData.password){
             const answer = await fetchPostOrPut("PUT",dataToPut,'http://localhost:3000/api/auth/reset_password')
             console.log(answer);
-            navigate('/login')
+            navigate('/')
         }
     }
 

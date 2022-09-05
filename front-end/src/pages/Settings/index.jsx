@@ -40,7 +40,7 @@ function Settings(){
                 </Container>
             </SettingsProvider> 
         :
-        <Navigate replace to="/login"/>
+        <Navigate replace to="/"/>
         }
     </>
     )
