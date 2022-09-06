@@ -46,7 +46,7 @@ function AuthBlocEmail(){
             delete newUserData.email;
             setUserData(newUserData);
             if (e.target.value.length > 0){
-                setError({...error, mailError : "Veuillez rentrez une adresse email correcte. <br/> | Ex: monadresse@groupomania.com"});
+                setError({...error, mailError : "Veuillez rentrez une adresse email correcte. \n Ex:monadresse@groupomania.com"});
             } else {
                 setError(initialError); 
             }

@@ -7,7 +7,6 @@ import { Navigate } from "react-router-dom"
 
 import Accordion from "../../components/Accordion"
 import Bloc from "../../components/Bloc"
-import Header from "../../components/Header"
 
 import { AppContext, ConnectionContext, SettingsProvider } from "../../utils/context"
 

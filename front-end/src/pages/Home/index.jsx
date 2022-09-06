@@ -6,7 +6,6 @@ import { Navigate } from "react-router-dom"
 import { useContext, useEffect} from "react"
 import {AppContext, ConnectionContext } from "../../utils/context"
 
-import Header from "../../components/Header"
 import Bloc from "../../components/Bloc"
 import Infinite from "../../components/Infinite"
 

@@ -14,7 +14,7 @@ exports.signup = (req, res, next)=>{
             const user = new User({
                 email: req.body.email,
                 password: hash,
-                username: req.body.email.split('@')[0], // don't work
+                username: req.body.email.split('@')[0],
                 profilImgUrl: `${req.protocol}://${req.get('host')}/images/profil_default.jpg`
             });
 
@@ -87,7 +87,7 @@ exports.forgotPassword = (req,res, next)=>{
                     });
             
                     const mailOptions = {
-                    from: 'groupamania.oc@gmail.com',
+                    from: `${process.env.FORGOT_EMAIL}`,
                     to: `${req.body.email}`,
                     subject: 'Changement mot de passe Groupomania',
                     text: 'Bonjour,\n\n' +
