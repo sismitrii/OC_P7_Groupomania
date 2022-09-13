@@ -39,7 +39,11 @@ function InformationBloc(){
         <h3>Informations</h3>
         <ContainerInfo>
             {informed && informed.map((info,i)=> (
-                <Info key={`${info}-${i}`} type={info} parameter={parameters[info]} />
+                <Info 
+                    key={`${info}-${i}`} 
+                    type={info} 
+                    parameter={parameters[info]} 
+                />
             ))}
         </ContainerInfo>
     </Container>)
