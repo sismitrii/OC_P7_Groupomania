@@ -18,7 +18,7 @@ git clone https://github.com/sismitrii/OC_P7_Groupomania.git
 The API is working with a MongoDB dataBase. So an MongoDB account is required. If you do not have one, it's possible to register for free at this [adress](https://www.mongodb.com/cloud/atlas/register).
 
 Then :
-- Create a new projject
+- Create a new project
 - Built a database
     - Choose Shared Free (on right)
     - Possible to change the name of the cluster (Default Cluster0)
@@ -80,7 +80,7 @@ npm install
 npm start
 ```
 
-## Technology
+## Technical stack
 #####Database:  
 - MongoDb Atlas
 
