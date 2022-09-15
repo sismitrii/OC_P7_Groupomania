@@ -15,6 +15,8 @@ const StyledGlobalStyle = createGlobalStyle`
     }
 
     body {
+        position: relative;
+        min-height: 100vh;
         font-family: 'Lato','Arial', sans-serif;
         overflow: ${(props)=> (props.modifIsOpen || props.isSearching) ? "hidden" : "visible"}
     }

@@ -10,9 +10,11 @@ import Logo from '../assets/icon-left-font.svg';
 /* ---------------------- Style ----------------------*/
 /*====================================================*/
 const FooterContainer = styled.footer`
+    position: absolute;
+    bottom: -150px;
     width: 100%;
     background-color: #EEE;
-    margin-top: 20px;
+    margin-top: 0px;
 `
 
 const Container = styled.div`
