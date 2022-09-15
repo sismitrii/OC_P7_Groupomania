@@ -107,7 +107,7 @@ function PublicationIcon(props){
         <IconContainer onClick={(e)=> props.handleFocusComment(e)}>
             <StyledIcon className='visible' icon={faComment} />
             <StyledIconNotVisible className='not-visible' icon={fasComment} />
-            <p>{comments.length}</p>
+            <p>{comments && comments.length}</p>
         </IconContainer>
     }
     </>)
