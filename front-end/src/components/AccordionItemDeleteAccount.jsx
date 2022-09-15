@@ -3,7 +3,7 @@
 /*====================================================*/
 import styled from "styled-components"
 import { useContext, useState } from "react"
-import { ConnectionContext } from "../utils/context"
+import { AppContext, ConnectionContext } from "../utils/context"
 import { useNavigate } from "react-router-dom"
 
 /*====================================================*/
@@ -42,6 +42,7 @@ const StyledButton = styled.button`
 /*====================================================*/
 function AccordionItemDeleteAccount(){
     const [confirmation, setConfirmation] = useState(false)
+    const {setPublications} = useContext(AppContext)
     const {dataConnection} = useContext(ConnectionContext)
     const navigate = useNavigate();
 
@@ -58,6 +59,7 @@ function AccordionItemDeleteAccount(){
             })
             const answer = await res.json();
             console.log(answer);
+            setPublications([]);
             navigate('/')
 
         } catch (error) {
