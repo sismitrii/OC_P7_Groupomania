@@ -59,7 +59,7 @@ exports.deletePublication = (res, publicationId, userIsToUpdate) =>{
 }
 
 /*=== sort publication and return 5 ===*/
-exports.sortAndSend = (req, publications, ) =>{
+exports.sortAndSend = (req, publications) =>{
     publications.sort((a, b) => {
         const dateA = new Date(a.createdAt),
             dateB = new Date(b.createdAt);
